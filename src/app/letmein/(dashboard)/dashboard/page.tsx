@@ -151,7 +151,7 @@ export default async function AdminDashboard() {
                                 <p className="text-white/40 text-sm mt-1">PageSpeed Insights (Mobile Strategy)</p>
                             </div>
                             <div className="px-3 py-1 bg-white/5 rounded text-xs text-white/40 font-mono">
-                                Last Run: {new Date().toLocaleTimeString()}
+                                Cached Result
                             </div>
                         </div>
 

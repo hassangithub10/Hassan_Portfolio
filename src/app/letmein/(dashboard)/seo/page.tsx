@@ -278,7 +278,7 @@ export default function SeoManager() {
                         TOP BLOG POSTS (30D)
                     </h3>
                     <div className="space-y-4">
-                        {Object.keys(stats.blog).length > 0 ? (
+                        {stats.blog && Object.keys(stats.blog).length > 0 ? (
                             Object.entries(stats.blog).sort((a: any, b: any) => b[1] - a[1]).slice(0, 3).map(([path, val]: any) => (
                                 <div key={path} className="flex justify-between items-center group/item cursor-pointer">
                                     <span className="text-sm text-white/50 group-hover/item:text-white transition-colors truncate max-w-[200px]">{path}</span>
@@ -294,7 +294,7 @@ export default function SeoManager() {
                         TOP PROJECTS (30D)
                     </h3>
                     <div className="space-y-4">
-                        {Object.keys(stats.projects).length > 0 ? (
+                        {stats.projects && Object.keys(stats.projects).length > 0 ? (
                             Object.entries(stats.projects).sort((a: any, b: any) => b[1] - a[1]).slice(0, 3).map(([path, val]: any) => (
                                 <div key={path} className="flex justify-between items-center group/item cursor-pointer">
                                     <span className="text-sm text-white/50 group-hover/item:text-white transition-colors truncate max-w-[200px]">{path}</span>

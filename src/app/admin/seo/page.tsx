@@ -102,7 +102,7 @@ export default function SeoManager() {
                         <h3 className="font-heading text-white">Blog Performance (30d)</h3>
                     </div>
                     <div className="space-y-3">
-                        {Object.entries(stats.blog).length === 0 ? (
+                        {!stats.blog || Object.entries(stats.blog).length === 0 ? (
                             <p className="text-white/20 text-sm">No data available</p>
                         ) : (
                             Object.entries(stats.blog)
@@ -126,7 +126,7 @@ export default function SeoManager() {
                         <h3 className="font-heading text-white">Project Reach (30d)</h3>
                     </div>
                     <div className="space-y-3">
-                        {Object.entries(stats.projects).length === 0 ? (
+                        {!stats.projects || Object.entries(stats.projects).length === 0 ? (
                             <p className="text-white/20 text-sm">No data available</p>
                         ) : (
                             Object.entries(stats.projects)

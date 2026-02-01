@@ -345,7 +345,7 @@ export async function updateSiteSettings(settings: { settingKey: string; setting
 // Fetch Recent Activity Feed
 export async function getRecentActivity() {
     try {
-        const [posts, newProjects, messages] = await Promise.all([
+        const results = await Promise.all([
             db.select({
                 id: blogPosts.id,
                 title: blogPosts.title,
@@ -368,8 +368,14 @@ export async function getRecentActivity() {
             }).from(contactSubmissions).orderBy(desc(contactSubmissions.createdAt)).limit(5)
         ]);
 
+        // Safely extract with fallbacks to empty arrays
+        const posts = results[0] || [];
+        const newProjects = results[1] || [];
+        const messages = results[2] || [];
+
         // Combine and sort
         const activity = [...posts, ...newProjects, ...messages]
+            .filter(item => item && item.createdAt) // Filter out any null items
             .sort((a, b) => new Date(b.createdAt!).getTime() - new Date(a.createdAt!).getTime())
             .slice(0, 10); // Top 10 recent events
 
