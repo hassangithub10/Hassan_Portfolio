@@ -8,6 +8,7 @@ import AvailabilityFloatingBadge from "@/components/ui/AvailabilityFloatingBadge
 import DynamicTheme from "@/components/providers/DynamicTheme";
 import { getVisibleNavigationItems, getSiteSettings } from "@/lib/actions";
 import Script from "next/script";
+import SchemaGenerator from "@/components/seo/SchemaGenerator";
 
 const chakraPetch = Chakra_Petch({
     variable: "--font-chakra-petch",
@@ -104,6 +105,16 @@ export default async function RootLayout({
 
                 {/* Floating Availability Badge */}
                 <AvailabilityFloatingBadge settings={settings} />
+
+                {/* AEO: Global Schema */}
+                <SchemaGenerator
+                    type="Organization"
+                    data={{
+                        name: "Hassan Sarfraz",
+                        url: "https://hassanport.com",
+                        logo: siteFavicon
+                    }}
+                />
             </body>
         </html>
     );

@@ -3,10 +3,7 @@
 import { useState } from "react";
 import { Switch } from "@headlessui/react";
 import { toast } from "react-hot-toast";
-import { updateSiteSettings } from "@/lib/actions"; // Assuming this exists or I use updateSectionContent logic?
-// Wait, site_settings update action might not exist or be exported efficiently.
-// I'll check lib/actions.ts for updateSiteSettings or similar.
-// I will assume I need to implement a QuickSettings component.
+import { updateSiteSettings } from "@/lib/actions";
 
 interface QuickSettingsProps {
     initialVisible: boolean;

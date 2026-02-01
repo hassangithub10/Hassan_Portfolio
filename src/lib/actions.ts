@@ -325,19 +325,58 @@ export async function getSiteSettings() {
 }
 
 // Update a site setting
-export async function updateSiteSetting(key: string, value: string) {
+// Update site settings (Batch)
+export async function updateSiteSettings(settings: { settingKey: string; settingValue: string }[]) {
     try {
-        await db
-            .insert(siteSettings)
-            .values({ settingKey: key, settingValue: value })
-            .onDuplicateKeyUpdate({
-                set: { settingValue: value },
-            });
+        const promises = settings.map(s =>
+            db.insert(siteSettings)
+                .values(s)
+                .onDuplicateKeyUpdate({ set: { settingValue: s.settingValue } })
+        );
+        await Promise.all(promises);
         revalidatePath("/");
-        return { success: true };
+        return { success: true, message: "Settings updated successfully!" };
     } catch (error) {
-        console.error("Error updating site setting:", error);
-        return { success: false };
+        console.error("Error updating site settings:", error);
+        return { success: false, message: "Failed to update settings." };
+    }
+}
+
+// Fetch Recent Activity Feed
+export async function getRecentActivity() {
+    try {
+        const [posts, newProjects, messages] = await Promise.all([
+            db.select({
+                id: blogPosts.id,
+                title: blogPosts.title,
+                createdAt: blogPosts.publishedAt,
+                type: sql<string>`'blog'`
+            }).from(blogPosts).orderBy(desc(blogPosts.publishedAt)).limit(5),
+
+            db.select({
+                id: projects.id,
+                title: projects.title,
+                createdAt: projects.createdAt,
+                type: sql<string>`'project'`
+            }).from(projects).orderBy(desc(projects.createdAt)).limit(5),
+
+            db.select({
+                id: contactSubmissions.id,
+                title: contactSubmissions.subject,
+                createdAt: contactSubmissions.createdAt,
+                type: sql<string>`'message'`
+            }).from(contactSubmissions).orderBy(desc(contactSubmissions.createdAt)).limit(5)
+        ]);
+
+        // Combine and sort
+        const activity = [...posts, ...newProjects, ...messages]
+            .sort((a, b) => new Date(b.createdAt!).getTime() - new Date(a.createdAt!).getTime())
+            .slice(0, 10); // Top 10 recent events
+
+        return activity;
+    } catch (error) {
+        console.error("Error fetching recent activity:", error);
+        return [];
     }
 }
 
@@ -960,21 +999,4 @@ export async function seedSectionContent() {
     }
 }
 
-// Update Site Settings
-export async function updateSiteSettings(settings: { settingKey: string; settingValue: string }[]) {
-    try {
-        for (const setting of settings) {
-            const existing = await db.select().from(siteSettings).where(eq(siteSettings.settingKey, setting.settingKey)).limit(1);
-            if (existing.length > 0) {
-                await db.update(siteSettings).set({ settingValue: setting.settingValue }).where(eq(siteSettings.settingKey, setting.settingKey));
-            } else {
-                await db.insert(siteSettings).values({ settingKey: setting.settingKey, settingValue: setting.settingValue });
-            }
-        }
-        revalidatePath('/'); // Revalidate root to update layout
-        return { success: true, message: "Settings Updated Successfully" };
-    } catch (error) {
-        console.error("Error Updating Site Settings:", error);
-        return { success: false, message: "Failed to Update Settings" };
-    }
-}
+
