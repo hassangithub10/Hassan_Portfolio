@@ -1,15 +1,19 @@
 import AdminSidebar from "@/components/admin/AdminSidebar";
+import { getSession } from "@/lib/auth-actions";
+import { notFound } from "next/navigation";
 
-export default function AdminLayout({
+export default async function AdminLayout({
     children,
 }: {
     children: React.ReactNode;
 }) {
+    const session = await getSession();
+    if (!session) {
+        notFound();
+    }
+
     return (
         <div className="min-h-screen bg-charcoal text-white font-sans selection:bg-lime/30 selection:text-lime">
-            {/* Background Grain/Noise (Optional for texture) */}
-            <div className="fixed inset-0 pointer-events-none opacity-[0.03]" style={{ backgroundImage: 'url("/noise.png")' }}></div>
-
             {/* Background Gradients */}
             <div className="fixed inset-0 pointer-events-none z-0">
                 <div

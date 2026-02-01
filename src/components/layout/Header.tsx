@@ -43,7 +43,7 @@ export default function Header({ navItems = [], settings = [] }: HeaderProps) {
         return () => window.removeEventListener("scroll", handleScroll);
     }, []);
 
-    if (pathname && pathname.startsWith("/letmein")) return null;
+    if (pathname && (pathname.startsWith("/letmein") || pathname.startsWith("/admin"))) return null;
 
     return (
         <>

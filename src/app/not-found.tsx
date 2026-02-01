@@ -5,10 +5,9 @@ import { motion } from "framer-motion";
 
 export default function NotFound() {
     return (
-        <div className="min-h-screen flex items-center justify-center relative overflow-hidden bg-charcoal">
+        <div className="min-h-[70vh] flex items-center justify-center relative overflow-hidden bg-charcoal">
             {/* Background Effects */}
             <div className="absolute inset-0 z-0 opacity-20">
-                <div className="absolute top-0 left-0 w-full h-full bg-[url('/noise.png')] opacity-10"></div>
                 <div className="absolute top-[-20%] right-[-10%] w-[800px] h-[800px] rounded-full blur-[120px] bg-blue-900/30"></div>
                 <div className="absolute bottom-[-20%] left-[-10%] w-[600px] h-[600px] rounded-full blur-[100px] bg-lime/10"></div>
             </div>
