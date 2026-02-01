@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Switch } from "@headlessui/react";
 import { toast } from "react-hot-toast";
 import { updateSiteSettings } from "@/lib/actions";
@@ -16,6 +16,15 @@ export default function QuickSettings({ initialVisible, initialText, initialLink
     const [text, setText] = useState(initialText);
     const [link, setLink] = useState(initialLink);
     const [isSaving, setIsSaving] = useState(false);
+
+    const [mounted, setMounted] = useState(false);
+
+    useEffect(() => {
+        setMounted(true);
+    }, []);
+
+    // Prevent hydration mismatch for Headless UI
+    if (!mounted) return <div className="p-8 animate-pulse bg-white/5 rounded-xl h-[200px]" />;
 
     const handleSave = async () => {
         setIsSaving(true);

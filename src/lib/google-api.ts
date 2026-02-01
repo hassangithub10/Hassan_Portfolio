@@ -188,42 +188,45 @@ export async function getPageKPIs(pathPrefix: string) {
         console.error("KPI Error:", error);
         return null;
     }
-    /**
-     * Fetch PageSpeed Insights Stats
-     */
-    export async function getPageSpeedStats(url: string) {
-        // Falls back to environemnt URL if passed string is relative/empty, though strictly we need absolute.
-        // Ideally caller provides full URL.
-        if (!url) return null;
+}
 
-        try {
-            // We can use a key if available, otherwise it might be rate limited.
-            // const key = await getSetting('google_service_account_key'); // PSI doesn't use Service Account key directly typically, it uses API Key.
-            // For now, we try without key (lower limits) or use a specific env var if user adds one later.
+/**
+* Fetch PageSpeed Insights Stats
+*/
+export async function getPageSpeedStats(url: string) {
+    if (!url) return null;
 
-            const endpoint = `https://www.googleapis.com/pagespeedonline/v5/runPagespeed?url=${encodeURIComponent(url)}&strategy=MOBILE`;
+    try {
+        const endpoint = `https://www.googleapis.com/pagespeedonline/v5/runPagespeed?url=${encodeURIComponent(url)}&strategy=MOBILE`;
 
-            const res = await fetch(endpoint, { next: { revalidate: 3600 } }); // Cache for 1 hour
-            if (!res.ok) throw new Error(`PSI API Error: ${res.statusText}`);
+        // Fetch with revalidation
+        const res = await fetch(endpoint, { next: { revalidate: 3600 } });
 
-            const data = await res.json();
-            const lighthouse = data.lighthouseResult;
-
-            return {
-                performance: Math.round((lighthouse.categories.performance?.score || 0) * 100),
-                accessibility: Math.round((lighthouse.categories.accessibility?.score || 0) * 100),
-                bestPractices: Math.round((lighthouse.categories['best-practices']?.score || 0) * 100),
-                seo: Math.round((lighthouse.categories.seo?.score || 0) * 100),
-                coreWebVitals: {
-                    lcp: lighthouse.audits['largest-contentful-paint']?.displayValue,
-                    cls: lighthouse.audits['cumulative-layout-shift']?.displayValue,
-                    fid: lighthouse.audits['max-potential-fid']?.displayValue, // FID is deprecated, usually INP now, but keeping simple
-                    inp: lighthouse.audits['interaction-to-next-paint']?.displayValue,
-                }
-            };
-
-        } catch (error) {
-            console.error("PSI Error:", error);
+        if (!res.ok) {
+            console.warn(`PSI API Error (${res.status}): ${res.statusText}`);
             return null;
         }
+
+        const data = await res.json();
+        const lighthouse = data?.lighthouseResult;
+
+        if (!lighthouse) return null;
+
+        return {
+            performance: Math.round((lighthouse.categories?.performance?.score || 0) * 100),
+            accessibility: Math.round((lighthouse.categories?.accessibility?.score || 0) * 100),
+            bestPractices: Math.round((lighthouse.categories?.['best-practices']?.score || 0) * 100),
+            seo: Math.round((lighthouse.categories?.seo?.score || 0) * 100),
+            coreWebVitals: {
+                lcp: lighthouse.audits?.['largest-contentful-paint']?.displayValue || 'N/A',
+                cls: lighthouse.audits?.['cumulative-layout-shift']?.displayValue || 'N/A',
+                fid: lighthouse.audits?.['max-potential-fid']?.displayValue || 'N/A',
+                inp: lighthouse.audits?.['interaction-to-next-paint']?.displayValue || 'N/A',
+            }
+        };
+
+    } catch (error) {
+        console.error("PSI Error:", error);
+        return null;
     }
+}
