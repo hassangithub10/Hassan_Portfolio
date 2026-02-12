@@ -18,19 +18,12 @@ export default function Hero({ info, content, settings = [] }: HeroProps) {
     // Helper to get settings
     const getSetting = (key: string) => settings?.find(s => s.settingKey === key)?.settingValue;
 
-    // Dynamic Data with Fallbacks
-    const title = content?.title || `Hi, I'm ${info.title}`; // "Hi, I'm Frontend Developer" might be weird, usually "Hi, I'm Hassan"
-    // Better fallback logic:
-    const heroTitle = content?.title || (info.fullName ? `Hi, I'm ${info.fullName}` : "Hi, I'm a Developer");
-    const subtitle = content?.subtitle || info.title || "Building Digital Experiences";
-    const description = content?.description || info.bio;
-
-    // settings fallbacks
+    // settings
+    const greeting = getSetting('hero_greeting') || "Hi, I'm";
     const ctaPrimaryText = getSetting('hero_cta_primary_text') || "View Work";
     const ctaPrimaryLink = getSetting('hero_cta_primary_link') || "#projects";
     const ctaSecondaryText = getSetting('hero_cta_secondary_text') || "Contact Me";
     const ctaSecondaryLink = getSetting('hero_cta_secondary_link') || "#contact";
-    const nicheName = getSetting('hero_niche_name') || "Frontend Developer";
 
     return (
         <section id="hero" className="relative min-h-screen flex items-center justify-center overflow-hidden bg-black pt-20">
@@ -46,32 +39,29 @@ export default function Hero({ info, content, settings = [] }: HeroProps) {
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.6 }}
                 >
-                    {/* Availability / Niche Badge */}
-                    <motion.div
-                        initial={{ opacity: 0, scale: 0.8 }}
-                        animate={{ opacity: 1, scale: 1 }}
-                        transition={{ delay: 0.2 }}
-                        className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/5 border border-white/10 mb-8 hover:border-primary-500/50 transition-colors backdrop-blur-md"
-                    >
-                        <span className="relative flex h-2 w-2">
-                            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
-                            <span className="relative inline-flex rounded-full h-2 w-2 bg-green-500"></span>
-                        </span>
-                        <span className="text-sm font-medium text-white/80 tracking-wide">{nicheName}</span>
-                    </motion.div>
 
-                    {/* Main Title */}
+                    {/* Greeting */}
+                    <h2 className="text-xl md:text-2xl text-lime font-medium mb-4 tracking-wide">
+                        {greeting}
+                    </h2>
+
+                    {/* Main Name */}
                     <h1 className="heading-xl text-white mb-6">
-                        {heroTitle.split(" ").map((word: string, i: number) => (
-                            <span key={i} className={clsx(i >= heroTitle.split(" ").length - 2 ? "text-gradient-primary" : "")}>
+                        {info.fullName.split(" ").map((word: string, i: number) => (
+                            <span key={i} className={clsx(i === info.fullName.split(" ").length - 1 ? "text-gradient-primary" : "")}>
                                 {word}{" "}
                             </span>
                         ))}
                     </h1>
 
+                    {/* Designation / Job Title */}
+                    <h3 className="text-2xl md:text-3xl text-white/80 font-heading mb-8">
+                        {info.title}
+                    </h3>
+
                     {/* Subtitle/Bio */}
-                    <p className="body-lg text-white/60 max-w-2xl mx-auto mb-10 leading-relaxed">
-                        {description}
+                    <p className="body-lg text-white/50 max-w-2xl mx-auto mb-12 leading-relaxed">
+                        {info.bio}
                     </p>
 
                     {/* CTAs */}

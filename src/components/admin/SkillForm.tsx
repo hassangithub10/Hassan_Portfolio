@@ -148,7 +148,7 @@ export default function SkillForm({ initialData, isEditMode = false }: SkillForm
                             name="proficiencyLevel"
                             min="0"
                             max="100"
-                            value={formData.proficiencyLevel}
+                            value={formData.proficiencyLevel || 0}
                             onChange={handleChange}
                             className="w-full h-2 bg-white/10 rounded-lg appearance-none cursor-pointer accent-lime"
                         />
@@ -159,7 +159,7 @@ export default function SkillForm({ initialData, isEditMode = false }: SkillForm
                         <input
                             type="number"
                             name="sortOrder"
-                            value={formData.sortOrder}
+                            value={formData.sortOrder || 0}
                             onChange={handleChange}
                             className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:border-lime focus:outline-none focus:ring-1 focus:ring-lime"
                         />

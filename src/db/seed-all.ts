@@ -33,7 +33,7 @@ async function seed() {
         console.log("Inserting Personal Info...");
         await db.insert(personalInfo).values({
             fullName: "Hassan Sarfraz",
-            title: "Frontend Developer & UI Designer",
+            title: "Frontend Developer & AI Enthusiast",
             bio: "I craft high-performance, cinematic web experiences with a focus on modern aesthetics and technical excellence. With over 3 years of experience in the digital realm, I bridge the gap between complex backend logic and pixel-perfect frontend interfaces.",
             email: "hassandigital94.com",
             phone: "+92 311 7371750",
@@ -68,7 +68,7 @@ async function seed() {
         await db.insert(experience).values([
             {
                 company: "TechFlow Solutions",
-                position: "Frontend Developer & UI Designer",
+                position: "Frontend Developer & AI Enthusiast",
                 location: "Remote",
                 startDate: "2022-01-01",
                 endDate: null,
@@ -201,7 +201,7 @@ async function seed() {
         // 9. SEO Defaults
         console.log("Inserting SEO Defaults...");
         await db.insert(seoDefaults).values([
-            { route: "/", title: "Hassan Sarfraz | Frontend Developer & UI Designer", description: "Portfolio of Hassan Sarfraz, specializing in cinematic web experiences.", keywords: "frontend, react, nextjs, developer, uiux, pakistan" },
+            { route: "/", title: "Hassan Sarfraz | Frontend Developer & AI Enthusiast", description: "Portfolio of Hassan Sarfraz, specializing in cinematic web experiences.", keywords: "frontend, react, nextjs, developer, uiux, pakistan" },
             { route: "/blog", title: "Blog | Insights on Code & Design", description: "Read the latest articles on web development and SEO by Hassan Sarfraz.", keywords: "blog, nextjs, seo, tutorials" },
             { route: "/projects", title: "Projects | Digital Showcase", description: "Explore the latest work and creative solutions by Hassan Sarfraz.", keywords: "portfolio, projects, showcase" },
             { route: "/contact", title: "Contact | Let's Collaborate", description: "Get in touch for custom web development or SEO services.", keywords: "hire, contact, developer" },

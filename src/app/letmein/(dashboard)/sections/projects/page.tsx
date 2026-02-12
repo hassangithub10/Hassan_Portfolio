@@ -17,7 +17,7 @@ import { clsx } from "clsx";
 // So I probably need to add `getProjects` to actions.ts or use `getVisibleProjects` and just toggle visibility of what I can see? No, that's bad.
 // I should check actions.ts next. For now, I'll write this assuming `getProjects` exists or I'll implement it.
 
-import { getAllProjects } from "@/lib/actions";
+import { getProjects } from "@/lib/actions";
 
 export default function ProjectsPage() {
     const [projects, setProjects] = useState<any[]>([]);
@@ -32,7 +32,7 @@ export default function ProjectsPage() {
         // We'll filter or sort in the UI
         try {
             // Need to ensure getAllProjects is available
-            const data = await getAllProjects();
+            const data = await getProjects();
             setProjects(data);
         } catch (e) {
             console.error("Failed to load projects", e);

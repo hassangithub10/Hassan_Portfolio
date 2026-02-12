@@ -1,3 +1,5 @@
+"use client";
+
 import { useState, useEffect } from "react";
 import GlassCard from "@/components/ui/GlassCard";
 import { getPersonalInfo, updatePersonalInfo, getSiteSettings, updateSiteSettings } from "@/lib/actions";
@@ -14,6 +16,7 @@ export default function HeroSectionEditor() {
         location: "",
     });
     const [ctas, setCtas] = useState({
+        greeting: "",
         primaryText: "",
         primaryLink: "",
         secondaryText: "",
@@ -41,6 +44,7 @@ export default function HeroSectionEditor() {
             if (settings) {
                 const find = (key: string) => settings.find((s: any) => s.settingKey === key)?.settingValue || "";
                 setCtas({
+                    greeting: find('hero_greeting') || "Hi, I'm",
                     primaryText: find('hero_cta_primary_text') || "View Projects",
                     primaryLink: find('hero_cta_primary_link') || "#projects",
                     secondaryText: find('hero_cta_secondary_text') || "Get In Touch",
@@ -58,6 +62,7 @@ export default function HeroSectionEditor() {
 
         await updatePersonalInfo(info);
         await updateSiteSettings([
+            { settingKey: 'hero_greeting', settingValue: ctas.greeting },
             { settingKey: 'hero_cta_primary_text', settingValue: ctas.primaryText },
             { settingKey: 'hero_cta_primary_link', settingValue: ctas.primaryLink },
             { settingKey: 'hero_cta_secondary_text', settingValue: ctas.secondaryText },
@@ -81,20 +86,31 @@ export default function HeroSectionEditor() {
                 <form onSubmit={handleSubmit} className="space-y-8">
                     {/* Personal Info Section */}
                     <div className="space-y-6 border-b border-white/5 pb-8">
-                        <h3 className="text-xl font-bold text-white mb-4">Identity</h3>
+                        <h3 className="text-xl font-bold text-white mb-4">Hero Content</h3>
+
                         <div className="grid md:grid-cols-2 gap-6">
                             <div>
-                                <label className="block text-sm text-white/60 mb-2">Full Name</label>
+                                <label className="block text-sm text-lime mb-2">Greeting / Top Title</label>
+                                <input
+                                    type="text"
+                                    value={ctas.greeting}
+                                    onChange={(e) => setCtas({ ...ctas, greeting: e.target.value })}
+                                    placeholder="e.g. Hi, I'm"
+                                    className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:border-lime focus:outline-none focus:ring-1 focus:ring-lime"
+                                />
+                            </div>
+                            <div>
+                                <label className="block text-sm text-white/60 mb-2">Name (Main Heading)</label>
                                 <input
                                     type="text"
                                     value={info.fullName}
                                     onChange={(e) => setInfo({ ...info, fullName: e.target.value })}
                                     required
-                                    className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:border-lime focus:outline-none focus:ring-1 focus:ring-lime"
+                                    className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:border-lime focus:outline-none focus:ring-1 focus:ring-lime font-bold"
                                 />
                             </div>
                             <div>
-                                <label className="block text-sm text-white/60 mb-2">Niche / Job Title</label>
+                                <label className="block text-sm text-white/60 mb-2">Designation / Job Title</label>
                                 <input
                                     type="text"
                                     value={info.title}
@@ -103,10 +119,19 @@ export default function HeroSectionEditor() {
                                     className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:border-lime focus:outline-none focus:ring-1 focus:ring-lime"
                                 />
                             </div>
+                            <div>
+                                <label className="block text-sm text-white/60 mb-2">Location (Optional)</label>
+                                <input
+                                    type="text"
+                                    value={info.location}
+                                    onChange={(e) => setInfo({ ...info, location: e.target.value })}
+                                    className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:border-lime focus:outline-none focus:ring-1 focus:ring-lime"
+                                />
+                            </div>
                         </div>
 
                         <div>
-                            <label className="block text-sm text-white/60 mb-2">Short Bio</label>
+                            <label className="block text-sm text-white/60 mb-2">Description / Short Bio</label>
                             <textarea
                                 value={info.bio}
                                 onChange={(e) => setInfo({ ...info, bio: e.target.value })}
@@ -115,39 +140,11 @@ export default function HeroSectionEditor() {
                                 className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:border-lime focus:outline-none focus:ring-1 focus:ring-lime"
                             />
                         </div>
-                    </div>
 
-                    {/* Contact Info Section */}
-                    <div className="space-y-6 border-b border-white/5 pb-8">
-                        <h3 className="text-xl font-bold text-white mb-4">Contact Details</h3>
-                        <div className="grid md:grid-cols-3 gap-6">
-                            <div>
-                                <label className="block text-sm text-white/60 mb-2">Email</label>
-                                <input
-                                    type="email"
-                                    value={info.email}
-                                    onChange={(e) => setInfo({ ...info, email: e.target.value })}
-                                    className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:border-lime focus:outline-none focus:ring-1 focus:ring-lime"
-                                />
-                            </div>
-                            <div>
-                                <label className="block text-sm text-white/60 mb-2">Phone</label>
-                                <input
-                                    type="text"
-                                    value={info.phone}
-                                    onChange={(e) => setInfo({ ...info, phone: e.target.value })}
-                                    className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:border-lime focus:outline-none focus:ring-1 focus:ring-lime"
-                                />
-                            </div>
-                            <div>
-                                <label className="block text-sm text-white/60 mb-2">Location</label>
-                                <input
-                                    type="text"
-                                    value={info.location}
-                                    onChange={(e) => setInfo({ ...info, location: e.target.value })}
-                                    className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:border-lime focus:outline-none focus:ring-1 focus:ring-lime"
-                                />
-                            </div>
+                        {/* Hidden contact fields to preserve state but simplify UI if not needed here */}
+                        <div className="grid md:grid-cols-2 gap-6 opacity-50 hidden">
+                            <input type="email" value={info.email} onChange={(e) => setInfo({ ...info, email: e.target.value })} />
+                            <input type="text" value={info.phone} onChange={(e) => setInfo({ ...info, phone: e.target.value })} />
                         </div>
                     </div>
 

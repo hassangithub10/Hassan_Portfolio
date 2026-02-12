@@ -31,7 +31,7 @@ export default async function EditSkillPage({ params }: EditSkillPageProps) {
                 </div>
             </div>
 
-            <SkillForm initialData={skill} isEditing />
+            <SkillForm initialData={skill} isEditMode />
         </div>
     );
 }

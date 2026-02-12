@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { useParams } from "next/navigation";
 import BlogPostForm from "@/components/admin/BlogPostForm";
 import { getBlogPostById } from "@/lib/actions"; // Need to check if this exists, actually getBlogPostBySlug exists, but ID?
 // actions.ts had getBlogPostBySlug. I might need getBlogPostById for admin edit by ID properly.
@@ -10,9 +11,7 @@ import { getBlogPostById } from "@/lib/actions"; // Need to check if this exists
 // Wait, I can use a server action directly here if I adding it.
 // I will assume I need to add it.
 
-// For now, I'll write the file assuming getBlogPostById exists, and then I'll add it to actions.ts if missing.
-import { useParams } from "next/navigation";
-import { getBlogPostById } from "@/lib/actions";
+
 
 export default function EditBlogPostPage() {
     const params = useParams();

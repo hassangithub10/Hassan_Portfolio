@@ -16,7 +16,7 @@ import {
 export const personalInfo = mysqlTable("personal_info", {
     id: int("id").primaryKey().autoincrement(),
     fullName: varchar("full_name", { length: 100 }).notNull().default("Hassan Sarfraz"),
-    title: varchar("title", { length: 100 }).notNull().default("Frontend Developer"),
+    title: varchar("title", { length: 100 }).notNull().default("Frontend Developer & AI Enthusiast"),
     bio: text("bio").notNull(),
     email: varchar("email", { length: 150 }).notNull(),
     phone: varchar("phone", { length: 20 }),

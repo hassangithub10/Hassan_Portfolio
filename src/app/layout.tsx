@@ -25,11 +25,11 @@ const mulish = Mulish({
 });
 
 export const metadata: Metadata = {
-    title: "Hassan Sarfraz | Frontend Developer",
+    title: "Hassan Sarfraz | Frontend Developer & AI Enthusiast",
     description:
         "Passionate Frontend Developer crafting exceptional digital experiences with modern web technologies. Specializing in React, Next.js, and responsive web design.",
     keywords: [
-        "Frontend Developer",
+        "Frontend Developer & AI Enthusiast",
         "React Developer",
         "Next.js",
         "Web Development",
@@ -38,7 +38,7 @@ export const metadata: Metadata = {
     ],
     authors: [{ name: "Hassan Sarfraz" }],
     openGraph: {
-        title: "Hassan Sarfraz | Frontend Developer",
+        title: "Hassan Sarfraz | Frontend Developer & AI Enthusiast",
         description:
             "Passionate Frontend Developer crafting exceptional digital experiences with modern web technologies.",
         type: "website",

@@ -31,7 +31,7 @@ export default async function EditProjectPage({ params }: EditProjectPageProps) 
                 </div>
             </div>
 
-            <ProjectForm initialData={project} isEditing />
+            <ProjectForm initialData={project} isEditMode />
         </div>
     );
 }

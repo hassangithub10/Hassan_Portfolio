@@ -281,7 +281,7 @@ export default function ProjectForm({ initialData, isEditMode = false }: Project
                                 <input
                                     type="number"
                                     name="sortOrder"
-                                    value={formData.sortOrder}
+                                    value={formData.sortOrder || 0}
                                     onChange={handleChange}
                                     className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:border-lime focus:outline-none focus:ring-1 focus:ring-lime"
                                 />

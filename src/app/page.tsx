@@ -78,7 +78,7 @@ export default async function Home() {
         "@type": "Person",
         "name": "Hassan Sarfraz",
         "url": "https://hassansarfraz.online", // Should be dynamic from settings but hardcoded safety
-        "jobTitle": personalInfo?.title || "Frontend Developer",
+        "jobTitle": personalInfo?.title || "Frontend Developer & AI Enthusiast",
         "description": personalInfo?.bio,
         "sameAs": [
             // Add social links from settings if available

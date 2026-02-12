@@ -31,7 +31,7 @@ export default async function EditServicePage({ params }: EditServicePageProps) 
                 </div>
             </div>
 
-            <ServiceForm initialData={service} isEditing />
+            <ServiceForm initialData={service} isEditMode />
         </div>
     );
 }

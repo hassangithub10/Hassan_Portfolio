@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import GlassCard from "@/components/ui/GlassCard";
 import { addBlogPost, updateBlogPost } from "@/lib/actions";
 import { BlogPost, NewBlogPost } from "@/db/schema";
-import { ChevronLeftIcon, PhotoIcon } from "@heroicons/react/24/outline";
+import { ChevronLeftIcon, PhotoIcon, XMarkIcon } from "@heroicons/react/24/outline";
 import Link from "next/link";
 import Image from "next/image";
 
