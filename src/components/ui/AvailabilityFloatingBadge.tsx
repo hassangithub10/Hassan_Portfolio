@@ -2,6 +2,7 @@
 
 import { motion, AnimatePresence } from "framer-motion";
 import { useEffect, useState } from "react";
+import { usePathname } from "next/navigation";
 import type { SiteSetting } from "@/db/schema";
 
 interface AvailabilityFloatingBadgeProps {
@@ -9,6 +10,8 @@ interface AvailabilityFloatingBadgeProps {
 }
 
 export default function AvailabilityFloatingBadge({ settings }: AvailabilityFloatingBadgeProps) {
+    const pathname = usePathname();
+
     // Find relevant settings
     const visibleSetting = settings.find(s => s.settingKey === "floating_badge_visible");
     const textSetting = settings.find(s => s.settingKey === "floating_badge_text");
@@ -18,6 +21,9 @@ export default function AvailabilityFloatingBadge({ settings }: AvailabilityFloa
     const isVisible = visibleSetting ? visibleSetting.settingValue === "true" : true;
     const text = textSetting?.settingValue || "Available for Projects";
     const link = linkSetting?.settingValue || "#contact";
+
+    // Hide on admin DASHBOARD routes (anything starting with /letmein)
+    if (pathname?.startsWith("/letmein")) return null;
 
     if (!isVisible) return null;
 

@@ -225,8 +225,12 @@ export async function getPageSpeedStats(url: string) {
             }
         };
 
-    } catch (error) {
-        console.error("PSI Error:", error);
+    } catch (error: any) {
+        if (error.response && error.response.status === 429) {
+            console.warn("PSI API Rate Limited (429). Returning null.");
+            return null;
+        }
+        console.error("PSI Error:", error.message || error);
         return null;
     }
 }

@@ -32,7 +32,7 @@ INSERT INTO projects (title, slug, short_description, long_description, tech_sta
 -- Experience
 -- ============================================
 INSERT INTO experience (company, position, location, start_date, end_date, responsibilities, sort_order) VALUES
-('TechVision Labs', 'Senior Frontend Developer', 'Remote', '2023-01-01', NULL, 'Leading frontend architecture decisions, mentoring junior developers, implementing design systems, and optimizing web performance.', 1),
+('TechVision Labs', 'Frontend Developer & UI Designer', 'Remote', '2023-01-01', NULL, 'Leading frontend architecture decisions, mentoring junior developers, implementing design systems, and optimizing web performance.', 1),
 ('Digital Innovations', 'Frontend Developer', 'Lahore, Pakistan', '2021-06-01', '2022-12-31', 'Developed responsive web applications using React and Next.js, collaborated with designers to implement pixel-perfect UI components.', 2),
 ('StartupHub', 'Junior Developer', 'Lahore, Pakistan', '2020-01-01', '2021-05-31', 'Built landing pages and marketing websites, learned modern JavaScript frameworks, participated in code reviews.', 3);
 

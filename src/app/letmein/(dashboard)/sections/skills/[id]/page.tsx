@@ -1,37 +1,28 @@
+"use client";
+
+import { useState, useEffect } from "react";
 import SkillForm from "@/components/admin/SkillForm";
-import Link from "next/link";
-import { ChevronLeftIcon } from "@heroicons/react/24/outline";
 import { getSkillById } from "@/lib/actions";
-import { notFound } from "next/navigation";
+import { useParams } from "next/navigation";
 
-interface EditSkillPageProps {
-    params: Promise<{ id: string }>;
-}
+export default function EditSkillPage() {
+    const params = useParams();
+    const [skill, setSkill] = useState<any>(null);
+    const [loading, setLoading] = useState(true);
 
-export default async function EditSkillPage({ params }: EditSkillPageProps) {
-    const { id } = await params;
-    const skill = await getSkillById(Number(id));
+    useEffect(() => {
+        async function load() {
+            if (params.id) {
+                const data = await getSkillById(Number(params.id));
+                setSkill(data);
+            }
+            setLoading(false);
+        }
+        load();
+    }, [params.id]);
 
-    if (!skill) {
-        notFound();
-    }
+    if (loading) return <div className="text-white">Loading skill...</div>;
+    if (!skill) return <div className="text-white">Skill not found</div>;
 
-    return (
-        <div className="max-w-6xl mx-auto space-y-8 pb-20">
-            <div className="flex items-center gap-4">
-                <Link
-                    href="/letmein/sections/skills"
-                    className="p-2 rounded-lg bg-white/5 text-white/60 hover:text-white hover:bg-white/10 transition-all"
-                >
-                    <ChevronLeftIcon className="w-5 h-5" />
-                </Link>
-                <div>
-                    <h1 className="heading-lg">Edit Skill</h1>
-                    <p className="text-white/60 text-sm">Update your skill details.</p>
-                </div>
-            </div>
-
-            <SkillForm initialData={skill} isEditing />
-        </div>
-    );
+    return <SkillForm initialData={skill} isEditMode={true} />;
 }

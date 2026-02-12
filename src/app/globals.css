@@ -172,14 +172,14 @@ body::before {
   font-weight: 900;
   line-height: 1.1;
   letter-spacing: -0.02em;
-  font-size: clamp(2.5rem, 8vw, 5rem);
+  font-size: clamp(2.5rem, 8vw, 3rem);
 }
 
 .heading-md {
   font-family: var(--font-chakra-petch), sans-serif;
   font-weight: 800;
   line-height: 1.2;
-  font-size: clamp(2rem, 5vw, 3.5rem);
+  font-size: clamp(2rem, 5vw, 2rem);
 }
 
 .body-lg {
@@ -189,8 +189,8 @@ body::before {
 
 /* Premium UI Elements */
 .section {
-  padding-top: clamp(5rem, 10vw, 8rem);
-  padding-bottom: clamp(5rem, 10vw, 8rem);
+  padding-top: clamp(5rem, 10vw, 0.4rem);
+  padding-bottom: clamp(5rem, 10vw, 0.4rem);
 }
 
 .btn-premium {

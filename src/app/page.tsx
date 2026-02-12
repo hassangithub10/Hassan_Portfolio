@@ -62,10 +62,10 @@ export default async function Home() {
     const getContent = (key: string) => sectionContent.find((s: any) => s.sectionKey === key);
 
     const stats = {
-        yearsExperience: settings.find(s => s.settingKey === "about_experience_years")?.settingValue || "6+",
-        projectsCompleted: settings.find(s => s.settingKey === "about_projects_completed")?.settingValue || "50+",
-        happyClients: settings.find(s => s.settingKey === "about_happy_clients")?.settingValue || "30+",
-        technologiesCount: settings.find(s => s.settingKey === "about_technologies_count")?.settingValue || "10+",
+        yearsExperience: settings.find(s => s.settingKey === "about_experience_years")?.settingValue || "3+",
+        projectsCompleted: settings.find(s => s.settingKey === "about_projects_completed")?.settingValue || "20+",
+        happyClients: settings.find(s => s.settingKey === "about_happy_clients")?.settingValue || "8+",
+        technologiesCount: settings.find(s => s.settingKey === "about_technologies_count")?.settingValue || "20+",
     };
 
     const isVisible = (section: string) => {
@@ -77,7 +77,7 @@ export default async function Home() {
         "@context": "https://schema.org",
         "@type": "Person",
         "name": "Hassan Sarfraz",
-        "url": "https://hassansarfraz.com", // Should be dynamic from settings but hardcoded safety
+        "url": "https://hassansarfraz.online", // Should be dynamic from settings but hardcoded safety
         "jobTitle": personalInfo?.title || "Frontend Developer",
         "description": personalInfo?.bio,
         "sameAs": [
@@ -90,7 +90,7 @@ export default async function Home() {
     return (
         <>
             <StructuredData data={jsonLd} />
-            {isVisible('hero') && <Hero info={personalInfo} content={getContent('hero')} />}
+            {isVisible('hero') && <Hero info={personalInfo} content={getContent('hero')} settings={settings} />}
             {isVisible('about') && <About skills={skills} stats={stats} content={getContent('about')} />}
             {isVisible('education') && <Education education={education} content={getContent('education')} />}
             {isVisible('experience') && <Experience experience={experience} content={getContent('experience')} />}

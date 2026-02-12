@@ -95,10 +95,10 @@ export default function AboutManager() {
                     <p className="text-sm text-white/40 mb-4">These appear in the About section counters.</p>
                     <div className="grid md:grid-cols-2 gap-6">
                         {[
-                            { key: "about_experience_years", label: "Years Experience", placeholder: "6+" },
-                            { key: "about_projects_completed", label: "Projects Completed", placeholder: "50+" },
-                            { key: "about_happy_clients", label: "Happy Clients", placeholder: "30+" },
-                            { key: "about_technologies_count", label: "Technologies Count", placeholder: "10+" },
+                            { key: "about_experience_years", label: "Years Experience", placeholder: "3+" },
+                            { key: "about_projects_completed", label: "Projects Completed", placeholder: "20+" },
+                            { key: "about_happy_clients", label: "Happy Clients", placeholder: "8+" },
+                            { key: "about_technologies_count", label: "Technologies Count", placeholder: "20+" },
                         ].map((stat) => (
                             <div key={stat.key}>
                                 <label className="block text-sm text-white/60 mb-2">{stat.label}</label>

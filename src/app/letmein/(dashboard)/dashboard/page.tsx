@@ -186,9 +186,9 @@ export default async function AdminDashboard() {
                             </div>
                         )}
 
-                        {auditStats?.coreWebVitals && (
+                        {auditStats?.coreWebVitals && typeof auditStats.coreWebVitals === 'object' && (
                             <div className="mt-8 pt-8 border-t border-white/5 grid grid-cols-2 md:grid-cols-4 gap-4">
-                                {Object.entries(auditStats.coreWebVitals || {}).map(([key, val]: any) => (
+                                {Object.entries(auditStats.coreWebVitals).map(([key, val]: any) => (
                                     <div key={key} className="bg-white/5 rounded-lg p-3 text-center">
                                         <div className="text-xs uppercase font-bold text-white/30 mb-1">{key}</div>
                                         <div className="text-lg font-bold text-white">{val || 'N/A'}</div>

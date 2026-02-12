@@ -83,7 +83,7 @@ export default function ExperienceForm({ initialData, isEditing = false }: Exper
                             onChange={handleChange}
                             required
                             className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:border-lime focus:outline-none focus:ring-1 focus:ring-lime transition-all"
-                            placeholder="e.g. Senior Frontend Engineer"
+                            placeholder="e.g. Frontend Developer"
                         />
                     </div>
 

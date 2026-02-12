@@ -342,6 +342,11 @@ export async function updateSiteSettings(settings: { settingKey: string; setting
     }
 }
 
+// Update single site setting
+export async function updateSiteSetting(key: string, value: string) {
+    return await updateSiteSettings([{ settingKey: key, settingValue: value }]);
+}
+
 // Fetch Recent Activity Feed
 export async function getRecentActivity() {
     try {
@@ -363,9 +368,9 @@ export async function getRecentActivity() {
             db.select({
                 id: contactSubmissions.id,
                 title: contactSubmissions.subject,
-                createdAt: contactSubmissions.createdAt,
+                createdAt: contactSubmissions.submittedAt,
                 type: sql<string>`'message'`
-            }).from(contactSubmissions).orderBy(desc(contactSubmissions.createdAt)).limit(5)
+            }).from(contactSubmissions).orderBy(desc(contactSubmissions.submittedAt)).limit(5)
         ]);
 
         // Safely extract with fallbacks to empty arrays
@@ -422,6 +427,21 @@ export async function getBlogPostBySlug(slug: string) {
             .select()
             .from(blogPosts)
             .where(eq(blogPosts.slug, slug))
+            .limit(1);
+        return result[0] || null;
+    } catch (error) {
+        console.error("Error fetching blog post:", error);
+        return null;
+    }
+}
+
+// Fetch single blog post by ID
+export async function getBlogPostById(id: number) {
+    try {
+        const result = await db
+            .select()
+            .from(blogPosts)
+            .where(eq(blogPosts.id, id))
             .limit(1);
         return result[0] || null;
     } catch (error) {

@@ -3,47 +3,46 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import GlassCard from "@/components/ui/GlassCard";
-import { getSkills, deleteSkill, toggleItemVisibility } from "@/lib/actions";
-import { PlusIcon, PencilIcon, TrashIcon, ChevronLeftIcon, EyeIcon, EyeSlashIcon, StarIcon, PhotoIcon } from "@heroicons/react/24/outline";
-import { StarIcon as StarIconSolid } from "@heroicons/react/24/solid";
+import { getBlogPosts, deleteBlogPost, toggleItemVisibility } from "@/lib/actions"; // verify getBlogPosts (admin)
+import { PlusIcon, PencilIcon, TrashIcon, ChevronLeftIcon, EyeIcon, EyeSlashIcon, CalendarIcon } from "@heroicons/react/24/outline";
 import { clsx } from "clsx";
 import Image from "next/image";
 
-export default function SkillsPage() {
-    const [skills, setSkills] = useState<any[]>([]);
+export default function BlogsPage() {
+    const [posts, setPosts] = useState<any[]>([]);
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        loadSkills();
+        loadPosts();
     }, []);
 
-    const loadSkills = async () => {
+    const loadPosts = async () => {
         setLoading(true);
-        const data = await getSkills();
-        setSkills(data);
+        const data = await getBlogPosts();
+        setPosts(data);
         setLoading(false);
     };
 
     const handleDelete = async (id: number) => {
-        if (!confirm("Are you sure you want to delete this skill?")) return;
-        const res = await deleteSkill(id);
+        if (!confirm("Are you sure you want to delete this post?")) return;
+        const res = await deleteBlogPost(id);
         if (res.success) {
-            setSkills(skills.filter(s => s.id !== id));
+            setPosts(posts.filter(p => p.id !== id));
         } else {
             alert(res.message);
         }
     };
 
     const handleToggleVisibility = async (id: number, currentStatus: boolean) => {
-        const res = await toggleItemVisibility('skills', id, currentStatus);
+        const res = await toggleItemVisibility('blog_posts', id, currentStatus);
         if (res.success) {
-            setSkills(skills.map(s => s.id === id ? { ...s, isVisible: !currentStatus } : s));
+            setPosts(posts.map(p => p.id === id ? { ...p, isVisible: !currentStatus } : p));
         } else {
             alert(res.message);
         }
     };
 
-    if (loading) return <div className="text-white">Loading skills...</div>;
+    if (loading) return <div className="text-white">Loading posts...</div>;
 
     return (
         <div className="space-y-8">
@@ -56,16 +55,16 @@ export default function SkillsPage() {
                         <ChevronLeftIcon className="w-5 h-5" />
                     </Link>
                     <div>
-                        <h1 className="heading-lg mb-2">Technolgies & Skills</h1>
-                        <p className="text-white/60">Manage your tech stack.</p>
+                        <h1 className="heading-lg mb-2">Blog Posts</h1>
+                        <p className="text-white/60">Manage your articles and thoughts.</p>
                     </div>
                 </div>
                 <Link
-                    href="/letmein/sections/skills/new"
+                    href="/letmein/sections/blogs/new"
                     className="flex items-center gap-2 px-6 py-3 bg-lime text-charcoal rounded-xl font-bold hover:scale-105 transition-transform"
                 >
                     <PlusIcon className="w-5 h-5" />
-                    Add Skill
+                    New Post
                 </Link>
             </div>
 
@@ -74,78 +73,69 @@ export default function SkillsPage() {
                     <table className="w-full text-left">
                         <thead className="bg-white/5 text-white/50 text-sm uppercase tracking-wider">
                             <tr>
-                                <th className="px-6 py-4 font-medium">Skill</th>
-                                <th className="px-6 py-4 font-medium">Category</th>
-                                <th className="px-6 py-4 font-medium">Proficiency</th>
-                                <th className="px-6 py-4 font-medium">Featured</th>
+                                <th className="px-6 py-4 font-medium">Post</th>
+                                <th className="px-6 py-4 font-medium">Published</th>
+                                <th className="px-6 py-4 font-medium">Stats</th>
                                 <th className="px-6 py-4 font-medium">Visible</th>
                                 <th className="px-6 py-4 font-medium text-right">Actions</th>
                             </tr>
                         </thead>
                         <tbody className="divide-y divide-white/5">
-                            {skills.length === 0 ? (
+                            {posts.length === 0 ? (
                                 <tr>
-                                    <td colSpan={6} className="px-6 py-12 text-center text-white/30">
-                                        No skills found.
+                                    <td colSpan={5} className="px-6 py-12 text-center text-white/30">
+                                        No blog posts found.
                                     </td>
                                 </tr>
                             ) : (
-                                skills.map((skill) => (
-                                    <tr key={skill.id} className="hover:bg-white/5 transition-colors group">
+                                posts.map((post) => (
+                                    <tr key={post.id} className="hover:bg-white/5 transition-colors group">
                                         <td className="px-6 py-4">
-                                            <div className="flex items-center gap-3">
-                                                <div className="relative w-8 h-8 rounded bg-white/10 flex items-center justify-center overflow-hidden">
-                                                    {skill.logoSvgOrUrl ? (
-                                                        <Image src={skill.logoSvgOrUrl} alt={skill.name} fill className="object-cover p-1" />
-                                                    ) : (
-                                                        <div className="text-xs text-white/50">{skill.name.charAt(0)}</div>
-                                                    )}
+                                            <div className="flex items-center gap-4">
+                                                {post.coverImage && (
+                                                    <div className="relative w-12 h-12 rounded-lg overflow-hidden flex-shrink-0">
+                                                        <Image src={post.coverImage} alt={post.title} fill className="object-cover" />
+                                                    </div>
+                                                )}
+                                                <div>
+                                                    <div className="font-medium text-white line-clamp-1">{post.title}</div>
+                                                    <div className="text-white/40 text-xs line-clamp-1">{post.slug}</div>
                                                 </div>
-                                                <div className="font-medium text-white">{skill.name}</div>
                                             </div>
                                         </td>
                                         <td className="px-6 py-4 text-white/70 text-sm">
-                                            {skill.category}
-                                        </td>
-                                        <td className="px-6 py-4 text-white/70">
                                             <div className="flex items-center gap-2">
-                                                <div className="w-24 h-1.5 bg-white/10 rounded-full overflow-hidden">
-                                                    <div className="h-full bg-lime" style={{ width: `${skill.proficiencyLevel}%` }}></div>
-                                                </div>
-                                                <span className="text-xs">{skill.proficiencyLevel}%</span>
+                                                <CalendarIcon className="w-4 h-4" />
+                                                {post.publishedAt ? new Date(post.publishedAt).toLocaleDateString() : 'Draft'}
                                             </div>
                                         </td>
-                                        <td className="px-6 py-4">
-                                            {skill.isFeatured ? (
-                                                <StarIconSolid className="w-5 h-5 text-lime" />
-                                            ) : (
-                                                <StarIcon className="w-5 h-5 text-white/20" />
-                                            )}
+                                        <td className="px-6 py-4 text-white/50 text-sm">
+                                            {post.views || 0} views
                                         </td>
                                         <td className="px-6 py-4">
                                             <button
-                                                onClick={() => handleToggleVisibility(skill.id, skill.isVisible)}
+                                                onClick={() => handleToggleVisibility(post.id, post.isVisible)}
                                                 className={clsx(
                                                     "p-2 rounded-lg transition-colors",
-                                                    skill.isVisible
+                                                    post.isVisible
                                                         ? "bg-lime/10 text-lime hover:bg-lime/20"
                                                         : "bg-white/5 text-white/30 hover:bg-white/10"
                                                 )}
-                                                title={skill.isVisible ? "Hide skill" : "Show skill"}
+                                                title={post.isVisible ? "Hide post" : "Show post"}
                                             >
-                                                {skill.isVisible ? <EyeIcon className="w-5 h-5" /> : <EyeSlashIcon className="w-5 h-5" />}
+                                                {post.isVisible ? <EyeIcon className="w-5 h-5" /> : <EyeSlashIcon className="w-5 h-5" />}
                                             </button>
                                         </td>
                                         <td className="px-6 py-4 text-right">
                                             <div className="flex justify-end gap-3">
                                                 <Link
-                                                    href={`/letmein/sections/skills/${skill.id}`}
+                                                    href={`/letmein/sections/blogs/${post.id}`}
                                                     className="p-2 rounded-lg bg-blue-500/10 text-blue-400 hover:bg-blue-500/20 transition-colors"
                                                 >
                                                     <PencilIcon className="w-5 h-5" />
                                                 </Link>
                                                 <button
-                                                    onClick={() => handleDelete(skill.id)}
+                                                    onClick={() => handleDelete(post.id)}
                                                     className="p-2 rounded-lg bg-red-500/10 text-red-400 hover:bg-red-500/20 transition-colors"
                                                 >
                                                     <TrashIcon className="w-5 h-5" />

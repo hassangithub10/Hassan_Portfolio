@@ -32,8 +32,10 @@ const globalForDb = globalThis as unknown as {
 const poolConnection = globalForDb.conn ?? mysql.createPool({
     ...connectionOptions,
     waitForConnections: true,
-    connectionLimit: 5,
+    connectionLimit: 10,
     queueLimit: 0,
+    enableKeepAlive: true,
+    keepAliveInitialDelay: 0,
 });
 
 if (process.env.NODE_ENV !== "production") globalForDb.conn = poolConnection;

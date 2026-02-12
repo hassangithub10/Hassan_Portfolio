@@ -4,217 +4,204 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import GlassCard from "@/components/ui/GlassCard";
 import { addSkill, updateSkill } from "@/lib/actions";
-import { clsx } from "clsx";
-import { SparklesIcon } from "@heroicons/react/24/outline";
+import { Skill, NewSkill } from "@/db/schema";
+import { ChevronLeftIcon, PhotoIcon } from "@heroicons/react/24/outline";
+import Link from "next/link";
+import Image from "next/image";
 
 interface SkillFormProps {
-    initialData?: any;
-    isEditing?: boolean;
+    initialData?: Skill;
+    isEditMode?: boolean;
 }
 
-const categories = ["Frontend", "Backend", "Tools", "DevOps", "Design"] as const;
-
-export default function SkillForm({ initialData, isEditing = false }: SkillFormProps) {
+export default function SkillForm({ initialData, isEditMode = false }: SkillFormProps) {
     const router = useRouter();
-    const [loading, setLoading] = useState(false);
-    const [formData, setFormData] = useState({
+    const [saving, setSaving] = useState(false);
+
+    // Corrected state initialization using logoSvgOrUrl and proficiencyLevel
+    const [formData, setFormData] = useState<Partial<NewSkill>>({
         name: initialData?.name || "",
         category: initialData?.category || "Frontend",
         logoSvgOrUrl: initialData?.logoSvgOrUrl || "",
-        proficiencyLevel: initialData?.proficiencyLevel || 80,
-        isFeatured: initialData?.isFeatured !== undefined ? initialData.isFeatured : true,
+        proficiencyLevel: initialData?.proficiencyLevel || 50,
         sortOrder: initialData?.sortOrder || 0,
-        isVisible: initialData?.isVisible !== undefined ? initialData.isVisible : true,
+        isFeatured: initialData?.isFeatured || false,
+        isVisible: initialData?.isVisible ?? true,
     });
+
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+        const { name, value, type } = e.target;
+
+        if (type === 'checkbox') {
+            const checked = (e.target as HTMLInputElement).checked;
+            setFormData(prev => ({ ...prev, [name]: checked }));
+        } else if (type === 'number' || type === 'range') {
+            setFormData(prev => ({ ...prev, [name]: parseInt(value) }));
+        } else {
+            setFormData(prev => ({ ...prev, [name]: value }));
+        }
+    };
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-        setLoading(true);
+        setSaving(true);
 
-        const payload = {
-            ...formData,
-            proficiencyLevel: Number(formData.proficiencyLevel),
-            sortOrder: Number(formData.sortOrder),
-        };
+        if (!formData.name) {
+            alert("Skill name is required");
+            setSaving(false);
+            return;
+        }
 
-        const res = isEditing
-            ? await updateSkill(initialData.id, payload)
-            : await addSkill(payload);
+        let res;
+        if (isEditMode && initialData?.id) {
+            res = await updateSkill(initialData.id, formData);
+        } else {
+            res = await addSkill(formData as NewSkill);
+        }
 
         if (res.success) {
             router.push("/letmein/sections/skills");
             router.refresh();
         } else {
             alert(res.message);
-            setLoading(false);
+            setSaving(false);
         }
     };
 
-    const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
-        const { name, value, type } = e.target;
-        const val = type === 'checkbox' ? (e.target as HTMLInputElement).checked : value;
-        setFormData(prev => ({ ...prev, [name]: val }));
-    };
-
     return (
-        <form onSubmit={handleSubmit} className="space-y-8 max-w-2xl">
-            <GlassCard className="p-8 space-y-6">
-                <h3 className="text-xl font-heading text-white">Skill Details</h3>
-
+        <div className="max-w-2xl mx-auto pb-20">
+            <div className="flex items-center gap-4 mb-8">
+                <Link
+                    href="/letmein/sections/skills"
+                    className="p-2 rounded-lg bg-white/5 text-white/60 hover:text-white hover:bg-white/10 transition-all"
+                >
+                    <ChevronLeftIcon className="w-5 h-5" />
+                </Link>
                 <div>
-                    <label className="block text-sm text-white/60 mb-2">Skill Name</label>
-                    <input
-                        type="text"
-                        name="name"
-                        value={formData.name}
-                        onChange={handleChange}
-                        required
-                        className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:border-lime focus:outline-none focus:ring-1 focus:ring-lime transition-all"
-                        placeholder="e.g. Next.js"
-                    />
+                    <h1 className="heading-lg mb-1">{isEditMode ? "Edit Skill" : "Add New Skill"}</h1>
+                    <p className="text-white/60">Skills & Technologies.</p>
                 </div>
+            </div>
 
-                <div>
-                    <label className="block text-sm text-white/60 mb-2">Category</label>
-                    <select
-                        name="category"
-                        value={formData.category}
-                        onChange={handleChange}
-                        className="w-full bg-charcoal border border-white/10 rounded-xl px-4 py-3 text-white focus:border-lime focus:outline-none focus:ring-1 focus:ring-lime transition-all appearance-none"
-                    >
-                        {categories.map(cat => (
-                            <option key={cat} value={cat}>{cat}</option>
-                        ))}
-                    </select>
-                </div>
-
-                <div>
-                    <label className="block text-sm text-white/60 mb-2">Proficiency Level (0-100)</label>
-                    <input
-                        type="number"
-                        name="proficiencyLevel"
-                        value={formData.proficiencyLevel}
-                        onChange={handleChange}
-                        min="0"
-                        max="100"
-                        className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:border-lime focus:outline-none focus:ring-1 focus:ring-lime transition-all"
-                    />
-                </div>
-
-                <div>
-                    <label className="block text-sm text-white/60 mb-2">Skill Logo (Preferably WebP)</label>
-                    <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 p-4 bg-white/5 border border-white/10 rounded-2xl">
-                        <div className="relative group/logo">
-                            {formData.logoSvgOrUrl ? (
-                                <div className="p-3 bg-black/40 rounded-xl border border-white/10 group-hover/logo:border-primary-500 transition-colors">
-                                    <img
-                                        src={formData.logoSvgOrUrl}
-                                        alt="Logo Preview"
-                                        className="h-12 w-12 object-contain"
-                                    />
+            <form onSubmit={handleSubmit} className="space-y-8">
+                <GlassCard className="p-8 space-y-6">
+                    {/* Logo Upload / URL Section - Prioritized */}
+                    <div className="bg-white/5 p-6 rounded-xl border border-white/10">
+                        <label className="block text-sm text-lime font-bold mb-2 flex items-center gap-2">
+                            <PhotoIcon className="w-5 h-5" />
+                            Logo / Icon URL (Preferred)
+                        </label>
+                        <input
+                            type="text"
+                            name="logoSvgOrUrl"
+                            value={formData.logoSvgOrUrl || ""}
+                            onChange={handleChange}
+                            placeholder="https://... (SVG/PNG/WebP)"
+                            className="w-full bg-black/50 border border-white/10 rounded-xl px-4 py-3 text-white focus:border-lime focus:outline-none focus:ring-1 focus:ring-lime"
+                        />
+                        {formData.logoSvgOrUrl && (
+                            <div className="mt-4 flex justify-center p-4 bg-white/5 rounded-lg">
+                                <div className="relative w-16 h-16">
+                                    <Image src={formData.logoSvgOrUrl} alt="Preview" fill className="object-contain" />
                                 </div>
-                            ) : (
-                                <div className="w-16 h-16 rounded-xl bg-white/5 border-2 border-dashed border-white/10 flex items-center justify-center text-white/20">
-                                    <SparklesIcon className="w-8 h-8" />
-                                </div>
-                            )}
-                        </div>
-                        <div className="flex-1 w-full">
-                            <input
-                                type="file"
-                                accept="image/*"
-                                onChange={(e) => {
-                                    const file = e.target.files?.[0];
-                                    if (!file) return;
-                                    const reader = new FileReader();
-                                    reader.onloadend = () => {
-                                        setFormData(prev => ({ ...prev, logoSvgOrUrl: reader.result as string }));
-                                    };
-                                    reader.readAsDataURL(file);
-                                }}
-                                className="block w-full text-sm text-white/60 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-primary-600 file:text-white hover:file:bg-primary-500 cursor-pointer"
-                            />
-                            <p className="mt-2 text-[10px] text-white/40 uppercase tracking-widest">Supports PNG, JPG, SVG, WebP</p>
-                        </div>
+                            </div>
+                        )}
+                        <p className="text-xs text-white/40 mt-2">
+                            Providing a high-quality logo URL (SVG preferred) helps render the carousel beautifully.
+                        </p>
                     </div>
-                    <div className="mt-2 text-right">
-                        <button
-                            type="button"
-                            onClick={() => setFormData(prev => ({ ...prev, logoSvgOrUrl: "" }))}
-                            className="text-[10px] text-red-500 hover:underline uppercase tracking-widest"
+
+                    <div>
+                        <label className="block text-sm text-white/60 mb-2">Skill Name *</label>
+                        <input
+                            type="text"
+                            name="name"
+                            value={formData.name}
+                            onChange={handleChange}
+                            required
+                            className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:border-lime focus:outline-none focus:ring-1 focus:ring-lime"
+                        />
+                    </div>
+
+                    <div>
+                        <label className="block text-sm text-white/60 mb-2">Category</label>
+                        <select
+                            name="category"
+                            value={formData.category}
+                            onChange={handleChange}
+                            className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:border-lime focus:outline-none focus:ring-1 focus:ring-lime"
                         >
-                            Reset Logo
-                        </button>
+                            <option value="Frontend" className="bg-charcoal">Frontend</option>
+                            <option value="Backend" className="bg-charcoal">Backend</option>
+                            <option value="Tools" className="bg-charcoal">Tools & DevOps</option>
+                            <option value="Design" className="bg-charcoal">Design</option>
+                        </select>
                     </div>
-                </div>
 
-                <div>
-                    <label className="block text-sm text-white/60 mb-2">Sort Order</label>
-                    <input
-                        type="number"
-                        name="sortOrder"
-                        value={formData.sortOrder}
-                        onChange={handleChange}
-                        className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:border-lime focus:outline-none focus:ring-1 focus:ring-lime transition-all"
-                    />
-                </div>
+                    <div>
+                        <div className="flex justify-between mb-2">
+                            <label className="block text-sm text-white/60">Proficiency</label>
+                            <span className="text-sm text-lime">{formData.proficiencyLevel}%</span>
+                        </div>
+                        <input
+                            type="range"
+                            name="proficiencyLevel"
+                            min="0"
+                            max="100"
+                            value={formData.proficiencyLevel}
+                            onChange={handleChange}
+                            className="w-full h-2 bg-white/10 rounded-lg appearance-none cursor-pointer accent-lime"
+                        />
+                    </div>
 
-                <div>
-                    <label className="flex items-center gap-3 cursor-pointer group">
-                        <div className="relative">
+                    <div>
+                        <label className="block text-sm text-white/60 mb-2">Sort Order</label>
+                        <input
+                            type="number"
+                            name="sortOrder"
+                            value={formData.sortOrder}
+                            onChange={handleChange}
+                            className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:border-lime focus:outline-none focus:ring-1 focus:ring-lime"
+                        />
+                    </div>
+
+                    <div className="flex gap-6 pt-4 border-t border-white/10">
+                        <div className="flex items-center gap-3">
                             <input
                                 type="checkbox"
+                                id="isFeatured"
                                 name="isFeatured"
-                                checked={formData.isFeatured}
+                                checked={formData.isFeatured || false}
                                 onChange={handleChange}
-                                className="sr-only"
+                                className="w-5 h-5 rounded border-white/10 bg-white/5 text-lime focus:ring-lime"
                             />
-                            <div className={clsx(
-                                "w-12 h-6 rounded-full transition-colors duration-300",
-                                formData.isFeatured ? "bg-lime" : "bg-white/10"
-                            )}></div>
-                            <div className={clsx(
-                                "absolute top-1 left-1 w-4 h-4 rounded-full bg-white transition-transform duration-300 shadow-sm",
-                                formData.isFeatured && "translate-x-6"
-                            )}></div>
+                            <label htmlFor="isFeatured" className="text-white select-none cursor-pointer">Featured (Show in Ticker)</label>
                         </div>
-                        <span className="text-sm text-white/80 group-hover:text-white transition-colors">Featured Skill</span>
-                    </label>
-                </div>
 
-                <div>
-                    <label className="flex items-center gap-3 cursor-pointer group">
-                        <div className="relative">
+                        <div className="flex items-center gap-3">
                             <input
                                 type="checkbox"
+                                id="isVisible"
                                 name="isVisible"
-                                checked={formData.isVisible}
+                                checked={formData.isVisible ?? true}
                                 onChange={handleChange}
-                                className="sr-only"
+                                className="w-5 h-5 rounded border-white/10 bg-white/5 text-lime focus:ring-lime"
                             />
-                            <div className={clsx(
-                                "w-12 h-6 rounded-full transition-colors duration-300",
-                                formData.isVisible ? "bg-cyan-400" : "bg-white/10"
-                            )}></div>
-                            <div className={clsx(
-                                "absolute top-1 left-1 w-4 h-4 rounded-full bg-white transition-transform duration-300 shadow-sm",
-                                formData.isVisible && "translate-x-6"
-                            )}></div>
+                            <label htmlFor="isVisible" className="text-white select-none cursor-pointer">Visible Publicly</label>
                         </div>
-                        <span className="text-sm text-white/80 group-hover:text-white transition-colors">Display on Portfolio</span>
-                    </label>
-                </div>
+                    </div>
+                </GlassCard>
 
-                <div className="pt-4">
+                <div className="flex justify-end">
                     <button
                         type="submit"
-                        disabled={loading}
-                        className="w-full py-4 bg-lime text-charcoal rounded-xl font-bold hover:scale-[1.02] active:scale-[0.98] transition-all disabled:opacity-50 disabled:hover:scale-100 shadow-glow"
+                        disabled={saving}
+                        className="px-8 py-4 bg-lime text-charcoal rounded-xl font-bold hover:scale-[1.02] active:scale-[0.98] transition-all disabled:opacity-50"
                     >
-                        {loading ? "Saving..." : isEditing ? "Update Skill" : "Add Skill"}
+                        {saving ? "Saving..." : isEditMode ? "Update Skill" : "Add Skill"}
                     </button>
                 </div>
-            </GlassCard>
-        </form>
+            </form>
+        </div>
     );
 }

@@ -4,131 +4,150 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import GlassCard from "@/components/ui/GlassCard";
 import { addService, updateService } from "@/lib/actions";
-import { clsx } from "clsx";
+import { Service, NewService } from "@/db/schema";
+import { ChevronLeftIcon, XMarkIcon } from "@heroicons/react/24/outline";
+import Link from "next/link";
 
 interface ServiceFormProps {
-    initialData?: any;
-    isEditing?: boolean;
+    initialData?: Service;
+    isEditMode?: boolean;
 }
 
-const serviceTypes = [
-    { value: "web_development", label: "Web Development" },
-    { value: "app_development", label: "App Development" },
-    { value: "uiux_design", label: "UI/UX Design" },
-    { value: "seo", label: "SEO" },
-    { value: "other", label: "Other" },
-];
-
-export default function ServiceForm({ initialData, isEditing = false }: ServiceFormProps) {
+export default function ServiceForm({ initialData, isEditMode = false }: ServiceFormProps) {
     const router = useRouter();
-    const [loading, setLoading] = useState(false);
-    const [formData, setFormData] = useState({
+    const [saving, setSaving] = useState(false);
+    const [formData, setFormData] = useState<Partial<NewService>>({
         title: initialData?.title || "",
         description: initialData?.description || "",
         serviceType: initialData?.serviceType || "web_development",
         priceText: initialData?.priceText || "",
+        features: initialData?.features || [],
         isRecommended: initialData?.isRecommended || false,
-        features: Array.isArray(initialData?.features) ? initialData.features.join("\n") : "",
-        techFocus: Array.isArray(initialData?.techFocus) ? initialData.techFocus.join(", ") : "",
-        isVisible: initialData?.isVisible !== undefined ? initialData.isVisible : true,
+        techFocus: initialData?.techFocus || [],
+        isVisible: initialData?.isVisible ?? true,
     });
 
-    const handleSubmit = async (e: React.FormEvent) => {
-        e.preventDefault();
-        setLoading(true);
-
-        const payload = {
-            ...formData,
-            features: formData.features.split("\n").map((f: string) => f.trim()).filter((f: string) => f !== ""),
-            techFocus: formData.techFocus.split(",").map((t: string) => t.trim()).filter((t: string) => t !== ""),
-        };
-
-        const res = isEditing
-            ? await updateService(initialData.id, payload)
-            : await addService(payload);
-
-        if (res.success) {
-            router.push("/letmein/services");
-            router.refresh();
-        } else {
-            alert(res.message);
-            setLoading(false);
-        }
-    };
+    const [newFeature, setNewFeature] = useState("");
+    const [newTech, setNewTech] = useState("");
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
         const { name, value, type } = e.target;
-        const val = type === 'checkbox' ? (e.target as HTMLInputElement).checked : value;
-        setFormData(prev => ({ ...prev, [name]: val }));
+
+        if (type === 'checkbox') {
+            const checked = (e.target as HTMLInputElement).checked;
+            setFormData(prev => ({ ...prev, [name]: checked }));
+        } else {
+            setFormData(prev => ({ ...prev, [name]: value }));
+        }
+    };
+
+    const handleAddFeature = () => {
+        if (!newFeature.trim()) return;
+        const currentFeatures = formData.features as string[] || [];
+        setFormData({ ...formData, features: [...currentFeatures, newFeature.trim()] });
+        setNewFeature("");
+    };
+
+    const handleRemoveFeature = (index: number) => {
+        const currentFeatures = formData.features as string[] || [];
+        setFormData({ ...formData, features: currentFeatures.filter((_, i) => i !== index) });
+    };
+
+    const handleAddTech = () => {
+        if (!newTech.trim()) return;
+        const currentTech = formData.techFocus as string[] || [];
+        setFormData({ ...formData, techFocus: [...currentTech, newTech.trim()] });
+        setNewTech("");
+    };
+
+    const handleRemoveTech = (index: number) => {
+        const currentTech = formData.techFocus as string[] || [];
+        setFormData({ ...formData, techFocus: currentTech.filter((_, i) => i !== index) });
+    };
+
+    const handleSubmit = async (e: React.FormEvent) => {
+        e.preventDefault();
+        setSaving(true);
+
+        // Basic validation
+        if (!formData.title || !formData.description) {
+            alert("Title and Description are required");
+            setSaving(false);
+            return;
+        }
+
+        let res;
+        if (isEditMode && initialData?.id) {
+            res = await updateService(initialData.id, formData);
+        } else {
+            res = await addService(formData as NewService);
+        }
+
+        if (res.success) {
+            router.push("/letmein/sections/services");
+            router.refresh();
+        } else {
+            alert(res.message);
+            setSaving(false);
+        }
     };
 
     return (
-        <form onSubmit={handleSubmit} className="space-y-8">
-            <div className="grid lg:grid-cols-3 gap-8">
-                {/* Main Content */}
-                <div className="lg:col-span-2 space-y-6">
-                    <GlassCard className="p-8 space-y-6">
-                        <h3 className="text-xl font-heading text-white">Service Details</h3>
+        <div className="max-w-4xl mx-auto pb-20">
+            <div className="flex items-center gap-4 mb-8">
+                <Link
+                    href="/letmein/sections/services"
+                    className="p-2 rounded-lg bg-white/5 text-white/60 hover:text-white hover:bg-white/10 transition-all"
+                >
+                    <ChevronLeftIcon className="w-5 h-5" />
+                </Link>
+                <div>
+                    <h1 className="heading-lg mb-1">{isEditMode ? "Edit Service" : "Add New Service"}</h1>
+                    <p className="text-white/60">Define your service offerings.</p>
+                </div>
+            </div>
 
+            <form onSubmit={handleSubmit} className="space-y-8">
+                <GlassCard className="p-8 space-y-6">
+                    <div className="grid md:grid-cols-2 gap-6">
                         <div>
-                            <label className="block text-sm text-white/60 mb-2">Service Title</label>
+                            <label className="block text-sm text-white/60 mb-2">Service Title *</label>
                             <input
                                 type="text"
                                 name="title"
                                 value={formData.title}
                                 onChange={handleChange}
                                 required
-                                className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:border-lime focus:outline-none focus:ring-1 focus:ring-lime transition-all"
-                                placeholder="e.g. Premium Web Development"
+                                className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:border-lime focus:outline-none focus:ring-1 focus:ring-lime"
                             />
                         </div>
-
-                        <div>
-                            <label className="block text-sm text-white/60 mb-2">Description</label>
-                            <textarea
-                                name="description"
-                                value={formData.description}
-                                onChange={handleChange}
-                                required
-                                rows={4}
-                                className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:border-lime focus:outline-none focus:ring-1 focus:ring-lime transition-all"
-                                placeholder="Describe what this service offers..."
-                            />
-                        </div>
-
-                        <div>
-                            <label className="block text-sm text-white/60 mb-2">Features (One per line)</label>
-                            <textarea
-                                name="features"
-                                value={formData.features}
-                                onChange={handleChange}
-                                rows={6}
-                                className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:border-lime focus:outline-none focus:ring-1 focus:ring-lime transition-all"
-                                placeholder="Feature 1&#10;Feature 2&#10;Feature 3"
-                            />
-                        </div>
-                    </GlassCard>
-                </div>
-
-                {/* Sidebar */}
-                <div className="space-y-6">
-                    <GlassCard className="p-8 space-y-6">
-                        <h3 className="text-xl font-heading text-white">Configuration</h3>
-
                         <div>
                             <label className="block text-sm text-white/60 mb-2">Service Type</label>
                             <select
                                 name="serviceType"
                                 value={formData.serviceType}
                                 onChange={handleChange}
-                                className="w-full bg-charcoal border border-white/10 rounded-xl px-4 py-3 text-white focus:border-lime focus:outline-none focus:ring-1 focus:ring-lime transition-all appearance-none"
+                                className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:border-lime focus:outline-none focus:ring-1 focus:ring-lime"
                             >
-                                {serviceTypes.map(type => (
-                                    <option key={type.value} value={type.value}>{type.label}</option>
-                                ))}
+                                <option value="web_development" className="bg-charcoal">Web Development</option>
+                                <option value="seo" className="bg-charcoal">SEO & Optimization</option>
                             </select>
                         </div>
+                    </div>
 
+                    <div>
+                        <label className="block text-sm text-white/60 mb-2">Description *</label>
+                        <textarea
+                            name="description"
+                            value={formData.description}
+                            onChange={handleChange}
+                            required
+                            rows={4}
+                            className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:border-lime focus:outline-none focus:ring-1 focus:ring-lime"
+                        />
+                    </div>
+
+                    <div className="grid md:grid-cols-2 gap-6">
                         <div>
                             <label className="block text-sm text-white/60 mb-2">Price Text</label>
                             <input
@@ -136,81 +155,99 @@ export default function ServiceForm({ initialData, isEditing = false }: ServiceF
                                 name="priceText"
                                 value={formData.priceText}
                                 onChange={handleChange}
-                                className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:border-lime focus:outline-none focus:ring-1 focus:ring-lime transition-all"
-                                placeholder="e.g. Starting at $999"
+                                placeholder="e.g. Starting at $500"
+                                className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:border-lime focus:outline-none focus:ring-1 focus:ring-lime"
                             />
                         </div>
+                    </div>
 
-                        <div>
-                            <label className="block text-sm text-white/60 mb-2">Tech Focus (comma separated)</label>
+                    <div>
+                        <label className="block text-sm text-white/60 mb-2">Features List</label>
+                        <div className="flex gap-2 mb-4">
                             <input
                                 type="text"
-                                name="techFocus"
-                                value={formData.techFocus}
-                                onChange={handleChange}
-                                className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:border-lime focus:outline-none focus:ring-1 focus:ring-lime transition-all"
-                                placeholder="React, Next.js, Node.js"
+                                value={newFeature}
+                                onChange={(e) => setNewFeature(e.target.value)}
+                                placeholder="Add feature point"
+                                className="flex-1 bg-white/5 border border-white/10 rounded-xl px-4 py-2 text-white focus:border-lime focus:outline-none focus:ring-1 focus:ring-lime text-sm"
+                                onKeyDown={(e) => e.key === 'Enter' && (e.preventDefault(), handleAddFeature())}
                             />
+                            <button type="button" onClick={handleAddFeature} className="px-4 py-2 bg-lime/20 text-lime rounded-xl hover:bg-lime/30">Add</button>
+                        </div>
+                        <ul className="space-y-2">
+                            {(formData.features as string[])?.map((feature, idx) => (
+                                <li key={idx} className="flex items-center justify-between p-3 bg-white/5 rounded-lg text-sm text-white/80">
+                                    <span>{feature}</span>
+                                    <button type="button" onClick={() => handleRemoveFeature(idx)} className="hover:text-red-400">
+                                        <XMarkIcon className="w-4 h-4" />
+                                    </button>
+                                </li>
+                            ))}
+                        </ul>
+                    </div>
+
+                    <div>
+                        <label className="block text-sm text-white/60 mb-2">Tech Focus (Optional)</label>
+                        <div className="flex gap-2 mb-4">
+                            <input
+                                type="text"
+                                value={newTech}
+                                onChange={(e) => setNewTech(e.target.value)}
+                                placeholder="Add tech"
+                                className="flex-1 bg-white/5 border border-white/10 rounded-xl px-4 py-2 text-white focus:border-lime focus:outline-none focus:ring-1 focus:ring-lime text-sm"
+                                onKeyDown={(e) => e.key === 'Enter' && (e.preventDefault(), handleAddTech())}
+                            />
+                            <button type="button" onClick={handleAddTech} className="px-4 py-2 bg-lime/20 text-lime rounded-xl hover:bg-lime/30">Add</button>
+                        </div>
+                        <div className="flex flex-wrap gap-2">
+                            {(formData.techFocus as string[])?.map((tech, idx) => (
+                                <span key={idx} className="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-white/10 text-white text-sm">
+                                    {tech}
+                                    <button type="button" onClick={() => handleRemoveTech(idx)} className="hover:text-red-400">
+                                        <XMarkIcon className="w-4 h-4" />
+                                    </button>
+                                </span>
+                            ))}
+                        </div>
+                    </div>
+
+                    <div className="flex gap-6 pt-4 border-t border-white/10">
+                        <div className="flex items-center gap-3">
+                            <input
+                                type="checkbox"
+                                id="isRecommended"
+                                name="isRecommended"
+                                checked={formData.isRecommended || false}
+                                onChange={handleChange}
+                                className="w-5 h-5 rounded border-white/10 bg-white/5 text-lime focus:ring-lime"
+                            />
+                            <label htmlFor="isRecommended" className="text-white select-none cursor-pointer">Recommended / Popular</label>
                         </div>
 
-                        <div>
-                            <label className="flex items-center gap-3 cursor-pointer group">
-                                <div className="relative">
-                                    <input
-                                        type="checkbox"
-                                        name="isRecommended"
-                                        checked={formData.isRecommended}
-                                        onChange={handleChange}
-                                        className="sr-only"
-                                    />
-                                    <div className={clsx(
-                                        "w-12 h-6 rounded-full transition-colors duration-300",
-                                        formData.isRecommended ? "bg-lime" : "bg-white/10"
-                                    )}></div>
-                                    <div className={clsx(
-                                        "absolute top-1 left-1 w-4 h-4 rounded-full bg-white transition-transform duration-300 shadow-sm",
-                                        formData.isRecommended && "translate-x-6"
-                                    )}></div>
-                                </div>
-                                <span className="text-sm text-white/80 group-hover:text-white transition-colors">Recommended</span>
-                            </label>
+                        <div className="flex items-center gap-3">
+                            <input
+                                type="checkbox"
+                                id="isVisible"
+                                name="isVisible"
+                                checked={formData.isVisible ?? true}
+                                onChange={handleChange}
+                                className="w-5 h-5 rounded border-white/10 bg-white/5 text-lime focus:ring-lime"
+                            />
+                            <label htmlFor="isVisible" className="text-white select-none cursor-pointer">Visible Publicly</label>
                         </div>
+                    </div>
+                </GlassCard>
 
-                        <div>
-                            <label className="flex items-center gap-3 cursor-pointer group">
-                                <div className="relative">
-                                    <input
-                                        type="checkbox"
-                                        name="isVisible"
-                                        checked={formData.isVisible}
-                                        onChange={handleChange}
-                                        className="sr-only"
-                                    />
-                                    <div className={clsx(
-                                        "w-12 h-6 rounded-full transition-colors duration-300",
-                                        formData.isVisible ? "bg-cyan-400" : "bg-white/10"
-                                    )}></div>
-                                    <div className={clsx(
-                                        "absolute top-1 left-1 w-4 h-4 rounded-full bg-white transition-transform duration-300 shadow-sm",
-                                        formData.isVisible && "translate-x-6"
-                                    )}></div>
-                                </div>
-                                <span className="text-sm text-white/80 group-hover:text-white transition-colors">Display on Portfolio</span>
-                            </label>
-                        </div>
-
-                        <div className="pt-4">
-                            <button
-                                type="submit"
-                                disabled={loading}
-                                className="w-full py-4 bg-lime text-charcoal rounded-xl font-bold hover:scale-[1.02] active:scale-[0.98] transition-all disabled:opacity-50 disabled:hover:scale-100 shadow-glow"
-                            >
-                                {loading ? "Saving..." : isEditing ? "Update Service" : "Add Service"}
-                            </button>
-                        </div>
-                    </GlassCard>
+                <div className="flex justify-end">
+                    <button
+                        type="submit"
+                        disabled={saving}
+                        className="px-8 py-4 bg-lime text-charcoal rounded-xl font-bold hover:scale-[1.02] active:scale-[0.98] transition-all disabled:opacity-50"
+                    >
+                        {saving ? "Saving..." : isEditMode ? "Update Service" : "Create Service"}
+                    </button>
                 </div>
-            </div>
-        </form>
+            </form>
+        </div>
     );
 }

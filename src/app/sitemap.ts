@@ -24,7 +24,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     const posts = await db.select().from(blogPosts);
     const postRoutes = posts.map((post) => ({
         url: `${baseUrl}/blog/${post.slug}`,
-        lastModified: post.updatedAt || post.publishedAt || new Date(),
+        lastModified: post.publishedAt || new Date(),
         changeFrequency: 'monthly' as const,
         priority: 0.7,
     }));
@@ -33,7 +33,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     const projectItems = await db.select().from(projects);
     const projectRoutes = projectItems.map((project) => ({
         url: `${baseUrl}/projects/${project.slug}`,
-        lastModified: project.updatedAt || project.createdAt || new Date(),
+        lastModified: project.createdAt || new Date(),
         changeFrequency: 'monthly' as const,
         priority: 0.7,
     }));
