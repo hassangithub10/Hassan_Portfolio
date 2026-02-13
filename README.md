@@ -1,6 +1,4 @@
-# Hassanport
-
-A futuristic, responsive portfolio website for Hassan Sarfraz built with Next.js 15, Tailwind CSS, Framer Motion, and MySQL.
+A futuristic, responsive portfolio website for Hassan Sarfraz built with Next.js 16.1+, Tailwind CSS, Framer Motion, and MySQL.
 
 ## Features
 
@@ -13,7 +11,7 @@ A futuristic, responsive portfolio website for Hassan Sarfraz built with Next.js
 
 ## Tech Stack
 
-- **Framework**: Next.js 15 with App Router & Turbopack
+- **Framework**: Next.js 16.1+ with App Router & Turbopack
 - **Styling**: Tailwind CSS
 - **Animations**: Framer Motion
 - **Database**: MySQL 8.0+
@@ -24,9 +22,9 @@ A futuristic, responsive portfolio website for Hassan Sarfraz built with Next.js
 
 ### Prerequisites
 
-- Node.js 18+
+- Node.js 24+
 - MySQL 8.0+
-- npm or yarn
+- npm
 
 ### Database Setup
 
