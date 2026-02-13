@@ -55,7 +55,7 @@ export default function Hero({ info, content, settings = [] }: HeroProps) {
                     </h1>
 
                     {/* Designation / Job Title */}
-                    <h3 className="text-2xl md:text-3xl text-white/80 font-heading mb-8">
+                    <h3 className="text-3xl md:text-4xl text-[#f75d00]/60 font-heading mb-8">
                         {info.title}
                     </h3>
 
