@@ -15,8 +15,8 @@ async function seedAdmin() {
     console.log("DB_NAME:", process.env.DB_NAME);
     console.log("--------------------------------");
 
-    const email = "admin@hassanport.com";
-    const password = "hassanport_admin"; // Default strong password
+    const email = "hassandigital94@gmail.com";
+    const password = "hassanPORT$admin"; // Default strong password
     const hashedPassword = await bcrypt.hash(password, 10);
 
     try {

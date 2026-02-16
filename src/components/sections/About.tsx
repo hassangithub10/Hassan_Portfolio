@@ -100,35 +100,6 @@ export default function About({ skills, stats, content }: AboutProps) {
                         />
                     ))}
                 </div>
-
-                {/* Skills Ticker */}
-                {skills.length > 0 && (
-                    <motion.div
-                        initial={{ opacity: 0, y: 30 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true }}
-                        transition={{ duration: 0.6, delay: 0.4 }}
-                    >
-                        <h3 className="text-2xl font-bold text-center text-white mb-8 font-heading">
-                            <span className="text-[#00f0ff]">Tech</span> Stack
-                        </h3>
-                        <LogoTicker>
-                            {skills.map((skill) => (
-                                <TickerItem key={skill.id}>
-                                    <div className="flex items-center gap-3">
-                                        {skill.logoSvgOrUrl && (
-                                            <div
-                                                className="w-8 h-8 flex items-center justify-center"
-                                                dangerouslySetInnerHTML={{ __html: skill.logoSvgOrUrl }}
-                                            />
-                                        )}
-                                        <span className="text-white font-medium">{skill.name}</span>
-                                    </div>
-                                </TickerItem>
-                            ))}
-                        </LogoTicker>
-                    </motion.div>
-                )}
             </div>
         </section>
     );

@@ -7,6 +7,7 @@ import { addProject, updateProject } from "@/lib/actions";
 import { Project, NewProject } from "@/db/schema";
 import { ChevronLeftIcon, CloudArrowUpIcon, XMarkIcon } from "@heroicons/react/24/outline";
 import Link from "next/link";
+import ImageUpload from "@/components/ui/ImageUpload";
 import Image from "next/image";
 
 interface ProjectFormProps {
@@ -30,13 +31,14 @@ export default function ProjectForm({ initialData, isEditMode = false }: Project
         category: initialData?.category || "Web Development",
         sortOrder: initialData?.sortOrder || 0,
         isVisible: initialData?.isVisible ?? true,
-        collaboratorName: initialData?.collaboratorName || "",
-        collaboratorLinkedIn: initialData?.collaboratorLinkedIn || "",
+        collaborators: initialData?.collaborators || [],
         gallery: initialData?.gallery || [],
     });
 
     const [newTech, setNewTech] = useState("");
     const [newGalleryImage, setNewGalleryImage] = useState("");
+    const [newCollaboratorName, setNewCollaboratorName] = useState("");
+    const [newCollaboratorUrl, setNewCollaboratorUrl] = useState("");
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
         const { name, value, type } = e.target;
@@ -181,26 +183,16 @@ export default function ProjectForm({ initialData, isEditMode = false }: Project
                             <h3 className="text-lg font-bold text-white mb-4">Media & Links</h3>
 
                             <div>
-                                <label className="block text-sm text-white/60 mb-2">Main Image URL</label>
-                                <div className="flex gap-4">
-                                    <input
-                                        type="text"
-                                        name="imageUrl"
+                                <label className="block text-sm text-white/60 mb-2">Main Image (Min 700x326px)</label>
+                                <div className="space-y-4">
+                                    <ImageUpload
                                         value={formData.imageUrl || ""}
-                                        onChange={handleChange}
-                                        placeholder="https://..."
-                                        className="flex-1 bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:border-lime focus:outline-none focus:ring-1 focus:ring-lime"
+                                        onChange={(url) => setFormData(prev => ({ ...prev, imageUrl: url }))}
+                                        minWidth={700}
+                                        minHeight={326}
+                                        type="project"
                                     />
-                                    {/* Placeholder for Upload Button - could implement specific upload logic later */}
-                                    <button type="button" className="px-4 py-2 bg-white/10 rounded-xl hover:bg-white/20 transition-colors">
-                                        <CloudArrowUpIcon className="w-5 h-5 text-white" />
-                                    </button>
                                 </div>
-                                {formData.imageUrl && (
-                                    <div className="mt-4 relative h-48 w-full rounded-xl overflow-hidden border border-white/10">
-                                        <Image src={formData.imageUrl} alt="Preview" fill className="object-cover" />
-                                    </div>
-                                )}
                             </div>
 
                             <div className="grid md:grid-cols-2 gap-6">
@@ -264,16 +256,28 @@ export default function ProjectForm({ initialData, isEditMode = false }: Project
 
                             <div>
                                 <label className="block text-sm text-white/60 mb-2">Category</label>
-                                <select
+                                <label className="block text-sm text-white/60 mb-2">Category (e.g. SaaS, Mobile, Islamic)</label>
+                                <input
+                                    type="text"
                                     name="category"
                                     value={formData.category}
                                     onChange={handleChange}
+                                    list="category-suggestions"
                                     className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:border-lime focus:outline-none focus:ring-1 focus:ring-lime"
-                                >
-                                    <option value="Web Development" className="bg-charcoal text-white">Web Development</option>
-                                    <option value="Apps" className="bg-charcoal text-white">Apps</option>
-                                    <option value="Tools" className="bg-charcoal text-white">Tools</option>
-                                </select>
+                                />
+                                <datalist id="category-suggestions">
+                                    <option value="Web Development" />
+                                    <option value="Mobile App" />
+                                    <option value="SaaS" />
+                                    <option value="Ecommerce" />
+                                    <option value="Tools" />
+                                    <option value="Blogs" />
+                                    <option value="Islamic" />
+                                    <option value="Health" />
+                                    <option value="Autos" />
+                                    <option value="NGO" />
+                                    <option value="Education" />
+                                </datalist>
                             </div>
 
                             <div>
@@ -308,7 +312,7 @@ export default function ProjectForm({ initialData, isEditMode = false }: Project
                                     onChange={handleChange}
                                     className="w-5 h-5 rounded border-white/10 bg-white/5 text-lime focus:ring-lime"
                                 />
-                                <label htmlFor="isVisible" className="text-white select-none cursor-pointer">VisiblePublicly</label>
+                                <label htmlFor="isVisible" className="text-white select-none cursor-pointer">Publicly Visible</label>
                             </div>
                         </GlassCard>
 
@@ -339,25 +343,77 @@ export default function ProjectForm({ initialData, isEditMode = false }: Project
 
                         <GlassCard className="p-6 space-y-6">
                             <h3 className="text-lg font-bold text-white mb-4">Collaboration</h3>
-                            <div>
-                                <label className="block text-sm text-white/60 mb-2">Collaborator Name</label>
-                                <input
-                                    type="text"
-                                    name="collaboratorName"
-                                    value={formData.collaboratorName || ""}
-                                    onChange={handleChange}
-                                    className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:border-lime focus:outline-none focus:ring-1 focus:ring-lime"
-                                />
+                            <h3 className="text-lg font-bold text-white mb-4">Collaborators</h3>
+
+                            <div className="space-y-4">
+                                <div className="grid grid-cols-2 gap-2">
+                                    <input
+                                        type="text"
+                                        value={newCollaboratorName}
+                                        onChange={(e) => setNewCollaboratorName(e.target.value)}
+                                        placeholder="Name"
+                                        className="bg-white/5 border border-white/10 rounded-xl px-3 py-2 text-white text-sm focus:border-lime focus:outline-none"
+                                    />
+                                    <input
+                                        type="text"
+                                        value={newCollaboratorUrl}
+                                        onChange={(e) => setNewCollaboratorUrl(e.target.value)}
+                                        placeholder="LinkedIn/URL (Optional)"
+                                        className="bg-white/5 border border-white/10 rounded-xl px-3 py-2 text-white text-sm focus:border-lime focus:outline-none"
+                                        onKeyDown={(e) => {
+                                            if (e.key === 'Enter') {
+                                                e.preventDefault();
+                                                if (newCollaboratorName.trim()) {
+                                                    const current = formData.collaborators as { name: string; url?: string }[] || [];
+                                                    setFormData({
+                                                        ...formData,
+                                                        collaborators: [...current, { name: newCollaboratorName.trim(), url: newCollaboratorUrl.trim() || undefined }]
+                                                    });
+                                                    setNewCollaboratorName("");
+                                                    setNewCollaboratorUrl("");
+                                                }
+                                            }
+                                        }}
+                                    />
+                                </div>
+                                <button
+                                    type="button"
+                                    onClick={() => {
+                                        if (newCollaboratorName.trim()) {
+                                            const current = formData.collaborators as { name: string; url?: string }[] || [];
+                                            setFormData({
+                                                ...formData,
+                                                collaborators: [...current, { name: newCollaboratorName.trim(), url: newCollaboratorUrl.trim() || undefined }]
+                                            });
+                                            setNewCollaboratorName("");
+                                            setNewCollaboratorUrl("");
+                                        }
+                                    }}
+                                    className="w-full py-2 bg-lime/20 text-lime rounded-xl hover:bg-lime/30 text-sm font-bold"
+                                >
+                                    Add Collaborator
+                                </button>
                             </div>
-                            <div>
-                                <label className="block text-sm text-white/60 mb-2">Collaborator LinkedIn</label>
-                                <input
-                                    type="text"
-                                    name="collaboratorLinkedIn"
-                                    value={formData.collaboratorLinkedIn || ""}
-                                    onChange={handleChange}
-                                    className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:border-lime focus:outline-none focus:ring-1 focus:ring-lime"
-                                />
+
+                            <div className="space-y-2 mt-4">
+                                {(formData.collaborators as { name: string; url?: string }[])?.map((collab, idx) => (
+                                    <div key={idx} className="flex items-center justify-between bg-white/5 p-3 rounded-xl border border-white/10">
+                                        <div>
+                                            <div className="text-sm font-bold text-white">{collab.name}</div>
+                                            {collab.url && <div className="text-xs text-white/40 truncate max-w-[150px]">{collab.url}</div>}
+                                        </div>
+                                        <button
+                                            type="button"
+                                            onClick={() => {
+                                                const current = formData.collaborators as { name: string; url?: string }[] || [];
+                                                setFormData({ ...formData, collaborators: current.filter((_, i) => i !== idx) });
+                                            }}
+                                            className="text-white/40 hover:text-red-400"
+                                        >
+                                            <XMarkIcon className="w-4 h-4" />
+                                        </button>
+                                    </div>
+                                ))}
                             </div>
                         </GlassCard>
                     </div>

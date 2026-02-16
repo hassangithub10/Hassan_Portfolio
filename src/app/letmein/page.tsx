@@ -74,7 +74,7 @@ export default function LoginPage() {
                                     autoComplete="email"
                                     required
                                     className="block w-full pl-10 bg-black/50 border border-white/10 rounded-xl py-3 text-white placeholder-white/30 focus:border-primary-500 focus:ring-1 focus:ring-primary-500 transition-all sm:text-sm"
-                                    placeholder="admin@hassanport.com"
+                                    placeholder="Username/Email"
                                 />
                             </div>
                         </div>

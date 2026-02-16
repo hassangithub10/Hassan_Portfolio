@@ -58,7 +58,7 @@ export default async function RootLayout({
     ]);
 
     const measurementId = settings.find(s => s.settingKey === "google_ga4_measurement_id")?.settingValue;
-    const siteFavicon = settings.find(s => s.settingKey === "site_favicon")?.settingValue;
+    const siteFavicon = settings.find(s => s.settingKey === "site_favicon")?.settingValue || "/logo.svg";
 
     return (
         <html lang="en" className="scroll-smooth">

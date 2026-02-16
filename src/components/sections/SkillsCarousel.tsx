@@ -49,16 +49,16 @@ export default function SkillsCarousel({ skills, content }: SkillsCarouselProps)
                         <TickerItem key={skill.id} className="min-w-[120px] md:min-w-[180px]">
                             <div className="flex flex-col items-center gap-4 py-2">
                                 {skill.logoSvgOrUrl ? (
-                                    <div className="w-16 h-16 md:w-20 md:h-20 flex items-center justify-center bg-white/5 rounded-2xl border border-white/10 group-hover:border-primary-500 transition-all duration-500 p-4">
+                                    <div className="w-16 h-16 md:w-20 md:h-20 rounded-2xl bg-primary-500/10 flex items-center justify-center border border-primary-500/20 p-4 transition-all duration-300 group-hover:border-primary-500 group-hover:bg-primary-500/20">
                                         <img
                                             src={skill.logoSvgOrUrl}
                                             alt={skill.name}
-                                            className="w-full h-full object-contain filter brightness-90 hover:brightness-110 transition-all"
+                                            className="w-full h-full object-contain filter brightness-90 group-hover:brightness-110 transition-all"
                                         />
                                     </div>
                                 ) : (
-                                    <div className="w-16 h-16 md:w-20 md:h-20 rounded-2xl bg-primary-500/10 flex items-center justify-center border border-primary-500/20">
-                                        <span className="text-primary-500 font-bold text-2xl">
+                                    <div className="w-16 h-16 md:w-20 md:h-20 rounded-2xl bg-primary-500/10 flex items-center justify-center border border-primary-500/20 transition-all duration-300 group-hover:border-primary-500 group-hover:bg-primary-500/20">
+                                        <span className="text-primary-500 font-bold text-2xl group-hover:scale-110 transition-transform">
                                             {skill.name.charAt(0)}
                                         </span>
                                     </div>

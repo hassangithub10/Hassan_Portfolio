@@ -4,7 +4,7 @@ import { SignJWT, jwtVerify } from "jose";
 import { cookies } from "next/headers";
 import { db } from "@/db";
 import { admins } from "@/db/schema";
-import { eq } from "drizzle-orm";
+import { eq, or } from "drizzle-orm";
 import bcrypt from "bcryptjs";
 import { redirect } from "next/navigation";
 
@@ -12,11 +12,11 @@ const SECRET_KEY = process.env.JWT_SECRET || "super-secret-key-change-this";
 const key = new TextEncoder().encode(SECRET_KEY);
 
 export async function login(formData: FormData) {
-    const email = formData.get("email") as string;
+    const identifier = formData.get("email") as string;
     const password = formData.get("password") as string;
 
     // Check DB
-    const adminUser = await db.select().from(admins).where(eq(admins.email, email)).limit(1);
+    const adminUser = await db.select().from(admins).where(or(eq(admins.email, identifier), eq(admins.username, identifier))).limit(1);
     const admin = adminUser[0];
 
     // Verify password (assuming bcrypt hash in DB, fallback to simple check if needed or manual seed)
@@ -32,7 +32,7 @@ export async function login(formData: FormData) {
     }
 
     // For development convenience, if table matches:
-    // email: admin@hassanport.com
+    // email: hassandigital94@gmail.com
     // password: admin (hashed)
 
     if (!admin || !isValid) {

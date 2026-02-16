@@ -12,10 +12,11 @@ interface ProjectsProps {
     content: any;
 }
 
-const categories = ["All", "Web Development", "Apps", "Tools"] as const;
-
 export default function Projects({ projects = [], content }: ProjectsProps) {
-    const [selectedCategory, setSelectedCategory] = useState<typeof categories[number]>("All");
+    // Dynamic categories derived from projects
+    const allCategories = useMemo(() => ["All", ...Array.from(new Set(projects.map(p => p.category)))], [projects]);
+
+    const [selectedCategory, setSelectedCategory] = useState<string>("All");
 
     const filteredProjects = useMemo(() => {
         if (selectedCategory === "All") return projects;
@@ -59,7 +60,7 @@ export default function Projects({ projects = [], content }: ProjectsProps) {
                     viewport={{ once: true }}
                     className="flex flex-wrap justify-center gap-4 mb-16"
                 >
-                    {categories.map((category) => (
+                    {allCategories.map((category) => (
                         <button
                             key={category}
                             onClick={() => setSelectedCategory(category)}
@@ -129,14 +130,17 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
                         {/* Gradient Overlay */}
                         <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent opacity-90 transition-opacity group-hover:opacity-70" />
 
-                        {/* Status/Badge if featured */}
-                        {project.featured && (
-                            <div className="absolute top-4 left-4">
-                                <span className="badge-premium scale-75 origin-top-left bg-primary-500 text-black border-none">
+                        {/* Category & Featured Badge */}
+                        <div className="absolute top-4 right-4 flex flex-col items-end gap-2">
+                            <span className="badge-premium scale-90 bg-black/60 backdrop-blur-md border border-white/10 text-white shadow-xl">
+                                {project.category}
+                            </span>
+                            {project.featured && (
+                                <span className="text-[10px] font-bold text-primary-400 uppercase tracking-widest bg-primary-500/10 px-2 py-1 rounded border border-primary-500/20">
                                     Featured
                                 </span>
-                            </div>
-                        )}
+                            )}
+                        </div>
                     </div>
 
                     {/* Content */}
@@ -168,27 +172,37 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
                             </div>
                         )}
 
-                        <div className="pt-4 border-t border-white/5">
-                            {project.collaboratorName ? (
-                                <div className="space-y-3">
+                        <div className="pt-4 border-t border-white/5 min-h-[60px] flex flex-col justify-end">
+                            {(project.collaborators as { name: string; url?: string }[])?.length > 0 ? (
+                                <div className="space-y-2">
                                     <div className="text-[10px] font-bold text-white/40 uppercase tracking-widest">
-                                        Collaborator
+                                        Collaborators
                                     </div>
-                                    <a
-                                        href={project.collaboratorLinkedIn || "#"}
-                                        target="_blank"
-                                        rel="noopener noreferrer"
-                                        onClick={(e) => e.stopPropagation()}
-                                        className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-primary-500/10 border border-primary-500/20 text-primary-400 text-xs font-bold hover:bg-primary-500/20 transition-all group/badge"
-                                    >
-                                        <span>{project.collaboratorName}</span>
-                                        <ArrowTopRightOnSquareIcon className="w-3 h-3 transition-transform group-hover/badge:-translate-y-0.5 group-hover/badge:translate-x-0.5" />
-                                    </a>
+                                    <div className="flex flex-wrap gap-2">
+                                        {(project.collaborators as { name: string; url?: string }[]).map((collab, i) => (
+                                            collab.url ? (
+                                                <a
+                                                    key={i}
+                                                    href={collab.url}
+                                                    target="_blank"
+                                                    rel="noopener noreferrer"
+                                                    onClick={(e) => e.stopPropagation()}
+                                                    className="inline-flex items-center gap-1 px-2 py-1 rounded-md bg-white/5 border border-white/10 text-white/70 text-xs hover:bg-white/10 hover:text-white transition-all"
+                                                >
+                                                    {collab.name}
+                                                    <ArrowTopRightOnSquareIcon className="w-3 h-3" />
+                                                </a>
+                                            ) : (
+                                                <span key={i} className="inline-flex items-center gap-1 px-2 py-1 rounded-md bg-white/5 border border-white/10 text-white/70 text-xs">
+                                                    {collab.name}
+                                                </span>
+                                            )
+                                        ))}
+                                    </div>
                                 </div>
                             ) : (
-                                <div className="flex items-center gap-4 text-primary-400 text-sm font-bold uppercase tracking-widest group-hover:text-primary-300 transition-colors">
-                                    <span>Explore Details</span>
-                                    <ArrowRightIcon className="w-4 h-4 transition-transform group-hover:translate-x-2" />
+                                <div className="text-white/20 text-xs italic">
+                                    Solo Project
                                 </div>
                             )}
                         </div>

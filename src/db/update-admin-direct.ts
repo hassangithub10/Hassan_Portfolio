@@ -7,8 +7,8 @@ async function updateAdmin() {
     const password = "dks$Next321"; // The working one
     const database = "hassanport_db";
 
-    const email = "admin@hassanport.com";
-    const adminPassword = "hassanport_admin";
+    const email = "hassandigital94@gmail.com";
+    const adminPassword = "hassanPORT$admin";
     const hashedPassword = await bcrypt.hash(adminPassword, 10);
 
     console.log("Connecting to database...");

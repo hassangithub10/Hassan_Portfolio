@@ -15,7 +15,7 @@ interface LogoTickerProps {
 export default function LogoTicker({
     children,
     direction = "left",
-    speed = 20,
+    speed = 10,
     pauseOnHover = true,
     className,
 }: LogoTickerProps) {

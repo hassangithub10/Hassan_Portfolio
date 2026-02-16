@@ -183,8 +183,8 @@ export default function Contact({ info, content }: ContactProps) {
 
                             {/* Info Items */}
                             {[
-                                { icon: EnvelopeIcon, label: "Email", value: "hassan@example.com", color: "from-primary-500 to-primary-600" },
-                                { icon: PhoneIcon, label: "Phone", value: "+1 (555) 123-4567", color: "from-[#b026ff] to-[#701ced]" },
+                                { icon: EnvelopeIcon, label: "Email", value: "hassandigital94@gmail.com", color: "from-primary-500 to-primary-600" },
+                                { icon: PhoneIcon, label: "Phone", value: "+92 311 7371750", color: "from-[#b026ff] to-[#701ced]" },
                                 { icon: MapPinIcon, label: "Location", value: "Remote / Worldwide", color: "from-primary-400 to-[#FEC107]" },
                             ].map((item, i) => (
                                 <motion.div

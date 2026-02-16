@@ -73,22 +73,16 @@ export default function Footer({ navItems = [], settings = [] }: FooterProps) {
                     {/* Logo & Copyright */}
                     <div className="flex flex-col items-center gap-4">
                         <Link href="/" className="flex items-center gap-2">
-                            {settings.find(s => s.settingKey === "footer_logo_image")?.settingValue ? (
-                                /* eslint-disable-next-line @next/next/no-img-element */
-                                <img
-                                    src={settings.find(s => s.settingKey === "footer_logo_image")?.settingValue}
-                                    alt={logoText}
-                                    style={{
-                                        width: `${settings.find(s => s.settingKey === "footer_logo_width")?.settingValue || "150"}px`,
-                                        height: "auto",
-                                    }}
-                                    className="object-contain"
-                                />
-                            ) : (
-                                <span className="font-heading font-black tracking-tighter text-2xl text-white">
-                                    {logoText}
-                                </span>
-                            )}
+                            {/* eslint-disable-next-line @next/next/no-img-element */}
+                            <img
+                                src={settings.find(s => s.settingKey === "footer_logo_image")?.settingValue || "/logo.svg"}
+                                alt={logoText}
+                                style={{
+                                    width: `${settings.find(s => s.settingKey === "footer_logo_width")?.settingValue || "50"}px`,
+                                    height: "auto",
+                                }}
+                                className="object-contain"
+                            />
                         </Link>
                         <p className="text-[#FDDFCC]/50 text-sm text-center" suppressHydrationWarning>
                             {copyrightText}

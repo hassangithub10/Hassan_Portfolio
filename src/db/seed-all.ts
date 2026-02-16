@@ -196,6 +196,13 @@ async function seed() {
             { settingKey: "linkedin_url", settingValue: "https://linkedin.com/in/hassansarfraz" },
             { settingKey: "github_url", settingValue: "https://github.com/hassan" },
             { settingKey: "twitter_url", settingValue: "https://twitter.com/hassan" },
+            { settingKey: "site_favicon", settingValue: "/logo.svg" },
+            { settingKey: "header_logo_image", settingValue: "/logo.svg" },
+            { settingKey: "header_logo_height", settingValue: "50" },
+            { settingKey: "header_logo_width", settingValue: "50" },
+            { settingKey: "footer_logo_image", settingValue: "/logo.svg" },
+            { settingKey: "footer_logo_height", settingValue: "50" },
+            { settingKey: "footer_logo_width", settingValue: "50" },
         ] as any);
 
         // 9. SEO Defaults

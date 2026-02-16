@@ -49,7 +49,7 @@ export const projects = mysqlTable("projects", {
     githubUrl: varchar("github_url", { length: 255 }),
     imageUrl: varchar("image_url", { length: 255 }),
     featured: boolean("featured").default(false),
-    category: mysqlEnum("category", ["Web Development", "Apps", "Tools"]).notNull().default("Web Development"),
+    category: varchar("category", { length: 100 }).notNull().default("Web Development"),
     sortOrder: int("sort_order").default(0),
     isVisible: boolean("is_visible").default(true),
     createdAt: timestamp("created_at").defaultNow(),
@@ -57,8 +57,7 @@ export const projects = mysqlTable("projects", {
     metaDescription: text("meta_description"),
     keywords: text("keywords"),
     gallery: json("gallery").$type<string[]>(),
-    collaboratorName: varchar("collaborator_name", { length: 150 }),
-    collaboratorLinkedIn: varchar("collaborator_linkedin", { length: 255 }),
+    collaborators: json("collaborators").$type<{ name: string; url?: string }[]>(),
 });
 
 export const experience = mysqlTable("experience", {

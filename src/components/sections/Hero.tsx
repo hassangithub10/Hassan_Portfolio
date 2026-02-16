@@ -41,12 +41,12 @@ export default function Hero({ info, content, settings = [] }: HeroProps) {
                 >
 
                     {/* Greeting */}
-                    <h2 className="text-xl md:text-2xl text-lime font-medium mb-4 tracking-wide">
+                    <h2 className="text-xl md:text-2xl text-lime font-medium mt-10 mb-4 tracking-wide">
                         {greeting}
                     </h2>
 
                     {/* Main Name */}
-                    <h1 className="heading-xl text-white mb-6">
+                    <h1 className="text-5xl text-white mb-6">
                         {info.fullName.split(" ").map((word: string, i: number) => (
                             <span key={i} className={clsx(i === info.fullName.split(" ").length - 1 ? "text-gradient-primary" : "")}>
                                 {word}{" "}

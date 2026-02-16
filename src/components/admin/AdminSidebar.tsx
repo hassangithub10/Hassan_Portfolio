@@ -81,7 +81,7 @@ export default function AdminSidebar() {
                     </div>
                     <div>
                         <p className="text-sm font-medium text-white">Admin User</p>
-                        <p className="text-xs text-white/40">admin@hassanport.com</p>
+                        <p className="text-xs text-white/40">hassandigital94@gmail.com</p>
                     </div>
                 </div>
                 <button

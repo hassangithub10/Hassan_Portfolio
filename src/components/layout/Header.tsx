@@ -72,22 +72,16 @@ export default function Header({ navItems = [], settings = [] }: HeaderProps) {
 
                     {/* Logo */}
                     <Link href="/" className="flex items-center gap-2 mr-4 md:mr-8 flex-shrink-0 relative z-20">
-                        {settings.find(s => s.settingKey === "header_logo_image")?.settingValue ? (
-                            /* eslint-disable-next-line @next/next/no-img-element */
-                            <img
-                                src={settings.find(s => s.settingKey === "header_logo_image")?.settingValue}
-                                alt={logoText}
-                                style={{
-                                    width: `${settings.find(s => s.settingKey === "header_logo_width")?.settingValue || "150"}px`,
-                                    height: "auto",
-                                }}
-                                className="object-contain"
-                            />
-                        ) : (
-                            <span className="font-heading font-black tracking-tighter text-2xl text-white">
-                                {logoText}
-                            </span>
-                        )}
+                        {/* eslint-disable-next-line @next/next/no-img-element */}
+                        <img
+                            src={settings.find(s => s.settingKey === "header_logo_image")?.settingValue || "/logo.svg"}
+                            alt={logoText}
+                            style={{
+                                width: `${settings.find(s => s.settingKey === "header_logo_width")?.settingValue || "40"}px`,
+                                height: "auto",
+                            }}
+                            className="object-contain"
+                        />
                     </Link>
 
                     {/* Desktop Nav */}

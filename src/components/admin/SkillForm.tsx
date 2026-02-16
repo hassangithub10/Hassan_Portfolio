@@ -8,6 +8,7 @@ import { Skill, NewSkill } from "@/db/schema";
 import { ChevronLeftIcon, PhotoIcon } from "@heroicons/react/24/outline";
 import Link from "next/link";
 import Image from "next/image";
+import ImageUploader from "./ImageUploader";
 
 interface SkillFormProps {
     initialData?: Skill;
@@ -85,30 +86,22 @@ export default function SkillForm({ initialData, isEditMode = false }: SkillForm
 
             <form onSubmit={handleSubmit} className="space-y-8">
                 <GlassCard className="p-8 space-y-6">
-                    {/* Logo Upload / URL Section - Prioritized */}
+                    {/* Logo Upload Section - Prioritized */}
                     <div className="bg-white/5 p-6 rounded-xl border border-white/10">
-                        <label className="block text-sm text-lime font-bold mb-2 flex items-center gap-2">
+                        <label className="block text-sm text-lime font-bold mb-4 flex items-center gap-2">
                             <PhotoIcon className="w-5 h-5" />
-                            Logo / Icon URL (Preferred)
+                            Logo / Icon
                         </label>
-                        <input
-                            type="text"
-                            name="logoSvgOrUrl"
-                            value={formData.logoSvgOrUrl || ""}
-                            onChange={handleChange}
-                            placeholder="https://... (SVG/PNG/WebP)"
-                            className="w-full bg-black/50 border border-white/10 rounded-xl px-4 py-3 text-white focus:border-lime focus:outline-none focus:ring-1 focus:ring-lime"
-                        />
-                        {formData.logoSvgOrUrl && (
-                            <div className="mt-4 flex justify-center p-4 bg-white/5 rounded-lg">
-                                <div className="relative w-16 h-16">
-                                    <Image src={formData.logoSvgOrUrl} alt="Preview" fill className="object-contain" />
-                                </div>
-                            </div>
-                        )}
-                        <p className="text-xs text-white/40 mt-2">
-                            Providing a high-quality logo URL (SVG preferred) helps render the carousel beautifully.
-                        </p>
+
+                        <div className="mt-[10px]">
+                            <label className="block text-xs text-white/50 mb-2">Upload Image</label>
+                            <ImageUploader
+                                value={formData.logoSvgOrUrl || ""}
+                                onChange={(url) => setFormData(prev => ({ ...prev, logoSvgOrUrl: url }))}
+                                label="Upload Logo"
+                                aspectRatio="1:1"
+                            />
+                        </div>
                     </div>
 
                     <div>
@@ -121,21 +114,6 @@ export default function SkillForm({ initialData, isEditMode = false }: SkillForm
                             required
                             className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:border-lime focus:outline-none focus:ring-1 focus:ring-lime"
                         />
-                    </div>
-
-                    <div>
-                        <label className="block text-sm text-white/60 mb-2">Category</label>
-                        <select
-                            name="category"
-                            value={formData.category}
-                            onChange={handleChange}
-                            className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:border-lime focus:outline-none focus:ring-1 focus:ring-lime"
-                        >
-                            <option value="Frontend" className="bg-charcoal">Frontend</option>
-                            <option value="Backend" className="bg-charcoal">Backend</option>
-                            <option value="Tools" className="bg-charcoal">Tools & DevOps</option>
-                            <option value="Design" className="bg-charcoal">Design</option>
-                        </select>
                     </div>
 
                     <div>
