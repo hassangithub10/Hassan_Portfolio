@@ -6,8 +6,10 @@ import GlassCard from "@/components/ui/GlassCard";
 import { getBlogPosts, deleteBlogPost, toggleItemVisibility } from "@/lib/actions";
 import { PlusIcon, PencilIcon, TrashIcon, EyeIcon, EyeSlashIcon } from "@heroicons/react/24/outline";
 import { clsx } from "clsx";
+import { usePopup } from "@/components/admin/PopupProvider";
 
 export default function BlogList() {
+    const popup = usePopup();
     const [posts, setPosts] = useState<any[]>([]);
     const [loading, setLoading] = useState(true);
     const [showHidden, setShowHidden] = useState(false);
@@ -25,27 +27,35 @@ export default function BlogList() {
 
     const filteredPosts = posts.filter(p => showHidden ? true : p.isVisible);
 
-    const handleDelete = async (id: number) => {
-        if (!confirm("Are you sure you want to delete this post?")) return;
-
-        const res = await deleteBlogPost(id);
-        if (res.success) {
-            setPosts(posts.filter(p => p.id !== id));
-        } else {
-            alert(res.message);
-        }
+    const handleDelete = (id: number, title: string) => {
+        popup.confirm({
+            title: "Delete Post?",
+            message: `"${title}" will be permanently removed.`,
+            onConfirm: async () => {
+                const res = await deleteBlogPost(id);
+                if (res.success) {
+                    setPosts(posts.filter(p => p.id !== id));
+                    popup.deleted("Post Deleted", `"${title}" has been removed.`);
+                } else {
+                    popup.error("Deletion Failed", res.message);
+                }
+            },
+        });
     };
 
-    const handleToggleVisibility = async (id: number, currentStatus: boolean | null) => {
+    const handleToggleVisibility = async (id: number, currentStatus: boolean | null, title: string) => {
         const newStatus = !currentStatus;
-        // Optimistic update
         setPosts(posts.map(p => p.id === id ? { ...p, isVisible: newStatus } : p));
 
         const res = await toggleItemVisibility('blog_posts', id, newStatus);
         if (!res.success) {
-            alert(res.message);
-            // Revert on failure
+            popup.error("Update Failed", res.message);
             setPosts(posts.map(p => p.id === id ? { ...p, isVisible: currentStatus } : p));
+        } else {
+            popup.success(
+                newStatus ? "Post Visible" : "Post Hidden",
+                `"${title}" is now ${newStatus ? "visible" : "hidden"}.`
+            );
         }
     };
 
@@ -125,7 +135,7 @@ export default function BlogList() {
                                         <td className="px-6 py-4 text-white/70">{post.readTime}</td>
                                         <td className="px-6 py-4">
                                             <button
-                                                onClick={() => handleToggleVisibility(post.id, post.isVisible)}
+                                                onClick={() => handleToggleVisibility(post.id, post.isVisible, post.title)}
                                                 className={clsx(
                                                     "p-2 rounded-lg transition-colors",
                                                     post.isVisible
@@ -150,7 +160,7 @@ export default function BlogList() {
                                                     <PencilIcon className="w-5 h-5" />
                                                 </Link>
                                                 <button
-                                                    onClick={() => handleDelete(post.id)}
+                                                    onClick={() => handleDelete(post.id, post.title)}
                                                     className="p-2 rounded-lg bg-red-500/10 text-red-400 hover:bg-red-500/20 transition-colors"
                                                 >
                                                     <TrashIcon className="w-5 h-5" />

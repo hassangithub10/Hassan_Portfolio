@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { getSectionContent, updateSectionContent, getAllSectionContent, seedSectionContent } from "@/lib/actions";
-import { toast } from "react-hot-toast";
+import { usePopup } from "@/components/admin/PopupProvider";
 import { Tab } from "@headlessui/react";
 import {
     HomeIcon,
@@ -21,6 +21,7 @@ function classNames(...classes: string[]) {
 }
 
 export default function SectionContentPage() {
+    const popup = usePopup();
     const [sections, setSections] = useState<any[]>([]);
     const [loading, setLoading] = useState(true);
     const [saving, setSaving] = useState(false);
@@ -44,13 +45,12 @@ export default function SectionContentPage() {
     const fetchData = async () => {
         setLoading(true);
         try {
-            // First try to seed if empty
             await seedSectionContent();
             const data = await getAllSectionContent();
             setSections(data);
         } catch (error) {
             console.error(error);
-            toast.error("Failed to load section content");
+            popup.error("Load Failed", "Failed to load section content");
         } finally {
             setLoading(false);
         }
@@ -61,13 +61,13 @@ export default function SectionContentPage() {
         try {
             const res = await updateSectionContent(sectionKey, data);
             if (res.success) {
-                toast.success(`${sectionKey} section updated!`);
-                fetchData(); // Refresh to get latest
+                popup.success("Section Updated", `${sectionKey} section has been saved.`);
+                fetchData();
             } else {
-                toast.error(res.message);
+                popup.error("Update Failed", res.message);
             }
         } catch (error) {
-            toast.error("An error occurred");
+            popup.error("Error", "An unexpected error occurred");
         } finally {
             setSaving(false);
         }

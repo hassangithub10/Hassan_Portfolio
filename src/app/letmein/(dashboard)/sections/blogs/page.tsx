@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
@@ -6,9 +6,11 @@ import GlassCard from "@/components/ui/GlassCard";
 import { getBlogPosts, deleteBlogPost, toggleItemVisibility } from "@/lib/actions"; // verify getBlogPosts (admin)
 import { PlusIcon, PencilIcon, TrashIcon, ChevronLeftIcon, EyeIcon, EyeSlashIcon, CalendarIcon } from "@heroicons/react/24/outline";
 import { clsx } from "clsx";
+import { usePopup } from "@/components/admin/PopupProvider";
 import Image from "next/image";
 
 export default function BlogsPage() {
+    const popup = usePopup();
     const [posts, setPosts] = useState<any[]>([]);
     const [loading, setLoading] = useState(true);
 
@@ -23,14 +25,20 @@ export default function BlogsPage() {
         setLoading(false);
     };
 
-    const handleDelete = async (id: number) => {
-        if (!confirm("Are you sure you want to delete this post?")) return;
-        const res = await deleteBlogPost(id);
-        if (res.success) {
-            setPosts(posts.filter(p => p.id !== id));
-        } else {
-            alert(res.message);
-        }
+    const handleDelete = (id: number, title: string) => {
+        popup.confirm({
+            title: "Delete Item?",
+            message: "This post will be permanently removed.",
+            onConfirm: async () => {
+                const res = await deleteBlogPost(id);
+                if (res.success) {
+                    setPosts(posts.filter(s => s.id !== id));
+                    popup.deleted("Item Deleted", "The item has been removed.");
+                } else {
+                    popup.error("Deletion Failed", res.message);
+                }
+            },
+        });
     };
 
     const handleToggleVisibility = async (id: number, currentStatus: boolean) => {
@@ -38,7 +46,7 @@ export default function BlogsPage() {
         if (res.success) {
             setPosts(posts.map(p => p.id === id ? { ...p, isVisible: !currentStatus } : p));
         } else {
-            alert(res.message);
+            popup.error("Update Failed", res.message);
         }
     };
 
@@ -135,7 +143,7 @@ export default function BlogsPage() {
                                                     <PencilIcon className="w-5 h-5" />
                                                 </Link>
                                                 <button
-                                                    onClick={() => handleDelete(post.id)}
+                                                    onClick={() => handleDelete(post.id, post.title)}
                                                     className="p-2 rounded-lg bg-red-500/10 text-red-400 hover:bg-red-500/20 transition-colors"
                                                 >
                                                     <TrashIcon className="w-5 h-5" />

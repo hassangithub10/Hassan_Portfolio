@@ -2,10 +2,9 @@
 
 import { useState, useMemo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import Link from "next/link";
 import { clsx } from "clsx";
 import type { Project } from "@/db/schema";
-import { RocketLaunchIcon, ArrowRightIcon, ArrowTopRightOnSquareIcon } from "@heroicons/react/24/outline";
+import { RocketLaunchIcon, ArrowTopRightOnSquareIcon, UsersIcon } from "@heroicons/react/24/outline";
 
 interface ProjectsProps {
     projects: Project[];
@@ -13,9 +12,7 @@ interface ProjectsProps {
 }
 
 export default function Projects({ projects = [], content }: ProjectsProps) {
-    // Dynamic categories derived from projects
     const allCategories = useMemo(() => ["All", ...Array.from(new Set(projects.map(p => p.category)))], [projects]);
-
     const [selectedCategory, setSelectedCategory] = useState<string>("All");
 
     const filteredProjects = useMemo(() => {
@@ -25,7 +22,6 @@ export default function Projects({ projects = [], content }: ProjectsProps) {
 
     if (projects.length === 0) return null;
 
-    // Dynamic Content Defaults
     const title = content?.title || "Featured";
     const subtitle = content?.subtitle || "Projects";
     const description = content?.description || "A showcase of my recent work including commercial projects and open source contributions.";
@@ -84,7 +80,7 @@ export default function Projects({ projects = [], content }: ProjectsProps) {
                         animate={{ opacity: 1, y: 0 }}
                         exit={{ opacity: 0, y: -20 }}
                         transition={{ duration: 0.4 }}
-                        className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 lg:gap-12"
+                        className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 lg:gap-10"
                     >
                         {filteredProjects.map((project, index) => (
                             <ProjectCard key={project.id} project={project} index={index} />
@@ -101,22 +97,28 @@ export default function Projects({ projects = [], content }: ProjectsProps) {
 }
 
 function ProjectCard({ project, index }: { project: Project; index: number }) {
-    const [isHovered, setIsHovered] = useState(false);
+    const collaborators = (project.collaborators as { name: string; url?: string }[] | null) ?? [];
+    const techStack = (project.techStack as string[] | null) ?? [];
 
     return (
         <motion.div
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.5, delay: index * 0.1 }}
-            onMouseEnter={() => setIsHovered(true)}
-            onMouseLeave={() => setIsHovered(false)}
+            transition={{ duration: 0.5, delay: index * 0.08 }}
             className="group relative"
         >
-            <Link href={`/projects/${project.slug}`}>
-                <div className="relative overflow-hidden rounded-3xl bg-white/[0.03] backdrop-blur-xl border border-white/10 transition-all duration-500 group-hover:border-primary-500/50 group-hover:bg-white/[0.08]">
+            <a
+                href={project.liveUrl || "#"}
+                target={project.liveUrl ? "_blank" : "_self"}
+                rel="noopener noreferrer"
+                className={clsx("block", !project.liveUrl && "cursor-default pointer-events-none")}
+                onClick={!project.liveUrl ? (e) => e.preventDefault() : undefined}
+            >
+                <div className="relative overflow-hidden rounded-3xl bg-white/[0.03] backdrop-blur-xl border border-white/10 transition-all duration-500 group-hover:border-primary-500/50 group-hover:bg-white/[0.07] group-hover:shadow-[0_0_40px_rgba(0,240,255,0.06)]">
+
                     {/* Project Image */}
-                    <div className="relative h-64 overflow-hidden">
+                    <div className="relative h-56 overflow-hidden">
                         {project.imageUrl ? (
                             /* eslint-disable-next-line @next/next/no-img-element */
                             <img
@@ -125,13 +127,15 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
                                 className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
                             />
                         ) : (
-                            <div className="w-full h-full bg-gradient-to-br from-primary-900 to-black" />
+                            <div className="w-full h-full bg-gradient-to-br from-primary-900/60 to-black flex items-center justify-center">
+                                <RocketLaunchIcon className="w-12 h-12 text-white/10" />
+                            </div>
                         )}
-                        {/* Gradient Overlay */}
-                        <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent opacity-90 transition-opacity group-hover:opacity-70" />
+                        {/* Gradient overlay */}
+                        <div className="absolute inset-0 bg-gradient-to-t from-[#050510] via-black/30 to-transparent opacity-80 transition-opacity group-hover:opacity-60" />
 
-                        {/* Category & Featured Badge */}
-                        <div className="absolute top-4 right-4 flex flex-col items-end gap-2">
+                        {/* Category + Featured badge */}
+                        <div className="absolute top-4 left-4 flex flex-col items-start gap-2">
                             <span className="badge-premium scale-90 bg-black/60 backdrop-blur-md border border-white/10 text-white shadow-xl">
                                 {project.category}
                             </span>
@@ -141,74 +145,78 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
                                 </span>
                             )}
                         </div>
+
+                        {/* External link icon (top-right, show on hover) */}
+                        {project.liveUrl && (
+                            <div className="absolute top-4 right-4 w-9 h-9 rounded-xl bg-black/60 backdrop-blur-sm border border-white/15 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-300 scale-90 group-hover:scale-100">
+                                <ArrowTopRightOnSquareIcon className="w-4 h-4 text-primary-400" />
+                            </div>
+                        )}
                     </div>
 
                     {/* Content */}
-                    <div className="p-8">
-                        <div className="flex justify-between items-start mb-4">
-                            <h3 className="text-2xl font-black text-white font-heading tracking-tight group-hover:text-primary-400 transition-colors">
-                                {project.title}
-                            </h3>
-                            <div className="p-2 rounded-xl bg-white/5 text-primary-400 opacity-0 group-hover:opacity-100 transition-all">
-                                <RocketLaunchIcon className="w-5 h-5" />
-                            </div>
-                        </div>
-
-                        <p className="text-white/60 text-base leading-relaxed mb-8 line-clamp-2">
-                            {project.shortDescription}
-                        </p>
+                    <div className="p-5">
+                        {/* Title */}
+                        <h3 className="text-xl font-black text-white font-heading tracking-tight group-hover:text-primary-400 transition-colors mb-4">
+                            {project.title}
+                        </h3>
 
                         {/* Tech Stack */}
-                        {project.techStack && (
-                            <div className="flex flex-wrap gap-2 mb-8">
-                                {project.techStack.slice(0, 3).map((tech, i) => (
+                        {techStack.length > 0 && (
+                            <div className="flex flex-wrap gap-2 mb-4">
+                                {techStack.slice(0, 5).map((tech, i) => (
                                     <span
                                         key={i}
-                                        className="text-[10px] font-bold text-white/40 uppercase tracking-widest"
+                                        className="text-[10px] font-bold text-white/50 uppercase tracking-widest px-2 py-1 rounded-md bg-white/5 border border-white/8"
                                     >
-                                        #{tech}
+                                        {tech}
                                     </span>
                                 ))}
+                                {techStack.length > 5 && (
+                                    <span className="text-[10px] font-bold text-white/30 uppercase tracking-widest px-2 py-1 rounded-md bg-white/5 border border-white/5">
+                                        +{techStack.length - 5}
+                                    </span>
+                                )}
                             </div>
                         )}
 
-                        <div className="pt-4 border-t border-white/5 min-h-[60px] flex flex-col justify-end">
-                            {(project.collaborators as { name: string; url?: string }[])?.length > 0 ? (
-                                <div className="space-y-2">
-                                    <div className="text-[10px] font-bold text-white/40 uppercase tracking-widest">
-                                        Collaborators
-                                    </div>
-                                    <div className="flex flex-wrap gap-2">
-                                        {(project.collaborators as { name: string; url?: string }[]).map((collab, i) => (
-                                            collab.url ? (
-                                                <a
-                                                    key={i}
-                                                    href={collab.url}
-                                                    target="_blank"
-                                                    rel="noopener noreferrer"
-                                                    onClick={(e) => e.stopPropagation()}
-                                                    className="inline-flex items-center gap-1 px-2 py-1 rounded-md bg-white/5 border border-white/10 text-white/70 text-xs hover:bg-white/10 hover:text-white transition-all"
-                                                >
-                                                    {collab.name}
-                                                    <ArrowTopRightOnSquareIcon className="w-3 h-3" />
-                                                </a>
-                                            ) : (
-                                                <span key={i} className="inline-flex items-center gap-1 px-2 py-1 rounded-md bg-white/5 border border-white/10 text-white/70 text-xs">
-                                                    {collab.name}
-                                                </span>
-                                            )
-                                        ))}
-                                    </div>
+                        {/* Collaborators */}
+                        {collaborators.length > 0 ? (
+                            <div className="pt-4 border-t border-white/5">
+                                <div className="flex items-center gap-1.5 mb-2">
+                                    <UsersIcon className="w-3 h-3 text-white/30" />
+                                    <span className="text-[10px] font-bold text-white/30 uppercase tracking-widest">Collaborators</span>
                                 </div>
-                            ) : (
-                                <div className="text-white/20 text-xs italic">
-                                    Solo Project
+                                <div className="flex flex-wrap gap-2">
+                                    {collaborators.map((collab, i) => (
+                                        collab.url ? (
+                                            <a
+                                                key={i}
+                                                href={collab.url}
+                                                target="_blank"
+                                                rel="noopener noreferrer"
+                                                onClick={(e) => e.stopPropagation()}
+                                                className="inline-flex items-center gap-1 px-2 py-1 rounded-md bg-white/5 border border-white/10 text-white/70 text-xs hover:bg-white/10 hover:text-white transition-all"
+                                            >
+                                                {collab.name}
+                                                <ArrowTopRightOnSquareIcon className="w-3 h-3" />
+                                            </a>
+                                        ) : (
+                                            <span key={i} className="inline-flex items-center px-2 py-1 rounded-md bg-white/5 border border-white/10 text-white/70 text-xs">
+                                                {collab.name}
+                                            </span>
+                                        )
+                                    ))}
                                 </div>
-                            )}
-                        </div>
+                            </div>
+                        ) : (
+                            <div className="pt-4 border-t border-white/5 text-white/20 text-xs italic">
+                                Solo Project
+                            </div>
+                        )}
                     </div>
                 </div>
-            </Link>
+            </a>
         </motion.div>
     );
 }

@@ -6,10 +6,12 @@ import { clsx } from "clsx";
 import GlassCard from "@/components/ui/GlassCard";
 import { getProjects, deleteProject, toggleItemVisibility } from "@/lib/actions";
 import { PlusIcon, PencilIcon, TrashIcon, LinkIcon, EyeIcon, EyeSlashIcon } from "@heroicons/react/24/outline";
+import { usePopup } from "@/components/admin/PopupProvider";
 
 const categories = ["All", "Web Development", "Apps", "Tools"] as const;
 
 export default function ProjectsList() {
+    const popup = usePopup();
     const [projects, setProjects] = useState<any[]>([]);
     const [loading, setLoading] = useState(true);
     const [selectedCategory, setSelectedCategory] = useState<typeof categories[number]>("All");
@@ -33,23 +35,32 @@ export default function ProjectsList() {
         return matchesCategory && matchesVisibility;
     });
 
-    const handleDelete = async (id: number) => {
-        if (!confirm("Are you sure you want to delete this project?")) return;
-
-        const res = await deleteProject(id);
-        if (res.success) {
-            setProjects(projects.filter(p => p.id !== id));
-        } else {
-            alert(res.message);
-        }
+    const handleDelete = (id: number, title: string) => {
+        popup.confirm({
+            title: "Delete Project?",
+            message: `"${title}" will be permanently removed.`,
+            onConfirm: async () => {
+                const res = await deleteProject(id);
+                if (res.success) {
+                    setProjects(projects.filter(p => p.id !== id));
+                    popup.deleted("Project Deleted", `"${title}" has been removed.`);
+                } else {
+                    popup.error("Deletion Failed", res.message);
+                }
+            },
+        });
     };
 
-    const handleToggleVisibility = async (id: number, currentStatus: boolean) => {
+    const handleToggleVisibility = async (id: number, currentStatus: boolean, title: string) => {
         const res = await toggleItemVisibility('projects', id, currentStatus);
         if (res.success) {
             setProjects(projects.map(p => p.id === id ? { ...p, isVisible: !currentStatus } : p));
+            popup.success(
+                currentStatus ? "Project Hidden" : "Project Visible",
+                `"${title}" is now ${currentStatus ? "hidden" : "visible"}.`
+            );
         } else {
-            alert(res.message);
+            popup.error("Update Failed", res.message);
         }
     };
 
@@ -153,7 +164,7 @@ export default function ProjectsList() {
                                         <td className="px-6 py-4 text-white/70">{project.category}</td>
                                         <td className="px-6 py-4">
                                             <button
-                                                onClick={() => handleToggleVisibility(project.id, project.isVisible)}
+                                                onClick={() => handleToggleVisibility(project.id, project.isVisible, project.title)}
                                                 className={clsx(
                                                     "p-2 rounded-lg transition-colors",
                                                     project.isVisible
@@ -181,7 +192,7 @@ export default function ProjectsList() {
                                                     <PencilIcon className="w-5 h-5" />
                                                 </Link>
                                                 <button
-                                                    onClick={() => handleDelete(project.id)}
+                                                    onClick={() => handleDelete(project.id, project.title)}
                                                     className="p-2 rounded-lg bg-red-500/10 text-red-400 hover:bg-red-500/20 transition-colors"
                                                 >
                                                     <TrashIcon className="w-5 h-5" />

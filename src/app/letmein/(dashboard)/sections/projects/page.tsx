@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
@@ -7,6 +7,7 @@ import { getVisibleProjects, toggleItemVisibility, deleteProject } from "@/lib/a
 import { PlusIcon, PencilIcon, TrashIcon, ChevronLeftIcon, EyeIcon, EyeSlashIcon, StarIcon } from "@heroicons/react/24/outline";
 import { StarIcon as StarIconSolid } from "@heroicons/react/24/solid";
 import { clsx } from "clsx";
+import { usePopup } from "@/components/admin/PopupProvider";
 
 // Note: We need a getProjects (all) not just visible ones for admin. 
 // Assuming getVisibleProjects fetches all or we need a new action. 
@@ -20,6 +21,7 @@ import { clsx } from "clsx";
 import { getProjects } from "@/lib/actions";
 
 export default function ProjectsPage() {
+    const popup = usePopup();
     const [projects, setProjects] = useState<any[]>([]);
     const [loading, setLoading] = useState(true);
 
@@ -40,14 +42,20 @@ export default function ProjectsPage() {
         setLoading(false);
     };
 
-    const handleDelete = async (id: number) => {
-        if (!confirm("Are you sure you want to delete this project?")) return;
-        const res = await deleteProject(id);
-        if (res.success) {
-            setProjects(projects.filter(p => p.id !== id));
-        } else {
-            alert(res.message);
-        }
+    const handleDelete = (id: number, title: string) => {
+        popup.confirm({
+            title: "Delete Item?",
+            message: "This project will be permanently removed.",
+            onConfirm: async () => {
+                const res = await deleteProject(id);
+                if (res.success) {
+                    setProjects(projects.filter(s => s.id !== id));
+                    popup.deleted("Item Deleted", "The item has been removed.");
+                } else {
+                    popup.error("Deletion Failed", res.message);
+                }
+            },
+        });
     };
 
     const handleToggleVisibility = async (id: number, currentStatus: boolean) => {
@@ -55,7 +63,7 @@ export default function ProjectsPage() {
         if (res.success) {
             setProjects(projects.map(p => p.id === id ? { ...p, isVisible: !currentStatus } : p));
         } else {
-            alert(res.message);
+            popup.error("Update Failed", res.message);
         }
     };
 
@@ -142,7 +150,7 @@ export default function ProjectsPage() {
                                                     <PencilIcon className="w-5 h-5" />
                                                 </Link>
                                                 <button
-                                                    onClick={() => handleDelete(project.id)}
+                                                    onClick={() => handleDelete(project.id, project.title)}
                                                     className="p-2 rounded-lg bg-red-500/10 text-red-400 hover:bg-red-500/20 transition-colors"
                                                 >
                                                     <TrashIcon className="w-5 h-5" />

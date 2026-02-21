@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
@@ -6,8 +6,10 @@ import GlassCard from "@/components/ui/GlassCard";
 import { getServices, deleteService, toggleItemVisibility } from "@/lib/actions";
 import { PlusIcon, PencilIcon, TrashIcon, EyeIcon, EyeSlashIcon } from "@heroicons/react/24/outline";
 import { clsx } from "clsx";
+import { usePopup } from "@/components/admin/PopupProvider";
 
 export default function ServicesList() {
+    const popup = usePopup();
     const [services, setServices] = useState<any[]>([]);
     const [loading, setLoading] = useState(true);
 
@@ -22,15 +24,20 @@ export default function ServicesList() {
         setLoading(false);
     };
 
-    const handleDelete = async (id: number) => {
-        if (!confirm("Are you sure you want to delete this service?")) return;
-
-        const res = await deleteService(id);
-        if (res.success) {
-            setServices(services.filter(s => s.id !== id));
-        } else {
-            alert(res.message);
-        }
+    const handleDelete = (id: number, title: string) => {
+        popup.confirm({
+            title: "Delete Item?",
+            message: "This service will be permanently removed.",
+            onConfirm: async () => {
+                const res = await deleteService(id);
+                if (res.success) {
+                    setServices(services.filter(s => s.id !== id));
+                    popup.deleted("Item Deleted", "The item has been removed.");
+                } else {
+                    popup.error("Deletion Failed", res.message);
+                }
+            },
+        });
     };
 
     const handleToggleVisibility = async (id: number, currentStatus: boolean) => {
@@ -38,7 +45,7 @@ export default function ServicesList() {
         if (res.success) {
             setServices(services.map(s => s.id === id ? { ...s, isVisible: !currentStatus } : s));
         } else {
-            alert(res.message);
+            popup.error("Update Failed", res.message);
         }
     };
 
@@ -119,7 +126,7 @@ export default function ServicesList() {
                                                     <PencilIcon className="w-5 h-5" />
                                                 </Link>
                                                 <button
-                                                    onClick={() => handleDelete(service.id)}
+                                                    onClick={() => handleDelete(service.id, service.title)}
                                                     className="p-2 rounded-lg bg-red-500/10 text-red-400 hover:bg-red-500/20 transition-colors"
                                                 >
                                                     <TrashIcon className="w-5 h-5" />

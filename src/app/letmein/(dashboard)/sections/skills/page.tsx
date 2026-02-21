@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
@@ -7,9 +7,11 @@ import { getSkills, deleteSkill, toggleItemVisibility } from "@/lib/actions";
 import { PlusIcon, PencilIcon, TrashIcon, ChevronLeftIcon, EyeIcon, EyeSlashIcon, StarIcon, PhotoIcon } from "@heroicons/react/24/outline";
 import { StarIcon as StarIconSolid } from "@heroicons/react/24/solid";
 import { clsx } from "clsx";
+import { usePopup } from "@/components/admin/PopupProvider";
 import Image from "next/image";
 
 export default function SkillsPage() {
+    const popup = usePopup();
     const [skills, setSkills] = useState<any[]>([]);
     const [loading, setLoading] = useState(true);
 
@@ -24,14 +26,20 @@ export default function SkillsPage() {
         setLoading(false);
     };
 
-    const handleDelete = async (id: number) => {
-        if (!confirm("Are you sure you want to delete this skill?")) return;
-        const res = await deleteSkill(id);
-        if (res.success) {
-            setSkills(skills.filter(s => s.id !== id));
-        } else {
-            alert(res.message);
-        }
+    const handleDelete = (id: number, title: string) => {
+        popup.confirm({
+            title: "Delete Item?",
+            message: "This skill will be permanently removed.",
+            onConfirm: async () => {
+                const res = await deleteSkill(id);
+                if (res.success) {
+                    setSkills(skills.filter(s => s.id !== id));
+                    popup.deleted("Item Deleted", "The item has been removed.");
+                } else {
+                    popup.error("Deletion Failed", res.message);
+                }
+            },
+        });
     };
 
     const handleToggleVisibility = async (id: number, currentStatus: boolean) => {
@@ -39,7 +47,7 @@ export default function SkillsPage() {
         if (res.success) {
             setSkills(skills.map(s => s.id === id ? { ...s, isVisible: !currentStatus } : s));
         } else {
-            alert(res.message);
+            popup.error("Update Failed", res.message);
         }
     };
 
@@ -145,7 +153,7 @@ export default function SkillsPage() {
                                                     <PencilIcon className="w-5 h-5" />
                                                 </Link>
                                                 <button
-                                                    onClick={() => handleDelete(skill.id)}
+                                                    onClick={() => handleDelete(skill.id, skill.name)}
                                                     className="p-2 rounded-lg bg-red-500/10 text-red-400 hover:bg-red-500/20 transition-colors"
                                                 >
                                                     <TrashIcon className="w-5 h-5" />

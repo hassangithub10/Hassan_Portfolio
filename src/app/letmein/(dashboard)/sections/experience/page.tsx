@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
@@ -6,8 +6,10 @@ import GlassCard from "@/components/ui/GlassCard";
 import { getExperience, deleteExperience, toggleItemVisibility } from "@/lib/actions";
 import { PlusIcon, PencilIcon, TrashIcon, ChevronLeftIcon, EyeIcon, EyeSlashIcon } from "@heroicons/react/24/outline";
 import { clsx } from "clsx";
+import { usePopup } from "@/components/admin/PopupProvider";
 
 export default function ExperiencePage() {
+    const popup = usePopup();
     const [experience, setExperience] = useState<any[]>([]);
     const [loading, setLoading] = useState(true);
 
@@ -22,14 +24,20 @@ export default function ExperiencePage() {
         setLoading(false);
     };
 
-    const handleDelete = async (id: number) => {
-        if (!confirm("Are you sure you want to delete this experience entry?")) return;
-        const res = await deleteExperience(id);
-        if (res.success) {
-            setExperience(experience.filter(e => e.id !== id));
-        } else {
-            alert(res.message);
-        }
+    const handleDelete = (id: number, title: string) => {
+        popup.confirm({
+            title: "Delete Item?",
+            message: "This entry will be permanently removed.",
+            onConfirm: async () => {
+                const res = await deleteExperience(id);
+                if (res.success) {
+                    setExperience(experience.filter(s => s.id !== id));
+                    popup.deleted("Item Deleted", "The item has been removed.");
+                } else {
+                    popup.error("Deletion Failed", res.message);
+                }
+            },
+        });
     };
 
     const handleToggleVisibility = async (id: number, currentStatus: boolean) => {
@@ -37,7 +45,7 @@ export default function ExperiencePage() {
         if (res.success) {
             setExperience(experience.map(e => e.id === id ? { ...e, isVisible: !currentStatus } : e));
         } else {
-            alert(res.message);
+            popup.error("Update Failed", res.message);
         }
     };
 
@@ -120,7 +128,7 @@ export default function ExperiencePage() {
                                                     <PencilIcon className="w-5 h-5" />
                                                 </Link>
                                                 <button
-                                                    onClick={() => handleDelete(entry.id)}
+                                                    onClick={() => handleDelete(entry.id, entry.company)}
                                                     className="p-2 rounded-lg bg-red-500/10 text-red-400 hover:bg-red-500/20 transition-colors"
                                                 >
                                                     <TrashIcon className="w-5 h-5" />
