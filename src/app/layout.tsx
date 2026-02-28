@@ -5,8 +5,7 @@ import "./globals.css";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 import AvailabilityFloatingBadge from "@/components/ui/AvailabilityFloatingBadge";
-import DynamicTheme from "@/components/providers/DynamicTheme";
-import { getVisibleNavigationItems, getSiteSettings } from "@/lib/actions";
+// Removed dynamic imports
 import Script from "next/script";
 import SchemaGenerator from "@/components/seo/SchemaGenerator";
 
@@ -46,19 +45,13 @@ export const metadata: Metadata = {
     },
 };
 
-export default async function RootLayout({
+export default function RootLayout({
     children,
 }: Readonly<{
     children: React.ReactNode;
 }>) {
-    const [headerNavItems, footerNavItems, settings] = await Promise.all([
-        getVisibleNavigationItems('header'),
-        getVisibleNavigationItems('footer'),
-        getSiteSettings(),
-    ]);
-
-    const measurementId = settings.find(s => s.settingKey === "google_ga4_measurement_id")?.settingValue;
-    const siteFavicon = settings.find(s => s.settingKey === "site_favicon")?.settingValue || "/logo.svg";
+    const measurementId = process.env.NEXT_PUBLIC_GA_ID; // Or keep it undefined
+    const siteFavicon = "/logo.svg";
 
     return (
         <html lang="en" className="scroll-smooth">
@@ -88,23 +81,19 @@ export default async function RootLayout({
                     </>
                 )}
 
-                {/* Dynamic Theme Injection */}
-                <DynamicTheme />
-
-                {/* Scanlines overlay */}
                 <div className="scanlines" />
 
                 {/* Header */}
-                <Header navItems={headerNavItems} settings={settings} />
+                <Header />
 
                 {/* Main content */}
                 <main>{children}</main>
 
                 {/* Footer */}
-                <Footer navItems={footerNavItems} settings={settings} />
+                <Footer />
 
                 {/* Floating Availability Badge */}
-                <AvailabilityFloatingBadge settings={settings} />
+                <AvailabilityFloatingBadge />
 
                 {/* AEO: Global Schema */}
                 <SchemaGenerator

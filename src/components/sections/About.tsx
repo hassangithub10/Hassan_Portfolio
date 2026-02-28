@@ -3,33 +3,30 @@
 import { motion, useInView } from "framer-motion";
 import { useRef, useState, useEffect } from "react";
 import LogoTicker, { TickerItem } from "@/components/ui/LogoTicker";
-import type { Skill } from "@/db/schema";
 import { SparklesIcon, CodeBracketSquareIcon, RocketLaunchIcon, UserGroupIcon, UserIcon, CpuChipIcon } from "@heroicons/react/24/outline";
 
-interface AboutProps {
-    skills: Skill[];
-    stats: {
-        yearsExperience: string;
-        projectsCompleted: string;
-        happyClients: string;
-        technologiesCount: string;
-    };
-    content: any; // Dynamic content
-}
 
-export default function About({ skills, stats, content }: AboutProps) {
+export default function About() {
     const statsRef = useRef(null);
     const isInView = useInView(statsRef, { once: true, margin: "-100px" });
 
-    // Dynamic Defaults
-    const title = content?.title || "Passionate About Creating";
-    const subtitle = content?.subtitle || "Digital Excellence";
-    const description = content?.description || "With years of experience in full-stack development, I specialize in building modern, responsive, and performant web applications.";
-    const badgeText = content?.badgeText || "About Me";
-    const badgeColor = content?.badgeColor || "#00f0ff";
+    // Static Content
+    const stats = {
+        yearsExperience: "3+",
+        projectsCompleted: "20+",
+        happyClients: "8+",
+        technologiesCount: "20+",
+    };
+
+    // Static Content
+    const title = "Passionate About Creating";
+    const subtitle = "Digital Excellence";
+    const description = "With years of experience in full-stack development, I specialize in building modern, responsive, and performant web applications.";
+    const badgeText = "About Me";
+    const badgeColor = "#00f0ff";
 
     return (
-        <section id="about" className="section relative overflow-hidden bg-gradient-to-b from-black via-[#0a0a0f] to-black">
+        <section id="about" className="section relative overflow-hidden bg-gradient-to-b from-black via-[#0a0a0f] to-black" aria-labelledby="about-heading">
             {/* Gradient Orbs */}
             <div className="absolute top-1/4 left-10 w-96 h-96 bg-gradient-to-r from-[#b026ff]/20 to-transparent rounded-full blur-[100px]" />
             <div className="absolute bottom-1/4 right-10 w-96 h-96 bg-gradient-to-l from-[#00f0ff]/20 to-transparent rounded-full blur-[100px]" />
@@ -41,14 +38,14 @@ export default function About({ skills, stats, content }: AboutProps) {
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
                     transition={{ duration: 0.6 }}
-                    className="text-center mb-20 mx-auto"
+                    className="text-center mb-10 mx-auto"
                 >
-                    <span className="badge-premium mb-6">
-                        <SparklesIcon className="w-4 h-4" />
+                    <span className="badge-premium mb-3 mt-6">
+                        <SparklesIcon className="w-6 h-6" />
                         {badgeText}
                     </span>
 
-                    <h2 className="heading-lg text-white">
+                    <h2 id="about-heading" className="heading-lg text-white">
                         {title} <span className="text-gradient-primary">{subtitle}</span>
                     </h2>
 

@@ -2,25 +2,53 @@
 
 import { motion } from "framer-motion";
 import Link from "next/link";
-import type { Service } from "@/db/schema";
+import type { Service } from "@/lib/types";
 import { CheckIcon, SparklesIcon } from "@heroicons/react/24/outline";
 import { useState } from "react";
 
-interface ServicesProps {
-    services: Service[];
-    content: any;
-}
+export default function Services() {
+    // Static Content
+    const services = [
+        {
+            id: 1,
+            title: "Custom Web Application",
+            description: "End-to-end development of scalable, high-performance web applications tailored to your business logic.",
+            features: ["Next.js 15 App Router", "Responsive Cinematic UI", "Database Integration", "SEO Optimization"],
+            priceText: "Starting at $1,500",
+            isRecommended: true,
+            serviceType: "web_development" as const,
+            techFocus: ["React", "Next.js"],
+            isVisible: true,
+            createdAt: new Date(),
+            metaTitle: "",
+            metaDescription: "",
+            keywords: "",
+        },
+        {
+            id: 2,
+            title: "Technical SEO Audit",
+            description: "A deep dive into your website's technical health to improve search rankings and user experience.",
+            features: ["Core Web Vitals Check", "Schema Markup Implementation", "Competitor Analysis", "Monthly Performance Reports"],
+            priceText: "Starting at $500",
+            isRecommended: false,
+            serviceType: "seo" as const,
+            techFocus: ["SEO"],
+            isVisible: true,
+            createdAt: new Date(),
+            metaTitle: "",
+            metaDescription: "",
+            keywords: "",
+        }
+    ];
 
-export default function Services({ services, content }: ServicesProps) {
-    if (services.length === 0) return null;
 
-    // Dynamic Content Defaults
-    const title = content?.title || "What I";
-    const subtitle = content?.subtitle || "Offer";
-    const badgeText = content?.badgeText || "Services";
+    // Static Content
+    const title = "What I";
+    const subtitle = "Offer";
+    const badgeText = "Services";
 
     return (
-        <section id="services" className="section relative overflow-hidden bg-black">
+        <section id="services" className="section relative overflow-hidden bg-black" aria-labelledby="services-heading">
             {/* Background */}
             <div className="absolute bottom-1/4 left-1/3 w-96 h-96 bg-gradient-to-r from-primary-500/10 to-transparent rounded-full blur-[120px]" />
 
@@ -30,13 +58,13 @@ export default function Services({ services, content }: ServicesProps) {
                     initial={{ opacity: 0, y: 30 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
-                    className="text-center mb-20 mx-auto"
+                    className="text-center mb-10 mx-auto"
                 >
-                    <span className="badge-premium mb-6">
-                        <SparklesIcon className="w-4 h-4 text-primary-400" />
+                    <span className="badge-premium mb-3 mt-6">
+                        <SparklesIcon className="w-6 h-6 text-primary-400" />
                         {badgeText}
                     </span>
-                    <h2 className="heading-lg text-white">
+                    <h2 id="services-heading" className="heading-lg text-white">
                         {title} <span className="text-gradient-primary">{subtitle}</span>
                     </h2>
                 </motion.div>
@@ -76,7 +104,7 @@ function ServiceCard({ service, index }: { service: Service; index: number }) {
             onMouseLeave={handleMouseLeave}
             className="w-full perspective-1000"
         >
-            <motion.div
+            <motion.article
                 animate={{
                     rotateX: tilt.x,
                     rotateY: tilt.y,
@@ -125,7 +153,7 @@ function ServiceCard({ service, index }: { service: Service; index: number }) {
                         Get Started
                     </Link>
                 </div>
-            </motion.div>
+            </motion.article>
         </motion.div>
     );
 }

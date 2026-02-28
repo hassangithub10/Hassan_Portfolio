@@ -5,34 +5,30 @@ import { motion, AnimatePresence } from "framer-motion";
 import { clsx } from "clsx";
 import { usePathname } from "next/navigation";
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
-import { NavigationItem, SiteSetting } from "@/db/schema";
+import { NavigationItem } from "@/lib/types";
 import Link from "next/link";
 
-interface HeaderProps {
-    navItems?: NavigationItem[];
-    settings?: SiteSetting[];
-}
+// Removed HeaderProps
 
-export default function Header({ navItems = [], settings = [] }: HeaderProps) {
+export default function Header() {
     const pathname = usePathname();
     const [isScrolled, setIsScrolled] = useState(false);
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
     const [isHovered, setIsHovered] = useState(false);
 
-    // Fallback items if none provided
-    const displayItems = navItems.length > 0 ? navItems : [
+    // Static Navigation
+    const displayItems = [
         { label: "About", path: "#about" },
         { label: "Education", path: "#education" },
         { label: "Experience", path: "#experience" },
         { label: "Projects", path: "#projects" },
         { label: "Services", path: "#services" },
-        { label: "Blogs", path: "#blogs" },
         { label: "Contact", path: "#contact" },
     ];
 
-    const ctaText = settings.find(s => s.settingKey === "header_cta_text")?.settingValue || "Contact Me";
-    const ctaUrl = settings.find(s => s.settingKey === "header_cta_url")?.settingValue || "mailto:hassandigital94@gmail.com";
-    const logoText = settings.find(s => s.settingKey === "header_logo_text")?.settingValue || "Hassan";
+    const ctaText = "Contact Me";
+    const ctaUrl = "mailto:hassandigital94@hotmail.com";
+    const logoText = "Hassan";
 
     useEffect(() => {
         const handleScroll = () => {
@@ -74,10 +70,10 @@ export default function Header({ navItems = [], settings = [] }: HeaderProps) {
                     <Link href="/" className="flex items-center gap-2 mr-4 md:mr-8 flex-shrink-0 relative z-20">
                         {/* eslint-disable-next-line @next/next/no-img-element */}
                         <img
-                            src={settings.find(s => s.settingKey === "header_logo_image")?.settingValue || "/logo.svg"}
+                            src={"/logo.svg"}
                             alt={logoText}
                             style={{
-                                width: `${settings.find(s => s.settingKey === "header_logo_width")?.settingValue || "40"}px`,
+                                width: `40px`,
                                 height: "auto",
                             }}
                             className="object-contain"
@@ -86,7 +82,7 @@ export default function Header({ navItems = [], settings = [] }: HeaderProps) {
 
                     {/* Desktop Nav */}
                     {!isMobileMenuOpen && (
-                        <div className="hidden md:flex items-center gap-1 pr-1">
+                        <nav aria-label="Desktop Navigation" className="hidden md:flex items-center gap-1 pr-1">
                             {displayItems.map((item) => (
                                 <Link
                                     key={item.path}
@@ -104,7 +100,7 @@ export default function Header({ navItems = [], settings = [] }: HeaderProps) {
                             >
                                 {ctaText}
                             </motion.a>
-                        </div>
+                        </nav>
                     )}
 
                     {/* Mobile Toggle */}
@@ -123,7 +119,8 @@ export default function Header({ navItems = [], settings = [] }: HeaderProps) {
                     {/* Mobile Menu Content */}
                     <AnimatePresence>
                         {isMobileMenuOpen && (
-                            <motion.div
+                            <motion.nav
+                                aria-label="Mobile Navigation"
                                 initial={{ opacity: 0, y: -20 }}
                                 animate={{ opacity: 1, y: 0 }}
                                 exit={{ opacity: 0, y: -20, transition: { duration: 0.2 } }}
@@ -156,7 +153,7 @@ export default function Header({ navItems = [], settings = [] }: HeaderProps) {
                                 >
                                     {ctaText}
                                 </motion.a>
-                            </motion.div>
+                            </motion.nav>
                         )}
                     </AnimatePresence>
                 </motion.div>

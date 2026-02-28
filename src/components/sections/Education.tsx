@@ -1,25 +1,41 @@
 "use client";
 
 import { motion } from "framer-motion";
-import type { Education } from "@/db/schema";
+import type { Education } from "@/lib/types";
 import { AcademicCapIcon, CalendarIcon } from "@heroicons/react/24/outline";
 
-interface EducationProps {
-    education: Education[];
-    content: any;
-}
 
-export default function Education({ education, content }: EducationProps) {
-    if (education.length === 0) return null;
+export default function Education() {
+    // Static Content
+    const education = [
+        {
+            id: 1,
+            institution: "COMSATS University Islamabad",
+            degree: "Bachelor of Science",
+            fieldOfStudy: "Computer Science",
+            startDate: "2016-09-01",
+            endDate: "2020-07-01",
+            description: "Focused on Software Engineering, Web Technologies, and Human-Computer Interaction.",
+        },
+        {
+            id: 2,
+            institution: "Google Certification",
+            degree: "UX Design Professional Certificate",
+            fieldOfStudy: "UI/UX Design",
+            startDate: "2021-01-01",
+            endDate: "2021-06-01",
+            description: "Advanced course on user-centric design, wireframing, and prototyping.",
+        }
+    ];
 
-    // Dynamic Content Defaults
-    const title = content?.title || "Academic";
-    const subtitle = content?.subtitle || "Journey";
-    const badgeText = content?.badgeText || "Education";
-    const badgeColor = content?.badgeColor || "#b026ff";
+    // Static Content
+    const title = "Academic";
+    const subtitle = "Journey";
+    const badgeText = "Education";
+    const badgeColor = "#b026ff";
 
     return (
-        <section id="education" className="section relative overflow-hidden bg-black">
+        <section id="education" className="section relative overflow-hidden bg-black" aria-labelledby="education-heading">
             {/* Background Effects */}
             <div className="absolute top-20 right-20 w-72 h-72 bg-[#00f0ff]/10 rounded-full blur-[120px]" />
             <div className="absolute bottom-20 left-20 w-96 h-96 bg-[#b026ff]/10 rounded-full blur-[140px]" />
@@ -30,13 +46,13 @@ export default function Education({ education, content }: EducationProps) {
                     initial={{ opacity: 0, y: 30 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
-                    className="text-center mb-20 mx-auto"
+                    className="text-center mb-10 mx-auto"
                 >
-                    <span className="badge-premium mb-6">
-                        <AcademicCapIcon className="w-4 h-4 text-primary-400" />
+                    <span className="badge-premium mb-3 mt-6">
+                        <AcademicCapIcon className="w-6 h-6 text-primary-400" />
                         {badgeText}
                     </span>
-                    <h2 className="heading-lg text-white">
+                    <h2 id="education-heading" className="heading-lg text-white">
                         {title} <span className="text-gradient-primary">{subtitle}</span>
                     </h2>
                 </motion.div>
@@ -60,7 +76,7 @@ export default function Education({ education, content }: EducationProps) {
 
                                 {/* Content Card */}
                                 <div className={`w-full md:w-[45%] ${index % 2 === 0 ? "md:text-right" : "md:text-left"} pl-12 md:pl-0`}>
-                                    <motion.div
+                                    <motion.article
                                         whileHover={{ scale: 1.02, y: -5 }}
                                         className="relative p-6 md:p-8 bg-gradient-to-br from-white/5 to-white/[0.02] backdrop-blur-xl rounded-2xl border border-white/10 group overflow-hidden"
                                     >
@@ -69,7 +85,7 @@ export default function Education({ education, content }: EducationProps) {
 
                                         <div className="relative z-10">
                                             <div className={`flex items-center gap-2 text-primary-400 text-sm mb-4 ${index % 2 === 0 ? "md:justify-end" : "md:justify-start"}`}>
-                                                <CalendarIcon className="w-4 h-4" />
+                                                <CalendarIcon className="w-6 h-6" />
                                                 <span className="font-mono font-bold tracking-tighter">
                                                     {new Date(item.startDate).getFullYear()} -{" "}
                                                     {item.endDate ? new Date(item.endDate).getFullYear() : "Present"}
@@ -86,11 +102,11 @@ export default function Education({ education, content }: EducationProps) {
                                                 <p className="text-white/50 text-sm md:text-base leading-relaxed">{item.description}</p>
                                             )}
                                         </div>
-                                    </motion.div>
+                                    </motion.article>
                                 </div>
 
                                 {/* Center Dot */}
-                                <div className="absolute left-4 md:left-1/2 w-4 h-4 rounded-full bg-primary-500 border-4 border-black z-20 -translate-x-1/2 shadow-[0_0_15px_rgba(var(--color-primary),0.5)]" />
+                                <div className="absolute left-4 md:left-1/2 w-6 h-6 rounded-full bg-primary-500 border-4 border-black z-20 -translate-x-1/2 shadow-[0_0_15px_rgba(var(--color-primary),0.5)]" />
 
                                 {/* Spacer for desktop */}
                                 <div className="hidden md:block w-[45%]" />

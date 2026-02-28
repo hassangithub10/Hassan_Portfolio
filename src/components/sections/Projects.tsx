@@ -3,45 +3,107 @@
 import { useState, useMemo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { clsx } from "clsx";
-import type { Project } from "@/db/schema";
+import type { Project } from "@/lib/types";
 import { RocketLaunchIcon, ArrowTopRightOnSquareIcon, UsersIcon } from "@heroicons/react/24/outline";
 
-interface ProjectsProps {
-    projects: Project[];
-    content: any;
-}
+export default function Projects() {
+    // Static Content
+    const projects = [
+        {
+            id: 1,
+            title: "Lumina Dashboard",
+            slug: "lumina-dashboard",
+            shortDescription: "A high-performance analytics dashboard for SaaS platforms.",
+            longDescription: "Built with Next.js and Chart.js, Lumina provides real-time data visualization with a breathtaking glassmorphic UI. It features multi-tenant support and deep integration with Stripe for subscription management.",
+            techStack: ["Next.js", "Tailwind CSS", "Recharts", "Prisma"],
+            liveUrl: "https://lumina-demo.com",
+            githubUrl: "https://github.com/hassan/lumina",
+            imageUrl: "https://images.unsplash.com/photo-1551288049-bbda3065d83e?auto=format&fit=crop&q=80&w=800",
+            category: "Web Development",
+            featured: true,
+            isVisible: true,
+            createdAt: new Date(),
+            sortOrder: 1,
+            metaTitle: "",
+            metaDescription: "",
+            keywords: "",
+            gallery: null,
+            collaborators: [],
+        },
+        {
+            id: 2,
+            title: "Aura E-Commerce",
+            slug: "aura-ecommerce",
+            shortDescription: "A premium headless commerce store with cinematic transitions.",
+            longDescription: "Aura uses Shopify as a backend and Next.js for the frontend. Every interaction is designed to feel fluid and premium, using Framer Motion for page-level transitions and product reveal effects.",
+            techStack: ["React", "Shopify API", "Framer Motion", "Tailwind"],
+            liveUrl: "https://aura-store.com",
+            githubUrl: null,
+            imageUrl: "https://images.unsplash.com/photo-1607082348824-0a96f2a4b9da?auto=format&fit=crop&q=80&w=800",
+            category: "Apps",
+            featured: true,
+            isVisible: true,
+            createdAt: new Date(),
+            sortOrder: 2,
+            metaTitle: "",
+            metaDescription: "",
+            keywords: "",
+            gallery: null,
+            collaborators: [],
+        },
+        {
+            id: 3,
+            title: "Aura E-Commerce",
+            slug: "aura-ecommerce",
+            shortDescription: "A premium headless commerce store with cinematic transitions.",
+            longDescription: "Aura uses Shopify as a backend and Next.js for the frontend. Every interaction is designed to feel fluid and premium, using Framer Motion for page-level transitions and product reveal effects.",
+            techStack: ["React", "Shopify API", "Framer Motion", "Tailwind"],
+            liveUrl: "https://aura-store.com",
+            githubUrl: null,
+            imageUrl: "https://images.unsplash.com/photo-1607082348824-0a96f2a4b9da?auto=format&fit=crop&q=80&w=800",
+            category: "Apps",
+            featured: true,
+            sortOrder: 3,
+            isVisible: true,
+            createdAt: new Date(),
+            metaTitle: null,
+            metaDescription: null,
+            keywords: null,
+            gallery: null,
+            collaborators: [],
+        }
+    ];
 
-export default function Projects({ projects = [], content }: ProjectsProps) {
-    const allCategories = useMemo(() => ["All", ...Array.from(new Set(projects.map(p => p.category)))], [projects]);
+
+    const allCategories = useMemo(() => ["All", ...Array.from(new Set(projects.map(p => p.category)))], []);
     const [selectedCategory, setSelectedCategory] = useState<string>("All");
 
     const filteredProjects = useMemo(() => {
         if (selectedCategory === "All") return projects;
         return projects.filter(p => p.category === selectedCategory);
-    }, [projects, selectedCategory]);
+    }, [selectedCategory]);
 
-    if (projects.length === 0) return null;
 
-    const title = content?.title || "Featured";
-    const subtitle = content?.subtitle || "Projects";
-    const description = content?.description || "A showcase of my recent work including commercial projects and open source contributions.";
-    const badgeText = content?.badgeText || "Portfolio";
+    const title = "Featured";
+    const subtitle = "Projects";
+    const description = "A showcase of my recent work including commercial projects and open source contributions.";
+    const badgeText = "Portfolio";
 
     return (
-        <section id="projects" className="section bg-black relative">
+        <section id="projects" className="section bg-black relative" aria-labelledby="projects-heading">
             <div className="container relative z-10">
                 {/* Header */}
                 <motion.div
                     initial={{ opacity: 0, y: 30 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
-                    className="text-center mb-20 mx-auto"
+                    className="text-center mb-10 mx-auto"
                 >
-                    <span className="badge-premium mb-6">
-                        <RocketLaunchIcon className="w-4 h-4 text-primary-400" />
+                    <span className="badge-premium mb-3 mt-6">
+                        <RocketLaunchIcon className="w-6 h-6 text-primary-400" />
                         {badgeText}
                     </span>
-                    <h2 className="heading-lg text-white">
+                    <h2 id="projects-heading" className="heading-lg text-white">
                         {title} <span className="text-gradient-primary">{subtitle}</span>
                     </h2>
                     {description && (
@@ -114,16 +176,17 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
                 rel="noopener noreferrer"
                 className={clsx("block", !project.liveUrl && "cursor-default pointer-events-none")}
                 onClick={!project.liveUrl ? (e) => e.preventDefault() : undefined}
+                aria-label={project.liveUrl ? `View live project: ${project.title}` : `Project details: ${project.title}`}
             >
-                <div className="relative overflow-hidden rounded-3xl bg-white/[0.03] backdrop-blur-xl border border-white/10 transition-all duration-500 group-hover:border-primary-500/50 group-hover:bg-white/[0.07] group-hover:shadow-[0_0_40px_rgba(0,240,255,0.06)]">
+                <article className="relative overflow-hidden rounded-3xl bg-white/[0.03] backdrop-blur-xl border border-white/10 transition-all duration-500 group-hover:border-primary-500/50 group-hover:bg-white/[0.07] group-hover:shadow-[0_0_40px_rgba(0,240,255,0.06)]">
 
                     {/* Project Image */}
-                    <div className="relative h-56 overflow-hidden">
+                    <div className="relative w-full aspect-[500/221] overflow-hidden">
                         {project.imageUrl ? (
                             /* eslint-disable-next-line @next/next/no-img-element */
                             <img
                                 src={project.imageUrl}
-                                alt={project.title}
+                                alt={`Screenshot of the ${project.title} project`}
                                 className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
                             />
                         ) : (
@@ -136,7 +199,7 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
 
                         {/* Category + Featured badge */}
                         <div className="absolute top-4 left-4 flex flex-col items-start gap-2">
-                            <span className="badge-premium scale-90 bg-black/60 backdrop-blur-md border border-white/10 text-white shadow-xl">
+                            <span className="badge-premium-mob scale-90 bg-black/60 backdrop-blur-md border border-white/10 text-white shadow-xl">
                                 {project.category}
                             </span>
                             {project.featured && (
@@ -149,7 +212,7 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
                         {/* External link icon (top-right, show on hover) */}
                         {project.liveUrl && (
                             <div className="absolute top-4 right-4 w-9 h-9 rounded-xl bg-black/60 backdrop-blur-sm border border-white/15 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-300 scale-90 group-hover:scale-100">
-                                <ArrowTopRightOnSquareIcon className="w-4 h-4 text-primary-400" />
+                                <ArrowTopRightOnSquareIcon className="w-6 h-6 text-primary-400" />
                             </div>
                         )}
                     </div>
@@ -215,7 +278,7 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
                             </div>
                         )}
                     </div>
-                </div>
+                </article>
             </a>
         </motion.div>
     );

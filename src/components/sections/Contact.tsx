@@ -6,19 +6,14 @@ import {
     PhoneIcon,
     MapPinIcon,
 } from "@heroicons/react/24/outline";
-import type { PersonalInfo } from "@/db/schema";
 
-interface ContactProps {
-    info?: PersonalInfo | null;
-    content: any;
-}
 
 const contactInfoItems = [
     {
         icon: EnvelopeIcon,
         label: "Email",
-        value: "hassandigital94@gmail.com",
-        href: "mailto:hassandigital94@gmail.com",
+        value: "hassandigital94@hotmail.com",
+        href: "mailto:hassandigital94@hotmail.com",
         gradient: "from-[#00f0ff] to-[#0080ff]",
         glow: "group-hover:shadow-[0_0_40px_rgba(0,240,255,0.15)]",
     },
@@ -40,14 +35,20 @@ const contactInfoItems = [
     },
 ];
 
-export default function Contact({ info, content }: ContactProps) {
-    const title = content?.title || "Let's";
-    const subtitle = content?.subtitle || "Connect";
-    const description = content?.description || "Have a project in mind? Let's discuss as I'm available.";
-    const badgeText = content?.badgeText || "Contact";
+export default function Contact() {
+    const personalInfo = {
+        fullName: "Hassan Sarfraz",
+        title: "Frontend Developer & AI Enthusiast",
+        bio: "I craft high-performance, cinematic web experiences with a focus on modern aesthetics and technical excellence. With over 3 years of experience in the digital realm, I bridge the gap between complex backend logic and pixel-perfect frontend interfaces.",
+    };
+
+    const title = "Let's";
+    const subtitle = "Connect";
+    const description = "Have a project in mind? Let's discuss as I'm available.";
+    const badgeText = "Contact";
 
     return (
-        <section id="contact" className="section relative overflow-hidden bg-gradient-to-b from-black via-[#05050f] to-black">
+        <section id="contact" className="section relative overflow-hidden bg-gradient-to-b from-black via-[#05050f] to-black" aria-labelledby="contact-heading">
 
             {/* Ambient Background Glows */}
             <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-gradient-radial from-[#00f0ff]/8 to-transparent rounded-full blur-[140px] pointer-events-none" />
@@ -64,11 +65,11 @@ export default function Contact({ info, content }: ContactProps) {
                     transition={{ duration: 0.6 }}
                     className="text-center mb-16 sm:mb-20"
                 >
-                    <span className="badge-premium mb-6 inline-flex items-center gap-2">
-                        <EnvelopeIcon className="w-4 h-4" />
+                    <span className="badge-premium mb-3 mt-6 inline-flex items-center gap-2">
+                        <EnvelopeIcon className="w-6 h-6" />
                         {badgeText}
                     </span>
-                    <h2 className="heading-lg text-white mt-4">
+                    <h2 id="contact-heading" className="heading-lg text-white mt-4">
                         {title} <span className="text-gradient-primary">{subtitle}</span>
                     </h2>
                     <p className="body-lg text-white/50 max-w-xl mx-auto mt-5 leading-relaxed">
@@ -107,23 +108,6 @@ export default function Contact({ info, content }: ContactProps) {
                             </svg>
                         </motion.a>
                     ))}
-
-                    {/* Availability Badge */}
-                    <motion.div
-                        initial={{ opacity: 0, y: 20 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true }}
-                        transition={{ duration: 0.45, delay: 0.35 }}
-                        className="flex items-center justify-center gap-3 px-6 py-5 rounded-3xl bg-emerald-500/8 border border-emerald-500/20"
-                    >
-                        <span className="relative flex h-3 w-3 flex-shrink-0">
-                            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-                            <span className="relative inline-flex rounded-full h-3 w-3 bg-emerald-400"></span>
-                        </span>
-                        <p className="text-emerald-400 text-sm font-medium">
-                            Available for new projects
-                        </p>
-                    </motion.div>
                 </div>
             </div>
         </section>

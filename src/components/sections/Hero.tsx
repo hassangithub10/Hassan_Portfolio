@@ -3,30 +3,27 @@
 import { motion } from "framer-motion";
 import Link from "next/link";
 import { ArrowRightIcon, SparklesIcon } from "@heroicons/react/24/outline";
-import { PersonalInfo, SiteSetting } from "@/db/schema";
+
 import { clsx } from "clsx";
 
-interface HeroProps {
-    info: PersonalInfo | null | undefined;
-    content: any;
-    settings?: SiteSetting[];
-}
 
-export default function Hero({ info, content, settings = [] }: HeroProps) {
-    if (!info) return null;
+export default function Hero() {
+    // Static Content
+    const personalInfo = {
+        fullName: "Hassan Sarfraz",
+        title: "Frontend Developer & AI Enthusiast",
+        bio: "I craft high-performance, cinematic web experiences with a focus on modern aesthetics and technical excellence. With over 3 years of experience in the digital realm, I bridge the gap between complex backend logic and pixel-perfect frontend interfaces.",
+    };
 
-    // Helper to get settings
-    const getSetting = (key: string) => settings?.find(s => s.settingKey === key)?.settingValue;
-
-    // settings
-    const greeting = getSetting('hero_greeting') || "Hi, I'm";
-    const ctaPrimaryText = getSetting('hero_cta_primary_text') || "View Work";
-    const ctaPrimaryLink = getSetting('hero_cta_primary_link') || "#projects";
-    const ctaSecondaryText = getSetting('hero_cta_secondary_text') || "Contact Me";
-    const ctaSecondaryLink = getSetting('hero_cta_secondary_link') || "#contact";
+    // Static Content
+    const greeting = "Hi, I'm";
+    const ctaPrimaryText = "View Work";
+    const ctaPrimaryLink = "#projects";
+    const ctaSecondaryText = "Contact Me";
+    const ctaSecondaryLink = "#contact";
 
     return (
-        <section id="hero" className="relative min-h-screen flex items-center justify-center overflow-hidden bg-black pt-20">
+        <section id="hero" className="relative min-h-screen flex items-center justify-center overflow-hidden bg-black pt-20" aria-labelledby="hero-heading">
             {/* Background Effects */}
             <div className="absolute inset-0 pointer-events-none">
                 <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-[500px] bg-gradient-to-b from-primary-500/10 to-transparent blur-[120px]" />
@@ -41,27 +38,27 @@ export default function Hero({ info, content, settings = [] }: HeroProps) {
                 >
 
                     {/* Greeting */}
-                    <h2 className="text-xl md:text-2xl text-lime font-medium mt-10 mb-4 tracking-wide">
+                    <p className="text-xl md:text-2xl text-lime font-medium mt-10 mb-4 tracking-wide">
                         {greeting}
-                    </h2>
+                    </p>
 
                     {/* Main Name */}
-                    <h1 className="text-5xl text-white mb-6">
-                        {info.fullName.split(" ").map((word: string, i: number) => (
-                            <span key={i} className={clsx(i === info.fullName.split(" ").length - 1 ? "text-gradient-primary" : "")}>
+                    <h1 id="hero-heading" className="text-5xl text-white mb-6">
+                        {personalInfo.fullName.split(" ").map((word: string, i: number) => (
+                            <span key={i} className={clsx(i === personalInfo.fullName.split(" ").length - 1 ? "text-gradient-primary" : "")}>
                                 {word}{" "}
                             </span>
                         ))}
                     </h1>
 
                     {/* Designation / Job Title */}
-                    <h3 className="text-3xl md:text-4xl text-[#f75d00]/60 font-heading mb-8">
-                        {info.title}
-                    </h3>
+                    <h2 className="text-3xl md:text-4xl text-[#f75d00]/60 font-heading mb-8">
+                        {personalInfo.title}
+                    </h2>
 
                     {/* Subtitle/Bio */}
                     <p className="body-lg text-white/50 max-w-2xl mx-auto mb-12 leading-relaxed">
-                        {info.bio}
+                        {personalInfo.bio}
                     </p>
 
                     {/* CTAs */}

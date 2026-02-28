@@ -1,6 +1,5 @@
 import { MetadataRoute } from 'next';
-import { db } from '@/db';
-import { blogPosts, projects } from '@/db/schema';
+import { blogPostsData, projectsData } from '@/lib/data';
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     const baseUrl = process.env.NEXT_PUBLIC_APP_URL || 'https://hassanport.com';
@@ -21,8 +20,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     }));
 
     // 2. Blog Posts
-    const posts = await db.select().from(blogPosts);
-    const postRoutes = posts.map((post) => ({
+    const postRoutes = blogPostsData.map((post) => ({
         url: `${baseUrl}/blog/${post.slug}`,
         lastModified: post.publishedAt || new Date(),
         changeFrequency: 'monthly' as const,
@@ -30,8 +28,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     }));
 
     // 3. Projects
-    const projectItems = await db.select().from(projects);
-    const projectRoutes = projectItems.map((project) => ({
+    const projectRoutes = projectsData.map((project) => ({
         url: `${baseUrl}/projects/${project.slug}`,
         lastModified: project.createdAt || new Date(),
         changeFrequency: 'monthly' as const,

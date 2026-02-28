@@ -2,23 +2,34 @@
 
 import { motion } from "framer-motion";
 import LogoTicker, { TickerItem } from "@/components/ui/LogoTicker";
-import type { Skill } from "@/db/schema";
+import { StarIcon } from "@heroicons/react/24/solid";
 
-interface SkillsCarouselProps {
-    skills: Skill[];
-    content: any;
-}
 
-export default function SkillsCarousel({ skills, content }: SkillsCarouselProps) {
-    if (!skills || skills.length === 0) return null;
+export default function SkillsCarousel() {
+    // Static Content
+    const skills = [
+        { id: 1, name: "Next.js", logoSvgOrUrl: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nextjs/nextjs-original.svg", proficiencyLevel: 95 },
+        { id: 2, name: "React", logoSvgOrUrl: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg", proficiencyLevel: 90 },
+        { id: 3, name: "TypeScript", logoSvgOrUrl: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/typescript/typescript-original.svg", proficiencyLevel: 92 },
+        { id: 4, name: "Tailwind CSS", logoSvgOrUrl: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/tailwindcss/tailwindcss-original.svg", proficiencyLevel: 98 },
+        { id: 5, name: "Node.js", logoSvgOrUrl: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nodejs/nodejs-original.svg", proficiencyLevel: 85 },
+        { id: 6, name: "MySQL", logoSvgOrUrl: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mysql/mysql-original.svg", proficiencyLevel: 80 },
+        { id: 7, name: "Figma", logoSvgOrUrl: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/figma/figma-original.svg", proficiencyLevel: 88 },
+        { id: 8, name: "Framer Motion", logoSvgOrUrl: "https://www.framer.com/images/favicons/favicon.png", proficiencyLevel: 90 },
+        { id: 9, name: "JavaScript", logoSvgOrUrl: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg", proficiencyLevel: 95 },
+        { id: 10, name: "HTML5", logoSvgOrUrl: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/html5/html5-original.svg", proficiencyLevel: 98 },
+        { id: 11, name: "CSS3", logoSvgOrUrl: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/css3/css3-original.svg", proficiencyLevel: 96 },
+        { id: 12, name: "Git", logoSvgOrUrl: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/git/git-original.svg", proficiencyLevel: 90 },
+    ];
 
-    // Dynamic Content Defaults
-    const title = content?.title || "Technologies";
-    const subtitle = content?.subtitle || "I Work With";
-    const description = content?.description || "Dynamically updated tech stack ensuring modern and performant solutions.";
+
+    // Static Content
+    const title = "Technologies";
+    const subtitle = "I Work With";
+    const description = "A curated selection of modern technologies I use to build high-performance, cinematic digital experiences.";
 
     return (
-        <section id="technologies" className="py-24 relative overflow-hidden bg-black">
+        <section id="technologies" className="py-24 relative overflow-hidden bg-black" aria-labelledby="technologies-heading">
             {/* Background decorative elements */}
             <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-px bg-gradient-to-r from-transparent via-primary-500/20 to-transparent" />
             <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-full h-px bg-gradient-to-r from-transparent via-[#FEC107]/20 to-transparent" />
@@ -26,6 +37,7 @@ export default function SkillsCarousel({ skills, content }: SkillsCarouselProps)
             <div className="container relative z-10">
                 <div className="text-center mb-16 mx-auto">
                     <motion.h2
+                        id="technologies-heading"
                         initial={{ opacity: 0, y: 20 }}
                         whileInView={{ opacity: 1, y: 0 }}
                         viewport={{ once: true }}
@@ -68,13 +80,13 @@ export default function SkillsCarousel({ skills, content }: SkillsCarouselProps)
                                     <div className="font-heading text-white/50 text-xs uppercase tracking-widest group-hover:text-white transition-colors">
                                         {skill.name}
                                     </div>
-                                    <div className="flex gap-1 mt-2 justify-center">
+                                    <div className="flex gap-0.5 mt-2 justify-center">
                                         {[...Array(5)].map((_, i) => (
-                                            <div
+                                            <StarIcon
                                                 key={i}
-                                                className={`w-1 h-1 rounded-full ${i < (Math.round((skill.proficiencyLevel || 0) / 20))
-                                                    ? "bg-primary-500"
-                                                    : "bg-white/10"
+                                                className={`w-3 h-3 ${i < (Math.round((skill.proficiencyLevel || 0) / 20))
+                                                    ? "text-[#FEC107]"
+                                                    : "text-white/10"
                                                     }`}
                                             />
                                         ))}

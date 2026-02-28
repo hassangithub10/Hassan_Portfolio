@@ -1,25 +1,41 @@
 "use client";
 
 import { motion } from "framer-motion";
-import type { Experience } from "@/db/schema";
+import type { Experience } from "@/lib/types";
 import { BriefcaseIcon, CalendarIcon, MapPinIcon } from "@heroicons/react/24/outline";
 
-interface ExperienceProps {
-    experience: Experience[];
-    content: any;
-}
 
-export default function Experience({ experience, content }: ExperienceProps) {
-    if (experience.length === 0) return null;
+export default function Experience() {
+    // Static Content
+    const experience = [
+        {
+            id: 1,
+            company: "TechFlow Solutions",
+            position: "Frontend Developer & AI Enthusiast",
+            location: "Remote",
+            startDate: "2022-01-01",
+            endDate: null,
+            responsibilities: "Leading the frontend team in developing scalable Next.js applications.\nImplementing complex animations using Framer Motion and ensuring WCAG compliance.",
+        },
+        {
+            id: 2,
+            company: "Creative Digital Agency",
+            position: "Full Stack Developer",
+            location: "Lahore",
+            startDate: "2020-08-01",
+            endDate: "2021-12-31",
+            responsibilities: "Developed multiple high-traffic e-commerce sites using React and Node.js.\nOptimized site speed by 40%.",
+        }
+    ];
 
-    // Dynamic Content Defaults
-    const title = content?.title || "Professional";
-    const subtitle = content?.subtitle || "Journey";
-    const badgeText = content?.badgeText || "Experience";
-    const badgeColor = content?.badgeColor || "#ff6b35";
+    // Static Content
+    const title = "Professional";
+    const subtitle = "Journey";
+    const badgeText = "Experience";
+    const badgeColor = "#ff6b35";
 
     return (
-        <section id="experience" className="section relative overflow-hidden bg-gradient-to-b from-black via-[#0a0a0f] to-black">
+        <section id="experience" className="section relative overflow-hidden bg-gradient-to-b from-black via-[#0a0a0f] to-black" aria-labelledby="experience-heading">
             {/* Background Glow */}
             <div className="absolute top-1/3 left-1/4 w-96 h-96 bg-gradient-to-r from-[#ff6b35]/10 to-transparent rounded-full blur-[120px]" />
 
@@ -29,13 +45,13 @@ export default function Experience({ experience, content }: ExperienceProps) {
                     initial={{ opacity: 0, y: 30 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
-                    className="text-center mb-20 mx-auto"
+                    className="text-center mb-10 mx-auto"
                 >
-                    <span className="badge-premium mb-6">
-                        <BriefcaseIcon className="w-4 h-4 text-primary-400" />
+                    <span className="badge-premium mb-3 mt-6">
+                        <BriefcaseIcon className="w-6 h-6 text-primary-400" />
                         {badgeText}
                     </span>
-                    <h2 className="heading-lg text-white">
+                    <h2 id="experience-heading" className="heading-lg text-white">
                         {title} <span className="text-gradient-primary">{subtitle}</span>
                     </h2>
                 </motion.div>
@@ -56,7 +72,7 @@ export default function Experience({ experience, content }: ExperienceProps) {
                             <div className="absolute left-0 lg:left-6 top-0 bottom-0 w-1 bg-gradient-to-b from-primary-400 via-[#b026ff] to-primary-600 rounded-full" />
 
                             {/* Card */}
-                            <div className="relative p-8 md:p-12 ml-6 bg-gradient-to-br from-white/5 to-white/[0.02] backdrop-blur-xl rounded-3xl border border-white/10 overflow-hidden shadow-2xl">
+                            <article className="relative p-8 md:p-12 ml-6 bg-gradient-to-br from-white/5 to-white/[0.02] backdrop-blur-xl rounded-3xl border border-white/10 overflow-hidden shadow-2xl">
                                 {/* Glow Effect */}
                                 <div className="absolute inset-0 bg-gradient-to-r from-primary-500/0 via-primary-500/5 to-primary-500/0 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
 
@@ -81,7 +97,7 @@ export default function Experience({ experience, content }: ExperienceProps) {
                                         </div>
 
                                         <div className="flex items-center gap-3 px-4 py-2 rounded-full bg-white/5 border border-white/10 text-sm md:text-base font-mono font-bold text-white/60 whitespace-nowrap">
-                                            <CalendarIcon className="w-4 h-4 text-[#b026ff]" />
+                                            <CalendarIcon className="w-6 h-6 text-[#b026ff]" />
                                             <span>
                                                 {new Date(item.startDate).toLocaleDateString("en-US", {
                                                     year: "numeric",
@@ -114,7 +130,7 @@ export default function Experience({ experience, content }: ExperienceProps) {
                                         ))}
                                     </div>
                                 </div>
-                            </div>
+                            </article>
                         </motion.div>
                     ))}
                 </div>

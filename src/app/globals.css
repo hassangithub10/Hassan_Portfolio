@@ -262,7 +262,41 @@ body::before {
   padding: 0.5rem 1rem;
   border-radius: 9999px;
   font-family: var(--font-chakra-petch), sans-serif;
-  font-size: 0.75rem;
+  font-size: 1.5rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  background: rgba(var(--color-primary), 0.1);
+  border: 1px solid rgba(var(--color-primary), 0.2);
+  color: rgb(var(--color-primary));
+  backdrop-filter: blur(8px);
+}
+
+.badge-premium-dev {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  border-radius: 9999px;
+  font-family: var(--font-chakra-petch), sans-serif;
+  font-size: 0.6rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  background: rgba(var(--color-primary), 0.1);
+  border: 1px solid rgba(var(--color-primary), 0.2);
+  color: rgb(var(--color-primary));
+  backdrop-filter: blur(8px);
+}
+
+.badge-premium-mob {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  border-radius: 9999px;
+  font-family: var(--font-chakra-petch), sans-serif;
+  font-size: 0.6rem;
   font-weight: 800;
   text-transform: uppercase;
   letter-spacing: 0.1em;

@@ -1,7 +1,4 @@
 import { Metadata } from "next";
-import db from "@/db";
-import { seoDefaults } from "@/db/schema";
-import { eq } from "drizzle-orm";
 
 // This function acts as a helper to generate metadata dynamically
 // It can be used inside generateMetadata export of pages or directly
@@ -31,32 +28,7 @@ export async function getDynamicSEO(
         };
     }
 
-    // 2. Fetch from seo_defaults table for this route
-    try {
-        const result = await db
-            .select()
-            .from(seoDefaults)
-            .where(eq(seoDefaults.route, route))
-            .limit(1);
-
-        if (result && result.length > 0) {
-            const seo = result[0];
-            return {
-                title: seo.title,
-                description: seo.description || fallbackDesc,
-                keywords: seo.keywords ? seo.keywords.split(',').map(k => k.trim()) : [],
-                openGraph: {
-                    title: seo.title,
-                    description: seo.description || fallbackDesc,
-                    images: seo.ogImage ? [{ url: seo.ogImage }] : [],
-                }
-            };
-        }
-    } catch (e) {
-        console.error("Failed to fetch SEO defaults:", e);
-    }
-
-    // 3. Fallback
+    // 2. Fallback
     return {
         title: `${fallbackTitle} | Hassan Sarfraz`,
         description: fallbackDesc,

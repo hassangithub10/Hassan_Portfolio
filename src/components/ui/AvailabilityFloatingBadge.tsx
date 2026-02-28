@@ -3,24 +3,14 @@
 import { motion, AnimatePresence } from "framer-motion";
 import { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
-import type { SiteSetting } from "@/db/schema";
+// Removed Props
 
-interface AvailabilityFloatingBadgeProps {
-    settings: SiteSetting[];
-}
-
-export default function AvailabilityFloatingBadge({ settings }: AvailabilityFloatingBadgeProps) {
+export default function AvailabilityFloatingBadge() {
     const pathname = usePathname();
 
-    // Find relevant settings
-    const visibleSetting = settings.find(s => s.settingKey === "floating_badge_visible");
-    const textSetting = settings.find(s => s.settingKey === "floating_badge_text");
-    const linkSetting = settings.find(s => s.settingKey === "floating_badge_link");
-
-    // Default to true/available if not set, or handle strict defaults
-    const isVisible = visibleSetting ? visibleSetting.settingValue === "true" : true;
-    const text = textSetting?.settingValue || "Available for Projects";
-    const link = linkSetting?.settingValue || "#contact";
+    const isVisible = true;
+    const text = "Available";
+    const link = "https://api.whatsapp.com/send/?phone=%2B923117371750&text&type=phone_number&app_absent=0";
 
     // Hide on admin DASHBOARD routes (anything starting with /letmein)
     if (pathname?.startsWith("/letmein")) return null;
