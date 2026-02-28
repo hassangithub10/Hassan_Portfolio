@@ -8,7 +8,7 @@ import { RocketLaunchIcon, ArrowTopRightOnSquareIcon, UsersIcon } from "@heroico
 
 export default function Projects() {
     // Static Content
-    const projects = [
+    const projects: Project[] = [
         {
             id: 1,
             title: "Lumina Dashboard",
