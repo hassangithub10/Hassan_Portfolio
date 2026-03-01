@@ -27,14 +27,14 @@ export default function AvailabilityFloatingBadge() {
                 transition={{ delay: 1, duration: 0.5 }}
                 className="fixed bottom-6 right-6 z-50 group cursor-pointer no-underline"
             >
-                <div className="absolute inset-0 bg-[#00f0ff] rounded-full blur-[20px] opacity-20 group-hover:opacity-40 transition-opacity duration-500" />
+                <div className="absolute inset-0 bg-[#3a0076] rounded-full blur-[20px] opacity-20 group-hover:opacity-40 transition-opacity duration-500" />
 
                 <div className="relative flex items-center gap-3 px-5 py-3 rounded-full bg-primary-500/5 border border-primary-500/10 backdrop-blur-sm shadow-lg shadow-primary-500/10 group-hover:bg-white/90 transition-colors">
                     <span className="relative flex h-3 w-3">
-                        <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#00f0ff] opacity-75"></span>
-                        <span className="relative inline-flex rounded-full h-3 w-3 bg-[#00f0ff]"></span>
+                        <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#3a0076] opacity-75"></span>
+                        <span className="relative inline-flex rounded-full h-3 w-3 bg-[#3a0076]"></span>
                     </span>
-                    <span className="text-sm font-bold text-[#00f0ff] tracking-wider uppercase font-heading whitespace-nowrap">
+                    <span className="text-sm font-bold text-[#3a0076] tracking-wider uppercase font-heading whitespace-nowrap">
                         {text}
                     </span>
                 </div>

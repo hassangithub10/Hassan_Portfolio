@@ -334,7 +334,7 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
                 onClick={!project.liveUrl ? (e) => e.preventDefault() : undefined}
                 aria-label={project.liveUrl ? `View live project: ${project.title}` : `Project details: ${project.title}`}
             >
-                <article className="relative overflow-hidden rounded-[2.5rem] bg-white border border-primary-500/5 transition-all duration-500 group-hover:border-primary-500/30 group-hover:shadow-2xl group-hover:shadow-primary-500/10 flex flex-col h-full">
+                <article className="relative overflow-hidden rounded-[2rem] bg-[#f5ecff] border border-primary-500/5 transition-all duration-500 group-hover:border-primary-500/30 group-hover:shadow-2xl group-hover:shadow-primary-500/10 flex flex-col h-full">
 
                     {/* Project Image Area */}
                     <div className="relative w-full aspect-[16/10] p-2">
