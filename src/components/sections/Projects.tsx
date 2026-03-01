@@ -184,7 +184,7 @@ export default function Projects() {
             shortDescription: "Tanzeem-e-Islami focuses on re-establishing Khilafah through prophetic methodology and Quranic teachings.",
             longDescription: "Founded by Dr. Israr Ahmed, Tanzeem-e-Islami is a Pakistan-based organization dedicated to the revival of Khilafah. It emphasizes Islamic education and social transformation based on the Sunnah to establish a just society according to the methodology of Prophet Muhammad (SAWS).",
             techStack: ["Wordpress", "Elementor", "WP Forms"],
-            liveUrl: "https://www.tanzeemeislami.org",
+            liveUrl: "https://www.tanzeem.org",
             githubUrl: null,
             imageUrl: "/uploads/2026/03/tanzeem.webp",
             category: "Web Development",
