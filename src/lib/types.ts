@@ -26,7 +26,7 @@ export interface Education {
 export interface Project {
     id: number;
     title: string;
-    slug: string;
+    slug: string | null;
     shortDescription: string | null;
     longDescription: string | null;
     techStack: string[] | null;
@@ -42,7 +42,7 @@ export interface Project {
     metaDescription: string | null;
     keywords: string | null;
     gallery: string[] | null;
-    collaborators: { name: string; url?: string }[] | null;
+    collaborators: string | { name: string; url?: string }[] | null;
 }
 
 export interface Experience {

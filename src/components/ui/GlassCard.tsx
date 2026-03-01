@@ -39,7 +39,7 @@ export default function GlassCard({
             }
             className={clsx(
                 "relative overflow-hidden rounded-2xl",
-                "bg-[#FDDFCC]/5 border border-[#FDDFCC]/10 backdrop-blur-sm",
+                "bg-white/40 border border-primary-500/10 backdrop-blur-md",
                 hover && "cursor-pointer hover:border-primary-500/30",
                 className
             )}
@@ -50,7 +50,7 @@ export default function GlassCard({
                     className="absolute inset-0"
                     style={{
                         background:
-                            "radial-gradient(circle at 50% 0%, rgba(247, 93, 0, 0.15) 0%, transparent 50%)",
+                            "radial-gradient(circle at 50% 0%, rgba(var(--color-primary), 0.1) 0%, transparent 50%)",
                     }}
                 />
             </div>
@@ -67,7 +67,7 @@ export default function GlassCard({
                     transition={{ duration: 0.6 }}
                     style={{
                         background:
-                            "linear-gradient(90deg, transparent, rgba(247, 93, 0, 0.08), transparent)",
+                            "linear-gradient(90deg, transparent, rgba(var(--color-primary), 0.05), transparent)",
                     }}
                 />
             )}

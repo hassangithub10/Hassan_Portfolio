@@ -26,10 +26,10 @@ export default function About() {
     const badgeColor = "#00f0ff";
 
     return (
-        <section id="about" className="section relative overflow-hidden bg-gradient-to-b from-black via-[#0a0a0f] to-black" aria-labelledby="about-heading">
-            {/* Gradient Orbs */}
-            <div className="absolute top-1/4 left-10 w-96 h-96 bg-gradient-to-r from-[#b026ff]/20 to-transparent rounded-full blur-[100px]" />
-            <div className="absolute bottom-1/4 right-10 w-96 h-96 bg-gradient-to-l from-[#00f0ff]/20 to-transparent rounded-full blur-[100px]" />
+        <section id="about" className="section relative overflow-hidden" aria-labelledby="about-heading">
+            {/* Subtle light mode glows */}
+            <div className="absolute top-1/4 left-10 w-96 h-96 bg-primary-500/5 rounded-full blur-[100px]" />
+            <div className="absolute bottom-1/4 right-10 w-96 h-96 bg-primary-600/5 rounded-full blur-[100px]" />
 
             <div className="container relative z-10">
                 {/* Section Header */}
@@ -45,11 +45,11 @@ export default function About() {
                         {badgeText}
                     </span>
 
-                    <h2 id="about-heading" className="heading-lg text-white">
+                    <h2 id="about-heading" className="heading-lg text-gray-900">
                         {title} <span className="text-gradient-primary">{subtitle}</span>
                     </h2>
 
-                    <p className="body-lg text-white/60 max-w-3xl mx-auto leading-relaxed">
+                    <p className="body-lg text-gray-600 max-w-3xl mx-auto leading-relaxed">
                         {description}
                     </p>
                 </motion.div>
@@ -61,28 +61,28 @@ export default function About() {
                             icon: CodeBracketSquareIcon,
                             value: stats.yearsExperience,
                             label: "Years Experience",
-                            color: "#00f0ff",
+                            color: "var(--color-primary)",
                             delay: 0,
                         },
                         {
                             icon: RocketLaunchIcon,
                             value: stats.projectsCompleted,
                             label: "Projects Completed",
-                            color: "#b026ff",
+                            color: "var(--color-primary)",
                             delay: 0.1,
                         },
                         {
                             icon: UserGroupIcon,
                             value: stats.happyClients,
                             label: "Happy Clients",
-                            color: "#ff6b35",
+                            color: "var(--color-primary)",
                             delay: 0.2,
                         },
                         {
                             icon: SparklesIcon,
                             value: stats.technologiesCount,
                             label: "Technologies",
-                            color: "#00f0ff",
+                            color: "var(--color-primary)",
                             delay: 0.3,
                         },
                     ].map((stat, index) => (
@@ -149,7 +149,7 @@ function StatCard({
             viewport={{ once: true }}
             transition={{ duration: 0.5, delay }}
             whileHover={{ scale: 1.05, y: -5 }}
-            className="relative w-full p-8 bg-gradient-to-br from-white/5 to-white/[0.02] backdrop-blur-xl rounded-3xl border border-white/10 overflow-hidden group"
+            className="relative w-full p-8 bg-white/40 backdrop-blur-xl rounded-3xl border border-primary-500/10 overflow-hidden group"
         >
             {/* Glow Effect */}
             <div
@@ -173,7 +173,7 @@ function StatCard({
                     {isInView ? count : 0}
                     {value.includes("+") ? "+" : ""}
                 </div>
-                <div className="text-sm text-white/60 uppercase tracking-wider font-heading">
+                <div className="text-sm text-gray-900/60 uppercase tracking-wider font-heading">
                     {label}
                 </div>
             </div>

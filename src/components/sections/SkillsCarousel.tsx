@@ -15,11 +15,11 @@ export default function SkillsCarousel() {
         { id: 5, name: "Node.js", logoSvgOrUrl: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nodejs/nodejs-original.svg", proficiencyLevel: 85 },
         { id: 6, name: "MySQL", logoSvgOrUrl: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mysql/mysql-original.svg", proficiencyLevel: 80 },
         { id: 7, name: "Figma", logoSvgOrUrl: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/figma/figma-original.svg", proficiencyLevel: 88 },
-        { id: 8, name: "Framer Motion", logoSvgOrUrl: "https://www.framer.com/images/favicons/favicon.png", proficiencyLevel: 90 },
-        { id: 9, name: "JavaScript", logoSvgOrUrl: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg", proficiencyLevel: 95 },
-        { id: 10, name: "HTML5", logoSvgOrUrl: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/html5/html5-original.svg", proficiencyLevel: 98 },
-        { id: 11, name: "CSS3", logoSvgOrUrl: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/css3/css3-original.svg", proficiencyLevel: 96 },
-        { id: 12, name: "Git", logoSvgOrUrl: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/git/git-original.svg", proficiencyLevel: 90 },
+        // { id: 8, name: "Framer Motion", logoSvgOrUrl: "https://www.framer.com/images/favicons/favicon.png", proficiencyLevel: 90 },
+        { id: 8, name: "JavaScript", logoSvgOrUrl: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg", proficiencyLevel: 95 },
+        { id: 9, name: "HTML5", logoSvgOrUrl: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/html5/html5-original.svg", proficiencyLevel: 98 },
+        { id: 10, name: "CSS3", logoSvgOrUrl: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/css3/css3-original.svg", proficiencyLevel: 96 },
+        { id: 11, name: "Git", logoSvgOrUrl: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/git/git-original.svg", proficiencyLevel: 90 },
     ];
 
 
@@ -29,19 +29,19 @@ export default function SkillsCarousel() {
     const description = "A curated selection of modern technologies I use to build high-performance, cinematic digital experiences.";
 
     return (
-        <section id="technologies" className="py-24 relative overflow-hidden bg-black" aria-labelledby="technologies-heading">
+        <section id="technologies" className="py-20 relative overflow-hidden" aria-labelledby="technologies-heading">
             {/* Background decorative elements */}
-            <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-px bg-gradient-to-r from-transparent via-primary-500/20 to-transparent" />
-            <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-full h-px bg-gradient-to-r from-transparent via-[#FEC107]/20 to-transparent" />
+            <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-px bg-gradient-to-r from-transparent via-primary-500/10 to-transparent" />
+            <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-full h-px bg-gradient-to-r from-transparent via-primary-500/10 to-transparent" />
 
             <div className="container relative z-10">
-                <div className="text-center mb-16 mx-auto">
+                <div className="text-center mb-8 mx-auto">
                     <motion.h2
                         id="technologies-heading"
                         initial={{ opacity: 0, y: 20 }}
                         whileInView={{ opacity: 1, y: 0 }}
                         viewport={{ once: true }}
-                        className="heading-md text-white mb-4"
+                        className="heading-md text-gray-900 mb-4"
                     >
                         {title} <span className="text-gradient-primary">{subtitle}</span>
                     </motion.h2>
@@ -50,7 +50,7 @@ export default function SkillsCarousel() {
                         whileInView={{ opacity: 1, y: 0 }}
                         viewport={{ once: true }}
                         transition={{ delay: 0.1 }}
-                        className="text-[#FDDFCC]/60 max-w-2xl mx-auto"
+                        className="text-gray-600 max-w-2xl mx-auto"
                     >
                         {description}
                     </motion.p>
@@ -77,7 +77,7 @@ export default function SkillsCarousel() {
                                 )}
 
                                 <div className="text-center">
-                                    <div className="font-heading text-white/50 text-xs uppercase tracking-widest group-hover:text-white transition-colors">
+                                    <div className="font-heading text-primary-500 text-xs uppercase tracking-widest group-hover:text-primary-600 transition-colors">
                                         {skill.name}
                                     </div>
                                     <div className="flex gap-0.5 mt-2 justify-center">
@@ -85,8 +85,8 @@ export default function SkillsCarousel() {
                                             <StarIcon
                                                 key={i}
                                                 className={`w-3 h-3 ${i < (Math.round((skill.proficiencyLevel || 0) / 20))
-                                                    ? "text-[#FEC107]"
-                                                    : "text-white/10"
+                                                    ? "text-primary-500"
+                                                    : "text-primary-500/10"
                                                     }`}
                                             />
                                         ))}

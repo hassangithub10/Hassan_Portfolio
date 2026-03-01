@@ -29,7 +29,7 @@ export default function AvailabilityFloatingBadge() {
             >
                 <div className="absolute inset-0 bg-[#00f0ff] rounded-full blur-[20px] opacity-20 group-hover:opacity-40 transition-opacity duration-500" />
 
-                <div className="relative flex items-center gap-3 px-5 py-3 rounded-full bg-black/80 border border-[#00f0ff]/30 backdrop-blur-md shadow-lg shadow-[#00f0ff]/10 group-hover:bg-black/90 transition-colors">
+                <div className="relative flex items-center gap-3 px-5 py-3 rounded-full bg-primary-500/5 border border-primary-500/10 backdrop-blur-sm shadow-lg shadow-primary-500/10 group-hover:bg-white/90 transition-colors">
                     <span className="relative flex h-3 w-3">
                         <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#00f0ff] opacity-75"></span>
                         <span className="relative inline-flex rounded-full h-3 w-3 bg-[#00f0ff]"></span>

@@ -10,21 +10,28 @@ export default function Education() {
     const education = [
         {
             id: 1,
-            institution: "COMSATS University Islamabad",
-            degree: "Bachelor of Science",
+            institution: "Government College University Faisalabad",
+            degree: "BS Hons Computer Science",
             fieldOfStudy: "Computer Science",
-            startDate: "2016-09-01",
-            endDate: "2020-07-01",
+            startDate: "2018",
+            endDate: "2022",
             description: "Focused on Software Engineering, Web Technologies, and Human-Computer Interaction.",
         },
         {
             id: 2,
-            institution: "Google Certification",
-            degree: "UX Design Professional Certificate",
-            fieldOfStudy: "UI/UX Design",
-            startDate: "2021-01-01",
-            endDate: "2021-06-01",
-            description: "Advanced course on user-centric design, wireframing, and prototyping.",
+            institution: "BISE Fsd",
+            degree: "Intermediate",
+            fieldOfStudy: "Pre-Engineering",
+            startDate: "2015",
+            endDate: "2017",
+        },
+        {
+            id: 3,
+            institution: "BISE Fsd",
+            degree: "Matriculation",
+            fieldOfStudy: "Science",
+            startDate: "2012",
+            endDate: "2014",
         }
     ];
 
@@ -35,10 +42,10 @@ export default function Education() {
     const badgeColor = "#b026ff";
 
     return (
-        <section id="education" className="section relative overflow-hidden bg-black" aria-labelledby="education-heading">
+        <section id="education" className="section relative overflow-hidden" aria-labelledby="education-heading">
             {/* Background Effects */}
-            <div className="absolute top-20 right-20 w-72 h-72 bg-[#00f0ff]/10 rounded-full blur-[120px]" />
-            <div className="absolute bottom-20 left-20 w-96 h-96 bg-[#b026ff]/10 rounded-full blur-[140px]" />
+            <div className="absolute top-20 right-20 w-72 h-72 bg-primary-500/5 rounded-full blur-[120px]" />
+            <div className="absolute bottom-20 left-20 w-96 h-96 bg-primary-600/5 rounded-full blur-[140px]" />
 
             <div className="container relative z-10">
                 {/* Section Header */}
@@ -52,7 +59,7 @@ export default function Education() {
                         <AcademicCapIcon className="w-6 h-6 text-primary-400" />
                         {badgeText}
                     </span>
-                    <h2 id="education-heading" className="heading-lg text-white">
+                    <h2 id="education-heading" className="heading-lg text-gray-900">
                         {title} <span className="text-gradient-primary">{subtitle}</span>
                     </h2>
                 </motion.div>
@@ -60,7 +67,7 @@ export default function Education() {
                 {/* Timeline */}
                 <div className="max-w-6xl mx-auto relative px-4 sm:px-0">
                     {/* Vertical Line */}
-                    <div className="absolute left-4 md:left-1/2 top-0 bottom-0 w-[2px] bg-gradient-to-b from-primary-500/50 via-[#b026ff]/50 to-primary-500/50 -translate-x-1/2 md:translate-x-0" />
+                    <div className="absolute left-4 md:left-1/2 top-0 bottom-0 w-[2px] bg-gradient-to-b from-primary-500/30 via-primary-600/30 to-primary-500/30 -translate-x-1/2 md:translate-x-0" />
 
                     <div className="space-y-12 md:space-y-20">
                         {education.map((item, index) => (
@@ -78,10 +85,10 @@ export default function Education() {
                                 <div className={`w-full md:w-[45%] ${index % 2 === 0 ? "md:text-right" : "md:text-left"} pl-12 md:pl-0`}>
                                     <motion.article
                                         whileHover={{ scale: 1.02, y: -5 }}
-                                        className="relative p-6 md:p-8 bg-gradient-to-br from-white/5 to-white/[0.02] backdrop-blur-xl rounded-2xl border border-white/10 group overflow-hidden"
+                                        className="relative p-6 md:p-8 bg-white/40 backdrop-blur-xl rounded-2xl border border-primary-500/10 group overflow-hidden"
                                     >
                                         {/* Glow on Hover */}
-                                        <div className="absolute inset-0 bg-gradient-to-r from-primary-500/0 via-[#b026ff]/10 to-primary-500/0 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                                        <div className="absolute inset-0 bg-primary-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
 
                                         <div className="relative z-10">
                                             <div className={`flex items-center gap-2 text-primary-400 text-sm mb-4 ${index % 2 === 0 ? "md:justify-end" : "md:justify-start"}`}>
@@ -92,21 +99,21 @@ export default function Education() {
                                                 </span>
                                             </div>
 
-                                            <h3 className="text-2xl md:text-3xl font-bold text-white mb-2 font-heading tracking-tight">{item.degree}</h3>
+                                            <h3 className="text-2xl md:text-3xl font-bold text-gray-900 mb-2 font-heading tracking-tight">{item.degree}</h3>
                                             {item.fieldOfStudy && (
-                                                <p className="text-[#b026ff] font-bold mb-2 uppercase text-xs tracking-widest">{item.fieldOfStudy}</p>
+                                                <p className="text-primary-500 font-bold mb-2 uppercase text-xs tracking-widest">{item.fieldOfStudy}</p>
                                             )}
-                                            <p className="text-white/80 font-semibold mb-4 text-base md:text-lg">{item.institution}</p>
+                                            <p className="text-gray-900/80 font-semibold mb-4 text-base md:text-lg">{item.institution}</p>
 
                                             {item.description && (
-                                                <p className="text-white/50 text-sm md:text-base leading-relaxed">{item.description}</p>
+                                                <p className="text-gray-600 text-sm md:text-base leading-relaxed">{item.description}</p>
                                             )}
                                         </div>
                                     </motion.article>
                                 </div>
 
                                 {/* Center Dot */}
-                                <div className="absolute left-4 md:left-1/2 w-6 h-6 rounded-full bg-primary-500 border-4 border-black z-20 -translate-x-1/2 shadow-[0_0_15px_rgba(var(--color-primary),0.5)]" />
+                                <div className="absolute left-4 md:left-1/2 w-6 h-6 rounded-full bg-primary-500 border-4 border-white z-20 -translate-x-1/2 shadow-lg shadow-primary-500/20" />
 
                                 {/* Spacer for desktop */}
                                 <div className="hidden md:block w-[45%]" />

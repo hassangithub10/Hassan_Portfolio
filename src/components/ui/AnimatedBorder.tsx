@@ -24,11 +24,11 @@ export default function AnimatedBorder({
                 className="absolute inset-0"
                 style={{
                     background: `linear-gradient(90deg, 
-            #F75D00, 
-            #FEC107, 
-            #F75D00, 
-            #FEC107, 
-            #F75D00)`,
+            var(--color-primary-400), 
+            var(--color-primary-600), 
+            var(--color-primary-400), 
+            var(--color-primary-600), 
+            var(--color-primary-400))`,
                     backgroundSize: "300% 100%",
                 }}
                 animate={{
@@ -43,10 +43,10 @@ export default function AnimatedBorder({
 
             {/* Inner content */}
             <div
-                className="relative rounded-2xl bg-black"
+                className="relative rounded-2xl bg-white/40 backdrop-blur-md"
                 style={{ padding: borderWidth }}
             >
-                <div className="rounded-xl bg-black overflow-hidden">{children}</div>
+                <div className="rounded-xl bg-transparent overflow-hidden">{children}</div>
             </div>
         </div>
     );
@@ -66,10 +66,10 @@ export function StaticBorder({ children, className }: StaticBorderProps) {
                 className
             )}
             style={{
-                background: "linear-gradient(135deg, #F75D00 0%, #FEC107 50%, #F75D00 100%)",
+                background: "linear-gradient(135deg, var(--color-primary-400) 0%, var(--color-primary-600) 50%, var(--color-primary-400) 100%)",
             }}
         >
-            <div className="rounded-2xl bg-black">{children}</div>
+            <div className="rounded-2xl bg-white/60 backdrop-blur-sm">{children}</div>
         </div>
     );
 }

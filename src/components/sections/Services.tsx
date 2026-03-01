@@ -48,9 +48,9 @@ export default function Services() {
     const badgeText = "Services";
 
     return (
-        <section id="services" className="section relative overflow-hidden bg-black" aria-labelledby="services-heading">
+        <section id="services" className="section relative overflow-hidden" aria-labelledby="services-heading">
             {/* Background */}
-            <div className="absolute bottom-1/4 left-1/3 w-96 h-96 bg-gradient-to-r from-primary-500/10 to-transparent rounded-full blur-[120px]" />
+            <div className="absolute bottom-1/4 left-1/3 w-96 h-96 bg-gradient-to-r from-primary-500/5 to-transparent rounded-full blur-[120px]" />
 
             <div className="container relative z-10">
                 {/* Header */}
@@ -64,7 +64,7 @@ export default function Services() {
                         <SparklesIcon className="w-6 h-6 text-primary-400" />
                         {badgeText}
                     </span>
-                    <h2 id="services-heading" className="heading-lg text-white">
+                    <h2 id="services-heading" className="heading-lg text-gray-900">
                         {title} <span className="text-gradient-primary">{subtitle}</span>
                     </h2>
                 </motion.div>
@@ -110,15 +110,15 @@ function ServiceCard({ service, index }: { service: Service; index: number }) {
                     rotateY: tilt.y,
                 }}
                 transition={{ type: "spring", stiffness: 300, damping: 20 }}
-                className={`relative p-8 bg-white/[0.03] backdrop-blur-xl rounded-3xl border overflow-hidden transition-all duration-500 hover:bg-white/[0.08] ${service.isRecommended
-                    ? "border-primary-500/50 shadow-lg shadow-primary-500/20"
-                    : "border-white/10"
+                className={`relative p-8 bg-white/40 backdrop-blur-xl rounded-3xl border overflow-hidden transition-all duration-500 hover:bg-white/60 ${service.isRecommended
+                    ? "border-primary-500/30 shadow-lg shadow-primary-500/10"
+                    : "border-primary-500/5"
                     }`}
             >
                 {/* Recommended Badge */}
                 {service.isRecommended && (
                     <div className="absolute top-6 right-6">
-                        <span className="inline-flex items-center gap-1 px-3 py-1 bg-primary-500 text-black text-[10px] font-bold rounded-full uppercase tracking-tighter shadow-lg shadow-primary-500/30">
+                        <span className="inline-flex items-center gap-1 px-3 py-1 bg-primary-500 text-white text-[10px] font-bold rounded-full uppercase tracking-tighter shadow-lg shadow-primary-500/20">
                             <SparklesIcon className="w-3 h-3" />
                             Popular Choice
                         </span>
@@ -127,15 +127,15 @@ function ServiceCard({ service, index }: { service: Service; index: number }) {
 
                 {/* Content */}
                 <div className="relative z-10">
-                    <h3 className="text-2xl md:text-3xl font-black text-white mb-4 font-heading tracking-tight group-hover:text-primary-400 transition-colors">{service.title}</h3>
-                    <p className="text-white/60 text-base leading-relaxed mb-8">{service.description}</p>
+                    <h3 className="text-2xl md:text-3xl font-black text-gray-900 mb-4 font-heading tracking-tight group-hover:text-primary-500 transition-colors">{service.title}</h3>
+                    <p className="text-gray-600 text-base leading-relaxed mb-8">{service.description}</p>
 
                     <div className="text-4xl md:text-5xl font-black text-primary-500 mb-8 font-heading tabular-nums">{service.priceText}</div>
 
                     {/* Features */}
                     <ul className="space-y-4 mb-10">
                         {service.features.map((feature, i) => (
-                            <li key={i} className="flex items-start gap-4 text-white/70 text-sm">
+                            <li key={i} className="flex items-start gap-4 text-gray-600 text-sm">
                                 <CheckIcon className="w-5 h-5 text-primary-400 flex-shrink-0 mt-0.5" />
                                 <span>{feature}</span>
                             </li>
@@ -146,8 +146,8 @@ function ServiceCard({ service, index }: { service: Service; index: number }) {
                     <Link
                         href="#contact"
                         className={`block w-full py-4 text-center rounded-2xl font-heading font-bold uppercase tracking-widest text-sm transition-all ${service.isRecommended
-                            ? "bg-primary-500 text-black shadow-lg shadow-primary-500/30 hover:scale-[1.02]"
-                            : "bg-white/5 text-white border border-white/20 hover:bg-white/10"
+                            ? "bg-primary-500 text-white shadow-lg shadow-primary-500/20 hover:scale-[1.02]"
+                            : "bg-primary-500/5 text-primary-500 border border-primary-500/10 hover:bg-primary-500/10"
                             }`}
                     >
                         Get Started

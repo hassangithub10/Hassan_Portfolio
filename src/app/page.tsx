@@ -27,8 +27,7 @@ export default async function Home() {
         "jobTitle": "Frontend Developer & AI Enthusiast",
         "description": "I craft high-performance, cinematic web experiences with a focus on modern aesthetics and technical excellence.",
         "sameAs": [
-            "https://github.com/hassan",
-            "https://linkedin.com/in/hassansarfraz"
+            "www.linkedin.com/in/hassan-s-101a8978"
         ]
     };
 
@@ -41,7 +40,7 @@ export default async function Home() {
             <Experience />
             <Projects />
             <SkillsCarousel />
-            <Services />
+            {/* <Services /> */}
             <Contact />
         </>
     );
