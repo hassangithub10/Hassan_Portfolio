@@ -167,6 +167,13 @@ body::before {
 }
 
 /* Responsive Typography */
+@media (max-width: 576px) {
+  .text-5xl {
+    font-size: 5.5rem !important;
+    text-align: center;
+  }
+}
+
 .text-5xl {
   font-size: 7rem !important;
   line-height: 1.1;
