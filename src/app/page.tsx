@@ -14,20 +14,41 @@ export async function generateMetadata(): Promise<Metadata> {
     return await getDynamicSEO(
         "/",
         "Home",
-        "Passionate Frontend Developer crafting exceptional digital experiences with modern web technologies."
+        "Passionate Frontend Developer crafting exceptional digital experiences with modern web technologies.",
+        {
+            url: "/",
+        }
     );
 }
 
 export default async function Home() {
     const jsonLd = {
         "@context": "https://schema.org",
-        "@type": "Person",
-        "name": "Hassan Sarfraz",
-        "url": "https://hassansarfraz.online",
-        "jobTitle": "Frontend Developer & AI Enthusiast",
-        "description": "I craft high-performance, cinematic web experiences with a focus on modern aesthetics and technical excellence.",
-        "sameAs": [
-            "www.linkedin.com/in/hassan-s-101a8978"
+        "@graph": [
+            {
+                "@type": "WebSite",
+                "@id": "https://hassanport.com/#website",
+                "url": "https://hassanport.com/",
+                "name": "Hassan Sarfraz Portfolio",
+                "description": "I craft high-performance, cinematic web experiences with a focus on modern aesthetics and technical excellence.",
+                "publisher": {
+                    "@id": "https://hassanport.com/#person"
+                }
+            },
+            {
+                "@type": "Person",
+                "@id": "https://hassanport.com/#person",
+                "name": "Hassan Sarfraz",
+                "url": "https://hassanport.com",
+                "jobTitle": "Frontend Developer & AI Enthusiast",
+                "description": "I craft high-performance, cinematic web experiences with a focus on modern aesthetics and technical excellence.",
+                "image": "https://hassanport.com/logo.svg",
+                "sameAs": [
+                    "https://www.linkedin.com/in/hassan-s-101a8978",
+                    "https://github.com/hassangithub10"
+                ],
+                "knowsAbout": ["React", "Next.js", "Web Development", "TypeScript", "Frontend Engineering"]
+            }
         ]
     };
 

@@ -12,10 +12,10 @@ export default function About() {
 
     // Static Content
     const stats = {
-        yearsExperience: "3+",
-        projectsCompleted: "20+",
-        happyClients: "8+",
-        technologiesCount: "20+",
+        yearsExperience: "4+",
+        projectsCompleted: "26+",
+        happyClients: "10+",
+        technologiesCount: "30+",
     };
 
     // Static Content
