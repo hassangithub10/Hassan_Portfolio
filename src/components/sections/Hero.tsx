@@ -12,7 +12,7 @@ export default function Hero() {
     const personalInfo = {
         fullName: "Hassan Sarfraz",
         title: "Frontend Developer & AI Enthusiast",
-        bio: "I craft high-performance, cinematic web experiences with a focus on modern aesthetics and technical excellence. With over 3 years of experience in the digital realm, I bridge the gap between complex backend logic and pixel-perfect frontend interfaces.",
+        bio: "I craft high-performance, cinematic web experiences with a focus on modern aesthetics and technical excellence. With over 5 years of experience in the digital realm, I bridge the gap between complex backend logic and pixel-perfect frontend interfaces.",
     };
 
     // Static Content
@@ -52,12 +52,12 @@ export default function Hero() {
                     </h1>
 
                     {/* Designation / Job Title */}
-                    <h2 className="text-3xl md:text-4xl text-primary-900/40 font-heading mb-8">
+                    <h2 className="text-3xl md:text-4xl text-[#11182a] font-heading mb-8">
                         {personalInfo.title}
                     </h2>
 
                     {/* Subtitle/Bio */}
-                    <p className="body-lg text-gray-900/60 max-w-2xl mx-auto mb-12 leading-relaxed">
+                    <p className="body-lg text-[#11182a] max-w-2xl mx-auto mb-12 leading-relaxed">
                         {personalInfo.bio}
                     </p>
 
