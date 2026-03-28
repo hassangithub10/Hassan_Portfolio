@@ -124,7 +124,7 @@ export default function Header() {
                                 initial={{ opacity: 0, y: -20 }}
                                 animate={{ opacity: 1, y: 0 }}
                                 exit={{ opacity: 0, y: -20, transition: { duration: 0.2 } }}
-                                className="absolute inset-x-0 top-16 px-6 pb-6 flex flex-col gap-2 md:hidden"
+                                className="mob-menu absolute inset-x-0 top-16 px-6 pb-6 flex flex-col gap-2 md:hidden"
                             >
                                 <div className="h-px w-full bg-primary-500/10 mb-4" />
                                 {displayItems.map((item, i) => (

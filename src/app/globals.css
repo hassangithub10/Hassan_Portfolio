@@ -346,6 +346,13 @@ body::before {
     text-align: center !important;
     line-break: 0 !important;
   }
+
+  .mob-menu {
+    background-color: #cacdd4;
+    padding: 0.5rem 1rem !important;
+    margin-top: 25px !important;
+    border-radius: 20px !important;
+  }
 }
 
 @media (max-width: 450px) {
@@ -357,6 +364,13 @@ body::before {
   .px-4 {
     padding-left: 0.5rem !important;
     padding-right: 0.5rem !important;
+  }
+
+  .mob-menu {
+    background-color: #cacdd4;
+    padding: 0.5rem 1rem !important;
+    margin-top: 25px !important;
+    border-radius: 20px !important;
   }
 }
 
