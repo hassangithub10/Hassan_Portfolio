@@ -27,7 +27,7 @@ export default function Header() {
     ];
 
     const ctaText = "Contact Me";
-    const ctaUrl = "mailto:hassandigital94@hotmail.com";
+    const ctaUrl = "mailto:webguy@hassansarfraz.online";
     const logoText = "Hassan";
 
     useEffect(() => {
