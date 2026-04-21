@@ -124,7 +124,7 @@ export default function Experience() {
                                                 className="flex items-start gap-4 text-gray-600 text-base md:text-lg leading-relaxed"
                                             >
                                                 <span className="text-primary-500 mt-2 flex-shrink-0 text-xl leading-none">●</span>
-                                                <span className="flex-1 text-justify text-[16px] leading-normal">
+                                                <span className="flex-1 text-[14px] leading-normal">
                                                     {line}
                                                 </span>
                                             </motion.p>
