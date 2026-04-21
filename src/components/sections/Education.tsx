@@ -16,22 +16,6 @@ export default function Education() {
             startDate: "2018",
             endDate: "2022",
             description: "Focused on Software Engineering, Web Technologies, and Human-Computer Interaction.",
-        },
-        {
-            id: 2,
-            institution: "BISE Fsd",
-            degree: "Intermediate",
-            fieldOfStudy: "Pre-Engineering",
-            startDate: "2015",
-            endDate: "2017",
-        },
-        {
-            id: 3,
-            institution: "BISE Fsd",
-            degree: "Matriculation",
-            fieldOfStudy: "Science",
-            startDate: "2012",
-            endDate: "2014",
         }
     ];
 
