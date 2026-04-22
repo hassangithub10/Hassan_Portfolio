@@ -23,7 +23,7 @@ const mulish = Mulish({
 });
 
 export const metadata: Metadata = {
-    metadataBase: new URL(process.env.NEXT_PUBLIC_APP_URL || "https://hassanport.com"),
+    metadataBase: new URL(process.env.NEXT_PUBLIC_APP_URL || "https://hassansarfraz.online"),
     title: "Hassan Sarfraz | Frontend Developer & AI Enthusiast",
     description:
         "Passionate Frontend Developer crafting exceptional digital experiences with modern web technologies. Specializing in React, Next.js, and responsive web design.",
@@ -39,7 +39,7 @@ export const metadata: Metadata = {
         "UI/UX",
         "Software Engineer"
     ],
-    authors: [{ name: "Hassan Sarfraz", url: "https://hassanport.com" }],
+    authors: [{ name: "Hassan Sarfraz", url: "https://hassansarfraz.online" }],
     creator: "Hassan Sarfraz",
     publisher: "Hassan Sarfraz",
     alternates: {
@@ -62,7 +62,7 @@ export const metadata: Metadata = {
             "Passionate Frontend Developer crafting exceptional digital experiences with modern web technologies.",
         type: "website",
         locale: "en_US",
-        url: "https://hassanport.com",
+        url: "https://hassansarfraz.online",
         siteName: "Hassan Sarfraz Portfolio",
         images: [
             {
@@ -131,8 +131,8 @@ export default function RootLayout({
                     type="Organization"
                     data={{
                         name: "Hassan Sarfraz Portfolio",
-                        url: "https://hassanport.com",
-                        logo: "https://hassanport.com/logo.svg"
+                        url: "https://hassansarfraz.online",
+                        logo: "https://hassansarfraz.online/logo.svg"
                     }}
                 />
             </body>

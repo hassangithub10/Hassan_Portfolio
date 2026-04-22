@@ -14,7 +14,7 @@ export async function getDynamicSEO(
         url?: string | null;
     }
 ): Promise<Metadata> {
-    const baseUrl = process.env.NEXT_PUBLIC_APP_URL || "https://hassanport.com";
+    const baseUrl = process.env.NEXT_PUBLIC_APP_URL || "https://hassansarfraz.online";
     const canonicalUrl = dynamicData?.url ? `${baseUrl}${dynamicData.url}` : baseUrl;
 
     const baseMetadata: Metadata = {

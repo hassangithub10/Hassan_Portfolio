@@ -27,22 +27,22 @@ export default async function Home() {
         "@graph": [
             {
                 "@type": "WebSite",
-                "@id": "https://hassanport.com/#website",
-                "url": "https://hassanport.com/",
+                "@id": "https://hassansarfraz.online/#website",
+                "url": "https://hassansarfraz.online/",
                 "name": "Hassan Sarfraz Portfolio",
                 "description": "I craft high-performance, cinematic web experiences with a focus on modern aesthetics and technical excellence.",
                 "publisher": {
-                    "@id": "https://hassanport.com/#person"
+                    "@id": "https://hassansarfraz.online/#person"
                 }
             },
             {
                 "@type": "Person",
-                "@id": "https://hassanport.com/#person",
+                "@id": "https://hassansarfraz.online/#person",
                 "name": "Hassan Sarfraz",
-                "url": "https://hassanport.com",
+                "url": "https://hassansarfraz.online",
                 "jobTitle": "Frontend Developer & AI Enthusiast",
                 "description": "I craft high-performance, cinematic web experiences with a focus on modern aesthetics and technical excellence.",
-                "image": "https://hassanport.com/logo.svg",
+                "image": "https://hassansarfraz.online/logo.svg",
                 "sameAs": [
                     "https://www.linkedin.com/in/hassan-s-101a8978",
                     "https://github.com/hassangithub10"

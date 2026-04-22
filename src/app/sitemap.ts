@@ -1,7 +1,7 @@
 import { MetadataRoute } from 'next';
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-    const baseUrl = process.env.NEXT_PUBLIC_APP_URL || 'https://hassanport.com';
+    const baseUrl = process.env.NEXT_PUBLIC_APP_URL || 'https://hassansarfraz.online';
 
     // 1. Static Routes
     const staticRoutes = [

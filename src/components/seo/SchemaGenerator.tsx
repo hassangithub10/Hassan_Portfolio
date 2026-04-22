@@ -12,7 +12,7 @@ export default function SchemaGenerator({ type, data }: SchemaGeneratorProps) {
             "@context": "https://schema.org",
             "@type": "Person",
             name: data.name || "Hassan Sarfraz",
-            url: data.url || "https://hassanport.com",
+            url: data.url || "https://hassansarfraz.online",
             sameAs: data.socialLinks || [],
             jobTitle: data.jobTitle || "Full Stack Developer",
             worksFor: {
@@ -44,7 +44,7 @@ export default function SchemaGenerator({ type, data }: SchemaGeneratorProps) {
         "@context": "https://schema.org",
         "@type": "Organization",
         name: data.name || "Hassan",
-        url: data.url || "https://hassanport.com",
+        url: data.url || "https://hassansarfraz.online",
         logo: data.logo,
     };
 
