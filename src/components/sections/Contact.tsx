@@ -12,8 +12,8 @@ const contactInfoItems = [
     {
         icon: EnvelopeIcon,
         label: "Email",
-        value: "webguy@hassansarfraz.online",
-        href: "mailto:webguy@hassansarfraz.online",
+        value: "support@hassansarfraz.online",
+        href: "mailto: support@hassansarfraz.online",
         gradient: "from-primary-400 to-primary-600",
         glow: "group-hover:shadow-lg group-hover:shadow-primary-500/10",
     },
