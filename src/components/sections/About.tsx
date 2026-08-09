@@ -3,7 +3,8 @@
 import { motion, useInView } from "framer-motion";
 import { useRef, useState, useEffect } from "react";
 import LogoTicker, { TickerItem } from "@/components/ui/LogoTicker";
-import { SparklesIcon, CodeBracketSquareIcon, RocketLaunchIcon, UserGroupIcon, UserIcon, CpuChipIcon } from "@heroicons/react/24/outline";
+import { SparklesIcon, CodeBracketSquareIcon, RocketLaunchIcon, UserGroupIcon } from "@heroicons/react/24/outline";
+import Parallax3DCard from "@/components/ui/Parallax3DCard";
 
 
 export default function About() {
@@ -18,26 +19,25 @@ export default function About() {
         technologiesCount: "30+",
     };
 
-    // Static Content
     const title = "Passionate About Creating";
     const subtitle = "Digital Excellence";
     const description = "With years of experience in full-stack development, I specialize in building modern, responsive, and performant web applications.";
     const badgeText = "About Me";
-    const badgeColor = "#00f0ff";
 
     return (
         <section id="about" className="section relative overflow-hidden" aria-labelledby="about-heading">
-            {/* Subtle light mode glows */}
-            <div className="absolute top-1/4 left-10 w-96 h-96 bg-primary-500/5 rounded-full blur-[100px]" />
-            <div className="absolute bottom-1/4 right-10 w-96 h-96 bg-primary-600/5 rounded-full blur-[100px]" />
+            {/* Floating depth orbs */}
+            <div className="float-orb absolute top-1/4 left-10 w-80 h-80 bg-primary-500/6 rounded-full blur-[90px]" />
+            <div className="float-orb-slow absolute bottom-1/4 right-10 w-96 h-96 bg-primary-600/4 rounded-full blur-[100px]" />
 
             <div className="container relative z-10">
                 {/* Section Header */}
                 <motion.div
-                    initial={{ opacity: 0, y: 30 }}
-                    whileInView={{ opacity: 1, y: 0 }}
+                    initial={{ opacity: 0, y: 30, rotateX: -6 }}
+                    whileInView={{ opacity: 1, y: 0, rotateX: 0 }}
                     viewport={{ once: true }}
-                    transition={{ duration: 0.6 }}
+                    transition={{ duration: 0.7, ease: [0.23, 1, 0.32, 1] }}
+                    style={{ transformStyle: "preserve-3d", perspective: "1200px" }}
                     className="text-center mb-10 mx-auto"
                 >
                     <span className="badge-premium mb-3 mt-6">
@@ -54,8 +54,11 @@ export default function About() {
                     </p>
                 </motion.div>
 
-                {/* Animated Stats Grid */}
-                <div ref={statsRef} className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-20 max-w-6xl mx-auto">
+                {/* ── Animated Stats Grid with 3D Tilt ── */}
+                <div
+                    ref={statsRef}
+                    className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-20 max-w-6xl mx-auto perspective-container"
+                >
                     {[
                         {
                             icon: CodeBracketSquareIcon,
@@ -102,7 +105,7 @@ export default function About() {
     );
 }
 
-// Animated Stat Card Component
+// Animated Stat Card Component — wrapped with Parallax3DCard
 function StatCard({
     icon: Icon,
     value,
@@ -124,7 +127,7 @@ function StatCard({
     useEffect(() => {
         if (!isInView) return;
 
-        const duration = 2000; // 2 seconds
+        const duration = 2000;
         const steps = 60;
         const increment = targetValue / steps;
         let current = 0;
@@ -144,39 +147,34 @@ function StatCard({
 
     return (
         <motion.div
-            initial={{ opacity: 0, scale: 0.8 }}
-            whileInView={{ opacity: 1, scale: 1 }}
+            initial={{ opacity: 0, y: 40, rotateX: -10 }}
+            whileInView={{ opacity: 1, y: 0, rotateX: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.5, delay }}
-            whileHover={{ scale: 1.05, y: -5 }}
-            className="relative w-full p-8 bg-white/40 backdrop-blur-xl rounded-3xl border border-primary-500/10 overflow-hidden group"
+            transition={{ duration: 0.6, delay, ease: [0.23, 1, 0.32, 1] }}
+            style={{ perspective: "1200px" }}
         >
-            {/* Glow Effect */}
-            <div
-                className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 blur-xl"
-                style={{
-                    background: `radial-gradient(circle at 50% 50%, ${color}30, transparent 70%)`,
-                }}
-            />
+            <Parallax3DCard
+                maxTilt={14}
+                glowColor={`rgba(14, 165, 233, 0.18)`}
+                className="relative w-full p-8 bg-white/60 backdrop-blur-xl rounded-3xl border border-primary-500/10 overflow-hidden group card-3d"
+            >
+                {/* Neon Border on Hover */}
+                <div
+                    className="absolute -inset-[1px] rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"
+                    style={{ background: `linear-gradient(135deg, rgba(59,0,117,0.3), transparent)` }}
+                />
 
-            {/* Neon Border on Hover */}
-            <div
-                className="absolute -inset-[1px] rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"
-                style={{
-                    background: `linear-gradient(135deg, ${color}, transparent)`,
-                }}
-            />
-
-            <div className="relative z-10">
-                <Icon className="w-10 h-10 mb-4 transition-colors" style={{ color }} />
-                <div className="text-4xl font-black font-heading mb-2" style={{ color }}>
-                    {isInView ? count : 0}
-                    {value.includes("+") ? "+" : ""}
+                <div className="relative z-10">
+                    <Icon className="w-10 h-10 mb-4 transition-colors" style={{ color: `rgb(${color})` }} />
+                    <div className="text-4xl font-black font-heading mb-2" style={{ color: `rgb(${color})` }}>
+                        {isInView ? count : 0}
+                        {value.includes("+") ? "+" : ""}
+                    </div>
+                    <div className="text-sm text-gray-900/60 uppercase tracking-wider font-heading">
+                        {label}
+                    </div>
                 </div>
-                <div className="text-sm text-gray-900/60 uppercase tracking-wider font-heading">
-                    {label}
-                </div>
-            </div>
+            </Parallax3DCard>
         </motion.div>
     );
 }

@@ -3,6 +3,7 @@
 import { motion } from "framer-motion";
 import type { Experience } from "@/lib/types";
 import { BriefcaseIcon, CalendarIcon, MapPinIcon } from "@heroicons/react/24/outline";
+import Parallax3DCard from "@/components/ui/Parallax3DCard";
 
 export default function Experience() {
     // Static Content
@@ -35,23 +36,23 @@ export default function Experience() {
         }
     ];
 
-    // Static Content
     const title = "Professional";
     const subtitle = "Journey";
     const badgeText = "Experience";
-    const badgeColor = "#ff6b35";
 
     return (
         <section id="experience" className="section relative overflow-hidden" aria-labelledby="experience-heading">
             {/* Background Glow */}
-            <div className="absolute top-1/3 left-1/4 w-96 h-96 bg-gradient-to-r from-primary-500/5 to-transparent rounded-full blur-[120px]" />
+            <div className="float-orb absolute top-1/3 left-1/4 w-96 h-96 bg-gradient-to-r from-primary-500/5 to-transparent rounded-full blur-[120px]" />
 
             <div className="container relative z-10">
                 {/* Section Header */}
                 <motion.div
-                    initial={{ opacity: 0, y: 30 }}
-                    whileInView={{ opacity: 1, y: 0 }}
+                    initial={{ opacity: 0, y: 30, rotateX: -6 }}
+                    whileInView={{ opacity: 1, y: 0, rotateX: 0 }}
                     viewport={{ once: true }}
+                    transition={{ duration: 0.7, ease: [0.23, 1, 0.32, 1] }}
+                    style={{ transformStyle: "preserve-3d", perspective: "1200px" }}
                     className="text-center mb-10 mx-auto"
                 >
                     <span className="badge-premium mb-3 mt-6">
@@ -68,20 +69,26 @@ export default function Experience() {
                     {experience.map((item, index) => (
                         <motion.div
                             key={item.id}
-                            initial={{ opacity: 0, y: 30 }}
-                            whileInView={{ opacity: 1, y: 0 }}
+                            initial={{ opacity: 0, y: 40, rotateX: -8 }}
+                            whileInView={{ opacity: 1, y: 0, rotateX: 0 }}
                             viewport={{ once: true }}
-                            transition={{ duration: 0.6, delay: index * 0.1 }}
-                            whileHover={{ y: -5 }}
+                            transition={{ duration: 0.7, delay: index * 0.12, ease: [0.23, 1, 0.32, 1] }}
+                            style={{ perspective: "1200px" }}
                             className="relative group lg:px-6"
                         >
-                            {/* Left Border Accent */}
-                            <div className="absolute left-0 lg:left-6 top-0 bottom-0 w-1 bg-gradient-to-b from-primary-500 to-primary-700 rounded-full" />
+                            {/* Left Border Accent — glowing 3D edge */}
+                            <div className="absolute left-0 lg:left-6 top-0 bottom-0 w-1 bg-gradient-to-b from-primary-500 via-primary-600 to-primary-700 rounded-full shadow-[0_0_12px_rgba(59,0,117,0.4)]" />
 
-                            {/* Card */}
-                            <article className="relative p-8 md:p-12 ml-6 bg-white/40 backdrop-blur-xl rounded-3xl border border-primary-500/5 overflow-hidden shadow-2xl shadow-primary-500/5">
-                                {/* Glow Effect */}
-                                <div className="absolute inset-0 bg-gradient-to-r from-primary-500/0 via-primary-500/5 to-primary-500/0 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                            <Parallax3DCard
+                                maxTilt={6}
+                                glowColor="rgba(14, 165, 233, 0.12)"
+                                className="relative p-8 md:p-12 ml-6 bg-white/60 backdrop-blur-xl rounded-3xl border border-primary-500/8 overflow-hidden card-3d"
+                            >
+                                {/* Shimmer top border */}
+                                <div className="shimmer-line absolute top-0 left-0 w-full h-[2px]" />
+
+                                {/* Glow Effect on hover */}
+                                <div className="absolute inset-0 bg-gradient-to-r from-primary-500/0 via-primary-500/4 to-primary-500/0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none rounded-3xl" />
 
                                 <div className="relative z-10">
                                     {/* Header */}
@@ -131,7 +138,7 @@ export default function Experience() {
                                         ))}
                                     </div>
                                 </div>
-                            </article>
+                            </Parallax3DCard>
                         </motion.div>
                     ))}
                 </div>

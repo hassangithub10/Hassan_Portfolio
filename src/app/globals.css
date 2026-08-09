@@ -6,21 +6,21 @@
   /* DYNAMIC THEME: PROFESSIONAL BLUE & LIGHT GREY */
   /* Using RGB values for Tailwind opacity support: rgb(r g b / alpha) */
 
-  /* Primary Purple Accent (#3B0075 = 59 0 117) */
-  --color-primary: 59 0 117;
-  --color-primary-50: 245 240 255;
-  --color-primary-100: 230 220 250;
-  --color-primary-200: 205 185 240;
-  --color-primary-300: 180 150 230;
-  --color-primary-400: 130 90 200;
-  --color-primary-500: 59 0 117;
-  --color-primary-600: 45 0 90;
-  --color-primary-700: 35 0 70;
-  --color-primary-800: 25 0 50;
-  --color-primary-900: 15 0 30;
+  /* Primary Electric Blue Accent (Sky/Cyan) */
+  --color-primary: 14 165 233; /* #0ea5e9 */
+  --color-primary-50: 240 249 255;
+  --color-primary-100: 224 242 254;
+  --color-primary-200: 186 230 253;
+  --color-primary-300: 125 211 252;
+  --color-primary-400: 56 189 248;
+  --color-primary-500: 14 165 233;
+  --color-primary-600: 2 132 199;
+  --color-primary-700: 3 105 161;
+  --color-primary-800: 7 89 133;
+  --color-primary-900: 12 74 110;
 
-  /* Accent (Soft Blue #3b82f6 = 59 130 246) */
-  --color-accent: 59 130 246;
+  /* Accent (Teal/Cyan) */
+  --color-accent: 20 184 166; /* #14b8a6 */
 
   /* Background Colors (Light Grey #e6ebef = 230 235 239) */
   --color-bg-primary: 230 235 239;
@@ -34,7 +34,7 @@
 
   /* Glass Variables - Optimized for Light Mode */
   --glass-bg: rgba(255, 255, 255, 0.7);
-  --glass-border: rgba(59, 0, 117, 0.15);
+  --glass-border: rgba(14, 165, 233, 0.15);
 }
 
 .custom-scrollbar::-webkit-scrollbar {
@@ -102,9 +102,15 @@ body {
 
 /* Premium UI Elements */
 .section {
-  padding-top: clamp(1rem, 10vw, 0.4rem);
-  padding-bottom: clamp(1rem, 10vw, 0.4rem);
+  min-height: 100vh;
+  width: 100%;
+  padding-top: clamp(5rem, 8vw, 7rem);
+  padding-bottom: clamp(3rem, 6vw, 5rem);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
+
 
 .btn-premium {
   display: inline-flex;
@@ -280,12 +286,146 @@ body::before {
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
   border: 1px solid var(--glass-border);
-  box-shadow: 0 4px 30px rgba(59, 0, 117, 0.05);
+  box-shadow: 0 4px 30px rgba(14, 165, 233, 0.05);
 }
 
 .glass-card:hover {
   border-color: rgba(var(--color-primary), 1);
   box-shadow: 0 0 20px rgba(var(--color-primary), 0.2);
+}
+
+/* ============================================
+   3D PARALLAX & SCROLL STACK SYSTEM
+   ============================================ */
+
+/* Base perspective context for 3D cards */
+.perspective-container {
+  perspective: 1200px;
+  perspective-origin: 50% 50%;
+}
+
+/* 3D card base — applied to cards getting tilt effect */
+.card-3d {
+  transform-style: preserve-3d;
+  transition: box-shadow 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+  will-change: transform;
+}
+
+.card-3d:hover {
+  box-shadow:
+    0 30px 80px rgba(14, 165, 233, 0.12),
+    0 10px 30px rgba(14, 165, 233, 0.08),
+    0 0 0 1px rgba(14, 165, 233, 0.06);
+}
+
+/* ── Scroll Stack: Full-Screen Section System ── */
+/* Every ScrollStackItem covers 100vw × 100vh with no staircase */
+
+/* Floating depth layers for hero/sections */
+.depth-layer {
+  position: absolute;
+  pointer-events: none;
+  will-change: transform;
+}
+
+/* Card entrance animation */
+@keyframes cardReveal {
+  0% {
+    opacity: 0;
+    transform: perspective(1200px) rotateX(-10deg) translateY(40px);
+  }
+  100% {
+    opacity: 1;
+    transform: perspective(1200px) rotateX(0deg) translateY(0);
+  }
+}
+
+.card-reveal {
+  animation: cardReveal 0.7s cubic-bezier(0.23, 1, 0.32, 1) both;
+}
+
+/* Stacked section backgrounds — solid, no transparency bleed (Cool Slate scale) */
+.stack-bg-0 {
+  background: linear-gradient(160deg, #f8fafc 0%, #e2e8f0 100%);
+  min-height: 100vh;
+  width: 100%;
+}
+.stack-bg-1 {
+  background: #ffffff;
+  min-height: 100vh;
+  width: 100%;
+}
+.stack-bg-2 {
+  background: #f8fafc; /* Slate 50 */
+  min-height: 100vh;
+  width: 100%;
+}
+.stack-bg-3 {
+  background: #f1f5f9; /* Slate 100 */
+  min-height: 100vh;
+  width: 100%;
+}
+.stack-bg-4 {
+  background: #ffffff;
+  min-height: 100vh;
+  width: 100%;
+}
+.stack-bg-5 {
+  background: #f8fafc;
+  min-height: 100vh;
+  width: 100%;
+}
+.stack-bg-6 {
+  background: #e2e8f0; /* Slate 200 */
+  min-height: 100vh;
+  width: 100%;
+}
+
+/* Rounded top corners for stacked cards */
+.rounded-stack-top {
+  border-radius: 2.5rem 2.5rem 0 0;
+}
+
+/* Parallax floating orbs */
+@keyframes floatOrb {
+  0%, 100% { transform: translateY(0px) scale(1); }
+  33% { transform: translateY(-18px) scale(1.02); }
+  66% { transform: translateY(8px) scale(0.98); }
+}
+
+.float-orb {
+  animation: floatOrb 8s ease-in-out infinite;
+}
+
+.float-orb-slow {
+  animation: floatOrb 12s ease-in-out infinite reverse;
+}
+
+/* Shimmer line decorators */
+.shimmer-line {
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(14, 165, 233, 0.12) 40%,
+    rgba(14, 165, 233, 0.2) 50%,
+    rgba(14, 165, 233, 0.12) 60%,
+    transparent 100%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 3s linear infinite;
+}
+
+/* 3D lift shadow on project cards */
+.project-card-3d {
+  transition: box-shadow 0.4s ease;
+}
+
+.project-card-3d:hover {
+  box-shadow:
+    0 40px 100px rgba(14, 165, 233, 0.15),
+    0 20px 40px rgba(14, 165, 233, 0.1),
+    0 0 0 1px rgba(14, 165, 233, 0.08),
+    inset 0 1px 0 rgba(255, 255, 255, 0.6);
 }
 
 /* Typography Utilities */
@@ -306,8 +446,8 @@ body::before {
 /* Dynamic Island */
 .dynamic-island {
   background: rgba(255, 255, 255, 0.85);
-  border: 1px solid rgba(59, 0, 117, 0.1);
-  box-shadow: 0 10px 40px rgba(59, 0, 117, 0.15);
+  border: 1px solid rgba(14, 165, 233, 0.1);
+  box-shadow: 0 10px 40px rgba(14, 165, 233, 0.15);
 }
 
 /* Container with max-width constraint and center alignment */

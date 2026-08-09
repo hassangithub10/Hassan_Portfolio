@@ -3,6 +3,7 @@
 import { motion } from "framer-motion";
 import type { Education } from "@/lib/types";
 import { AcademicCapIcon, CalendarIcon } from "@heroicons/react/24/outline";
+import Parallax3DCard from "@/components/ui/Parallax3DCard";
 
 
 export default function Education() {
@@ -19,24 +20,24 @@ export default function Education() {
         }
     ];
 
-    // Static Content
     const title = "Academic";
     const subtitle = "Journey";
     const badgeText = "Education";
-    const badgeColor = "#b026ff";
 
     return (
         <section id="education" className="section relative overflow-hidden" aria-labelledby="education-heading">
             {/* Background Effects */}
-            <div className="absolute top-20 right-20 w-72 h-72 bg-primary-500/5 rounded-full blur-[120px]" />
-            <div className="absolute bottom-20 left-20 w-96 h-96 bg-primary-600/5 rounded-full blur-[140px]" />
+            <div className="float-orb absolute top-20 right-20 w-72 h-72 bg-primary-500/5 rounded-full blur-[120px]" />
+            <div className="float-orb-slow absolute bottom-20 left-20 w-96 h-96 bg-primary-600/5 rounded-full blur-[140px]" />
 
             <div className="container relative z-10">
                 {/* Section Header */}
                 <motion.div
-                    initial={{ opacity: 0, y: 30 }}
-                    whileInView={{ opacity: 1, y: 0 }}
+                    initial={{ opacity: 0, y: 30, rotateX: -6 }}
+                    whileInView={{ opacity: 1, y: 0, rotateX: 0 }}
                     viewport={{ once: true }}
+                    transition={{ duration: 0.7, ease: [0.23, 1, 0.32, 1] }}
+                    style={{ transformStyle: "preserve-3d", perspective: "1200px" }}
                     className="text-center mb-10 mx-auto"
                 >
                     <span className="badge-premium mb-3 mt-6">
@@ -57,28 +58,29 @@ export default function Education() {
                         {education.map((item, index) => (
                             <motion.div
                                 key={item.id}
-                                initial={{ opacity: 0, x: index % 2 === 0 ? -50 : 50 }}
-                                whileInView={{ opacity: 1, x: 0 }}
+                                initial={{ opacity: 0, x: index % 2 === 0 ? -50 : 50, rotateY: index % 2 === 0 ? -8 : 8 }}
+                                whileInView={{ opacity: 1, x: 0, rotateY: 0 }}
                                 viewport={{ once: true }}
-                                transition={{ duration: 0.6, delay: index * 0.1 }}
+                                transition={{ duration: 0.7, delay: index * 0.1, ease: [0.23, 1, 0.32, 1] }}
+                                style={{ perspective: "1200px" }}
                                 className={`relative flex flex-col md:flex-row ${index % 2 === 0 ? "md:flex-row" : "md:flex-row-reverse"
                                     } gap-8 items-start md:items-center`}
                             >
-
                                 {/* Content Card */}
                                 <div className={`w-full md:w-[45%] ${index % 2 === 0 ? "md:text-right" : "md:text-left"} pl-12 md:pl-0`}>
-                                    <motion.article
-                                        whileHover={{ scale: 1.02, y: -5 }}
-                                        className="relative p-6 md:p-8 bg-white/40 backdrop-blur-xl rounded-2xl border border-primary-500/10 group overflow-hidden"
+                                    <Parallax3DCard
+                                        maxTilt={10}
+                                        glowColor="rgba(14, 165, 233, 0.15)"
+                                        className="relative p-6 md:p-8 bg-white/60 backdrop-blur-xl rounded-2xl border border-primary-500/10 group overflow-hidden card-3d"
                                     >
-                                        {/* Glow on Hover */}
-                                        <div className="absolute inset-0 bg-primary-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                                        {/* Shimmer top border */}
+                                        <div className="shimmer-line absolute top-0 left-0 w-full h-[2px]" />
 
                                         <div className="relative z-10">
                                             <div className={`flex items-center gap-2 text-primary-400 text-sm mb-4 ${index % 2 === 0 ? "md:justify-end" : "md:justify-start"}`}>
                                                 <CalendarIcon className="w-6 h-6" />
                                                 <span className="font-mono font-bold tracking-tighter">
-                                                    {new Date(item.startDate).getFullYear()} -{" "}
+                                                    {new Date(item.startDate).getFullYear()} —{" "}
                                                     {item.endDate ? new Date(item.endDate).getFullYear() : "Present"}
                                                 </span>
                                             </div>
@@ -93,11 +95,17 @@ export default function Education() {
                                                 <p className="text-gray-600 text-sm md:text-base leading-relaxed">{item.description}</p>
                                             )}
                                         </div>
-                                    </motion.article>
+                                    </Parallax3DCard>
                                 </div>
 
                                 {/* Center Dot */}
-                                <div className="absolute left-4 md:left-1/2 w-6 h-6 rounded-full bg-primary-500 border-4 border-white z-20 -translate-x-1/2 shadow-lg shadow-primary-500/20" />
+                                <motion.div
+                                    initial={{ scale: 0 }}
+                                    whileInView={{ scale: 1 }}
+                                    viewport={{ once: true }}
+                                    transition={{ delay: 0.3, type: "spring", stiffness: 200 }}
+                                    className="absolute left-4 md:left-1/2 w-6 h-6 rounded-full bg-primary-500 border-4 border-white z-20 -translate-x-1/2 shadow-lg shadow-primary-500/30"
+                                />
 
                                 {/* Spacer for desktop */}
                                 <div className="hidden md:block w-[45%]" />
