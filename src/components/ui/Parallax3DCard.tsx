@@ -70,7 +70,7 @@ export default function Parallax3DCard({
                 transformStyle: "preserve-3d",
                 perspective: "1000px",
                 position: "relative",
-            } as React.CSSProperties}
+            } as any}
             className={clsx("cursor-default", className)}
         >
             {/* Glow overlay */}
