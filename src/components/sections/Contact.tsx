@@ -114,17 +114,6 @@ export default function Contact() {
                         </motion.div>
                     ))}
                 </div>
-
-                {/* Footer credit */}
-                <motion.p
-                    initial={{ opacity: 0 }}
-                    whileInView={{ opacity: 1 }}
-                    viewport={{ once: true }}
-                    transition={{ delay: 0.5 }}
-                    className="text-center text-gray-400 text-xs mt-16 mb-4 uppercase tracking-widest"
-                >
-                    Crafted with precision · Hassan Sarfraz · {new Date().getFullYear()}
-                </motion.p>
             </div>
         </section>
     );

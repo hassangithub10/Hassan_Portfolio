@@ -7,7 +7,8 @@
   /* Using RGB values for Tailwind opacity support: rgb(r g b / alpha) */
 
   /* Primary Electric Blue Accent (Sky/Cyan) */
-  --color-primary: 14 165 233; /* #0ea5e9 */
+  --color-primary: 14 165 233;
+  /* #0ea5e9 */
   --color-primary-50: 240 249 255;
   --color-primary-100: 224 242 254;
   --color-primary-200: 186 230 253;
@@ -20,7 +21,8 @@
   --color-primary-900: 12 74 110;
 
   /* Accent (Teal/Cyan) */
-  --color-accent: 20 184 166; /* #14b8a6 */
+  --color-accent: 20 184 166;
+  /* #14b8a6 */
 
   /* Background Colors (Light Grey #e6ebef = 230 235 239) */
   --color-bg-primary: 230 235 239;
@@ -66,8 +68,8 @@ html {
 
 body {
   font-family: var(--font-mulish), system-ui, sans-serif;
-  background-color: rgb(var(--color-bg-primary));
-  color: rgb(var(--color-text-primary));
+  background-color: transparent;
+  color: #fff;
   min-height: 100vh;
   overflow-x: hidden;
   position: relative;
@@ -104,7 +106,7 @@ body {
 .section {
   min-height: 100vh;
   width: 100%;
-  padding-top: clamp(5rem, 8vw, 7rem);
+  padding-top: clamp(3rem, 6vw, 5rem);
   padding-bottom: clamp(3rem, 6vw, 5rem);
   display: flex;
   flex-direction: column;
@@ -334,6 +336,7 @@ body::before {
     opacity: 0;
     transform: perspective(1200px) rotateX(-10deg) translateY(40px);
   }
+
   100% {
     opacity: 1;
     transform: perspective(1200px) rotateX(0deg) translateY(0);
@@ -345,38 +348,8 @@ body::before {
 }
 
 /* Stacked section backgrounds — solid, no transparency bleed (Cool Slate scale) */
-.stack-bg-0 {
-  background: linear-gradient(160deg, #f8fafc 0%, #e2e8f0 100%);
-  min-height: 100vh;
-  width: 100%;
-}
-.stack-bg-1 {
-  background: #ffffff;
-  min-height: 100vh;
-  width: 100%;
-}
-.stack-bg-2 {
-  background: #f8fafc; /* Slate 50 */
-  min-height: 100vh;
-  width: 100%;
-}
-.stack-bg-3 {
-  background: #f1f5f9; /* Slate 100 */
-  min-height: 100vh;
-  width: 100%;
-}
-.stack-bg-4 {
-  background: #ffffff;
-  min-height: 100vh;
-  width: 100%;
-}
-.stack-bg-5 {
-  background: #f8fafc;
-  min-height: 100vh;
-  width: 100%;
-}
-.stack-bg-6 {
-  background: #e2e8f0; /* Slate 200 */
+.stack-bg-0, .stack-bg-1, .stack-bg-2, .stack-bg-3, .stack-bg-4, .stack-bg-5, .stack-bg-6 {
+  background: transparent;
   min-height: 100vh;
   width: 100%;
 }
@@ -388,9 +361,19 @@ body::before {
 
 /* Parallax floating orbs */
 @keyframes floatOrb {
-  0%, 100% { transform: translateY(0px) scale(1); }
-  33% { transform: translateY(-18px) scale(1.02); }
-  66% { transform: translateY(8px) scale(0.98); }
+
+  0%,
+  100% {
+    transform: translateY(0px) scale(1);
+  }
+
+  33% {
+    transform: translateY(-18px) scale(1.02);
+  }
+
+  66% {
+    transform: translateY(8px) scale(0.98);
+  }
 }
 
 .float-orb {
@@ -403,14 +386,12 @@ body::before {
 
 /* Shimmer line decorators */
 .shimmer-line {
-  background: linear-gradient(
-    90deg,
-    transparent 0%,
-    rgba(14, 165, 233, 0.12) 40%,
-    rgba(14, 165, 233, 0.2) 50%,
-    rgba(14, 165, 233, 0.12) 60%,
-    transparent 100%
-  );
+  background: linear-gradient(90deg,
+      transparent 0%,
+      rgba(14, 165, 233, 0.12) 40%,
+      rgba(14, 165, 233, 0.2) 50%,
+      rgba(14, 165, 233, 0.12) 60%,
+      transparent 100%);
   background-size: 200% 100%;
   animation: shimmer 3s linear infinite;
 }
@@ -501,6 +482,7 @@ body::before {
     text-align: center !important;
     line-break: 0 !important;
   }
+
   .px-4 {
     padding-left: 0.5rem !important;
     padding-right: 0.5rem !important;
@@ -513,4 +495,3 @@ body::before {
     border-radius: 20px !important;
   }
 }
-

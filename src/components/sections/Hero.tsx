@@ -42,24 +42,8 @@ export default function Hero() {
             className="relative min-h-screen w-full flex items-center justify-center overflow-hidden pt-20 stack-bg-0"
             aria-labelledby="hero-heading"
         >
-            {/* ── Depth Layer 1: farthest background orbs ── */}
-            <motion.div
-                style={{ y: y1 }}
-                className="absolute inset-0 pointer-events-none"
-            >
-                <div className="float-orb absolute top-[8%] left-[10%] w-[500px] h-[500px] rounded-full bg-primary-500/8 blur-[130px]" />
-                <div className="float-orb-slow absolute bottom-[5%] right-[5%] w-[400px] h-[400px] rounded-full bg-primary-400/6 blur-[110px]" />
-            </motion.div>
-
-            {/* ── Depth Layer 2: mid-ground geometric accents ── */}
-            <motion.div
-                style={{ y: y2 }}
-                className="absolute inset-0 pointer-events-none"
-            >
-                <div className="absolute top-[20%] right-[15%] w-[220px] h-[220px] rounded-full border border-primary-500/10 blur-sm" />
-                <div className="absolute top-[55%] left-[8%] w-[160px] h-[160px] rounded-full border border-primary-500/8 blur-sm" />
-                <div className="absolute top-1/3 left-1/2 -translate-x-1/2 w-full h-[600px] bg-gradient-to-b from-primary-500/4 to-transparent blur-[80px]" />
-            </motion.div>
+            {/* ── Depth Layer 1: removed in favor of global 3D background ── */}
+            {/* ── Depth Layer 2: removed in favor of global 3D background ── */}
 
             {/* ── Depth Layer 3: foreground shimmer line ── */}
             <motion.div
@@ -97,7 +81,7 @@ export default function Hero() {
                         initial={{ opacity: 0, y: 30 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ delay: 0.2, duration: 0.7 }}
-                        className="text-5xl text-gray-900 mb-6"
+                        className="text-5xl text-white mb-6 drop-shadow-[0_0_15px_rgba(255,255,255,0.3)]"
                     >
                         {personalInfo.fullName.split(" ").map((word: string, i: number) => (
                             <span key={i} className={clsx(i === personalInfo.fullName.split(" ").length - 1 ? "text-gradient-primary" : "")}>
@@ -111,7 +95,7 @@ export default function Hero() {
                         initial={{ opacity: 0, y: 24 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ delay: 0.3, duration: 0.6 }}
-                        className="text-3xl md:text-4xl text-[#11182a] font-heading mb-8"
+                        className="text-3xl md:text-4xl text-gray-200 font-heading mb-8"
                     >
                         {personalInfo.title}
                     </motion.h2>
@@ -121,7 +105,7 @@ export default function Hero() {
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ delay: 0.4, duration: 0.6 }}
-                        className="body-lg text-[#11182a] max-w-2xl mx-auto mb-12 leading-relaxed"
+                        className="body-lg text-gray-300 max-w-2xl mx-auto mb-12 leading-relaxed"
                     >
                         {personalInfo.bio}
                     </motion.p>
@@ -140,7 +124,7 @@ export default function Hero() {
 
                         <Link
                             href={ctaSecondaryLink}
-                            className="px-8 py-4 rounded-xl border border-primary-500/10 text-primary-500 font-bold hover:bg-primary-500/5 hover:border-primary-500/30 transition-all"
+                            className="px-8 py-4 rounded-xl border border-white/20 text-white font-bold hover:bg-white/10 hover:border-white/40 backdrop-blur-sm transition-all"
                         >
                             {ctaSecondaryText}
                         </Link>

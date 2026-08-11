@@ -7,6 +7,7 @@ import Footer from "@/components/layout/Footer";
 import AvailabilityFloatingBadge from "@/components/ui/AvailabilityFloatingBadge";
 // Removed dynamic imports
 import SchemaGenerator from "@/components/seo/SchemaGenerator";
+import CinematicBackground from "@/components/ui/CinematicBackground";
 
 const chakraPetch = Chakra_Petch({
     variable: "--font-chakra-petch",
@@ -113,6 +114,7 @@ export default function RootLayout({
             >
 
                 <div className="scanlines" />
+                <CinematicBackground />
 
                 {/* Header */}
                 <Header />

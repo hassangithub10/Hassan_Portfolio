@@ -121,7 +121,7 @@ export default function Projects() {
             slug: null,
             shortDescription: "Pakistan's largest digital welfare platform connecting donors and volunteers to create lasting social impact.",
             longDescription: "Khudii is a pioneering e-community in Pakistan that fosters social welfare by connecting storytellers, donors, and volunteers. It supports diverse programs including health and education, empowering individuals to contribute to a better, more purposeful society.",
-            techStack: ["Reactjs", "Tailwind CSS", "Framer Motion", "UI/UX"],
+            techStack: ["Nextjs", "Tailwind CSS", "Framer Motion", "UI/UX"],
             liveUrl: "https://www.khudii.com",
             githubUrl: null,
             imageUrl: "/uploads/2026/03/khudii.webp",
@@ -184,8 +184,8 @@ export default function Projects() {
             slug: null,
             shortDescription: "Tanzeem-e-Islami focuses on re-establishing Khilafah through prophetic methodology and Quranic teachings.",
             longDescription: "Founded by Dr. Israr Ahmed, Tanzeem-e-Islami is a Pakistan-based organization dedicated to the revival of Khilafah. It emphasizes Islamic education and social transformation based on the Sunnah to establish a just society according to the methodology of Prophet Muhammad (SAWS).",
-            techStack: ["Wordpress", "Elementor", "WP Forms"],
-            liveUrl: "https://www.tanzeem.org",
+            techStack: ["Nextjs", "Tailwind", "Framer Motion"],
+            liveUrl: "https://staging.tanzeem.org",
             githubUrl: null,
             imageUrl: "/uploads/2026/03/tanzeem.webp",
             category: "Web Development",
@@ -259,9 +259,7 @@ export default function Projects() {
 
     return (
         <section id="projects" className="section relative overflow-hidden" aria-labelledby="projects-heading">
-            {/* Background orbs */}
-            <div className="float-orb absolute top-1/4 right-10 w-80 h-80 bg-primary-500/5 rounded-full blur-[100px]" />
-            <div className="float-orb-slow absolute bottom-1/3 left-10 w-96 h-96 bg-primary-600/4 rounded-full blur-[120px]" />
+            {/* Background orbs removed in favor of global 3D background */}
 
             <div className="container relative z-10">
                 {/* Header */}
@@ -277,11 +275,11 @@ export default function Projects() {
                         <RocketLaunchIcon className="w-6 h-6 text-primary-400" />
                         {badgeText}
                     </span>
-                    <h2 id="projects-heading" className="heading-lg text-gray-900">
+                    <h2 id="projects-heading" className="heading-lg text-white">
                         {title} <span className="text-gradient-primary">{subtitle}</span>
                     </h2>
                     {description && (
-                        <p className="body-lg text-gray-600 max-w-2xl mx-auto mt-6">{description}</p>
+                        <p className="body-lg text-gray-300 max-w-2xl mx-auto mt-6">{description}</p>
                     )}
                 </motion.div>
 
@@ -332,8 +330,8 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
             className="group relative h-full"
         >
             <Parallax3DCard
-                maxTilt={10}
-                glowColor="rgba(14, 165, 233, 0.14)"
+                maxTilt={20}
+                glowColor="rgba(14, 165, 233, 0.4)"
                 hoverScale={1.025}
                 className="h-full project-card-3d"
             >
@@ -345,7 +343,7 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
                     onClick={!project.liveUrl ? (e) => e.preventDefault() : undefined}
                     aria-label={project.liveUrl ? `View live project: ${project.title}` : `Project details: ${project.title}`}
                 >
-                    <article className="relative overflow-hidden rounded-[2rem] bg-[#f0f9ff] border border-primary-500/5 transition-all duration-500 group-hover:border-primary-500/30 flex flex-col h-full">
+                    <article className="relative overflow-hidden rounded-[2rem] bg-white/5 backdrop-blur-xl border border-white/10 transition-all duration-500 group-hover:border-primary-500/50 flex flex-col h-full shadow-2xl">
 
                         {/* Project Image Area */}
                         <div className="relative w-full aspect-[16/10] p-2">
@@ -369,7 +367,7 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
 
                                 {/* Overlay Badges */}
                                 <div className="absolute top-4 left-4 flex flex-col items-start gap-4">
-                                    <span className="px-6 py-2.5 bg-white/40 backdrop-blur-xl border border-white/40 text-primary-900 font-heading text-sm font-black uppercase tracking-widest rounded-full shadow-lg">
+                                    <span className="px-6 py-2.5 bg-black/40 backdrop-blur-xl border border-white/20 text-white font-heading text-sm font-black uppercase tracking-widest rounded-full shadow-lg">
                                         {project.category}
                                     </span>
                                     {project.featured === true && (
@@ -390,18 +388,18 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
 
                         {/* Content Section */}
                         <div className="p-6 pt-4 flex-1 flex flex-col">
-                            <h3 className="text-3xl font-black text-[#0ea5e9] font-heading tracking-tight">
+                            <h3 className="text-3xl font-black text-white font-heading tracking-tight drop-shadow-md">
                                 {project.title}
                             </h3>
 
-                            <div className="w-full h-px bg-gray-200 mt-4 mb-4" />
+                            <div className="w-full h-px bg-white/10 mt-4 mb-4" />
 
                             {techStack.length > 0 && (
                                 <div className="flex flex-wrap gap-3 mb-auto">
                                     {techStack.map((tech, i) => (
                                         <span
                                             key={i}
-                                            className="text-xs font-black text-gray-900/50 uppercase tracking-widest px-5 py-2.5 rounded-2xl bg-primary-500/5 border border-primary-500/10"
+                                            className="text-xs font-black text-gray-300 uppercase tracking-widest px-5 py-2.5 rounded-2xl bg-white/5 border border-white/10"
                                         >
                                             {tech}
                                         </span>
@@ -409,7 +407,7 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
                                 </div>
                             )}
 
-                            <div className="w-full h-px bg-gray-200 mt-4 mb-4" />
+                            <div className="w-full h-px bg-white/10 mt-4 mb-4" />
 
                             <div className="flex items-center justify-between min-h-[2.5rem]">
                                 {collaboratorsList.length > 0 ? (

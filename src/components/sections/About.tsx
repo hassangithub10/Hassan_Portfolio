@@ -26,9 +26,7 @@ export default function About() {
 
     return (
         <section id="about" className="section relative overflow-hidden" aria-labelledby="about-heading">
-            {/* Floating depth orbs */}
-            <div className="float-orb absolute top-1/4 left-10 w-80 h-80 bg-primary-500/6 rounded-full blur-[90px]" />
-            <div className="float-orb-slow absolute bottom-1/4 right-10 w-96 h-96 bg-primary-600/4 rounded-full blur-[100px]" />
+            {/* Floating depth orbs removed for global 3D canvas */}
 
             <div className="container relative z-10">
                 {/* Section Header */}
@@ -45,11 +43,11 @@ export default function About() {
                         {badgeText}
                     </span>
 
-                    <h2 id="about-heading" className="heading-lg text-gray-900">
+                    <h2 id="about-heading" className="heading-lg text-white">
                         {title} <span className="text-gradient-primary">{subtitle}</span>
                     </h2>
 
-                    <p className="body-lg text-gray-600 max-w-3xl mx-auto leading-relaxed">
+                    <p className="body-lg text-gray-300 max-w-3xl mx-auto leading-relaxed">
                         {description}
                     </p>
                 </motion.div>
@@ -154,14 +152,13 @@ function StatCard({
             style={{ perspective: "1200px" }}
         >
             <Parallax3DCard
-                maxTilt={14}
-                glowColor={`rgba(14, 165, 233, 0.18)`}
-                className="relative w-full p-8 bg-white/60 backdrop-blur-xl rounded-3xl border border-primary-500/10 overflow-hidden group card-3d"
+                maxTilt={20}
+                glowColor={`rgba(14, 165, 233, 0.4)`}
+                className="relative w-full p-8 bg-white/5 backdrop-blur-xl rounded-3xl border border-white/10 overflow-hidden group card-3d shadow-2xl"
             >
                 {/* Neon Border on Hover */}
                 <div
-                    className="absolute -inset-[1px] rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"
-                    style={{ background: `linear-gradient(135deg, rgba(59,0,117,0.3), transparent)` }}
+                    className="absolute -inset-[1px] rounded-3xl duration-500 pointer-events-none"
                 />
 
                 <div className="relative z-10">
@@ -170,7 +167,7 @@ function StatCard({
                         {isInView ? count : 0}
                         {value.includes("+") ? "+" : ""}
                     </div>
-                    <div className="text-sm text-gray-900/60 uppercase tracking-wider font-heading">
+                    <div className="text-sm text-gray-300 uppercase tracking-wider font-heading">
                         {label}
                     </div>
                 </div>
