@@ -112,7 +112,7 @@ function StatCard({
     delay,
     isInView,
 }: {
-    icon: React.ElementType;
+    icon: React.ComponentType<React.ComponentProps<"svg">>;
     value: string;
     label: string;
     color: string;
