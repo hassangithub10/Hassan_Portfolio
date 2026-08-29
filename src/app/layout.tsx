@@ -6,6 +6,8 @@ import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 import AvailabilityFloatingBadge from "@/components/ui/AvailabilityFloatingBadge";
 import CinematicBackground from "@/components/ui/CinematicBackground";
+import ReCaptchaLoader from "@/components/seo/ReCaptchaLoader";
+
 
 const chakraPetch = Chakra_Petch({
     variable: "--font-chakra-petch",
@@ -135,8 +137,12 @@ export default function RootLayout({
 
                 {/* Floating Availability Badge */}
                 <AvailabilityFloatingBadge />
+
+                {/* Google reCAPTCHA v3 Client Loader */}
+                <ReCaptchaLoader />
             </body>
         </html>
     );
 }
+
 

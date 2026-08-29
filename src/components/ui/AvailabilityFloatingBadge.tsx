@@ -26,8 +26,9 @@ export default function AvailabilityFloatingBadge() {
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: 20 }}
                 transition={{ delay: 1, duration: 0.5 }}
-                className="fixed bottom-6 right-6 z-50 group cursor-pointer no-underline"
+                className="fixed bottom-6 left-6 z-40 group cursor-pointer no-underline"
             >
+
 
 
                 <div className="absolute inset-0 bg-[#f97316] rounded-full blur-[20px] opacity-20 group-hover:opacity-40 transition-opacity duration-500" />
