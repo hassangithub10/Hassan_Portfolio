@@ -10,6 +10,8 @@ import {
     sectionContentData,
     navigationItemsData
 } from "./data";
+import { verifyRecaptchaServer } from "./recaptcha";
+
 
 // Fetch personal info
 export async function getPersonalInfo() {
@@ -101,8 +103,7 @@ export async function getServiceById(id: number) {
     return servicesData.find(s => s.id === id) || null;
 }
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-export async function submitContactForm(_formData?: {
+export async function submitContactForm(formData?: {
     name: string;
     email: string;
     subject: string;
@@ -110,8 +111,15 @@ export async function submitContactForm(_formData?: {
     ipAddress?: string;
     recaptchaToken?: string;
 }) {
+    if (formData?.recaptchaToken) {
+        const verification = await verifyRecaptchaServer(formData.recaptchaToken);
+        if (!verification.success || (verification.score !== undefined && verification.score < 0.5)) {
+            return { success: false, message: "reCAPTCHA verification failed. Please try again." };
+        }
+    }
     return { success: true, message: "Message sent successfully!" };
 }
+
 
 
 

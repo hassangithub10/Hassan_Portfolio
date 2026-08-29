@@ -91,11 +91,9 @@ export default function RootLayout({
 }: Readonly<{
     children: React.ReactNode;
 }>) {
-    const recaptchaSiteKey =
-        process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY || "6Ld_placeholder_recaptcha_v3_key";
+    const recaptchaSiteKey = process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY;
 
     return (
-
         <html lang="en" className="scroll-smooth">
             <body
                 className={`${chakraPetch.variable} ${mulish.variable} antialiased`}
@@ -115,10 +113,13 @@ export default function RootLayout({
                 </Script>
 
                 {/* Google reCAPTCHA v3 */}
-                <Script
-                    src={`https://www.google.com/recaptcha/api.js?render=${recaptchaSiteKey}`}
-                    strategy="afterInteractive"
-                />
+                {recaptchaSiteKey && (
+                    <Script
+                        src={`https://www.google.com/recaptcha/api.js?render=${recaptchaSiteKey}`}
+                        strategy="afterInteractive"
+                    />
+                )}
+
 
                 <CinematicBackground />
 
