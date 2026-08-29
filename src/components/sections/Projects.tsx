@@ -276,11 +276,11 @@ export default function Projects() {
                         <RocketLaunchIcon className="w-6 h-6 text-primary-400" />
                         {badgeText}
                     </span>
-                    <h2 id="projects-heading" className="heading-lg text-white">
+                    <h2 id="projects-heading" className="heading-lg text-gray-900">
                         {title} <span className="text-gradient-primary">{subtitle}</span>
                     </h2>
                     {description && (
-                        <p className="body-lg text-gray-300 max-w-2xl mx-auto mt-6">{description}</p>
+                        <p className="body-lg text-gray-600 max-w-2xl mx-auto mt-6">{description}</p>
                     )}
                 </motion.div>
 
@@ -301,7 +301,7 @@ export default function Projects() {
                 </AnimatePresence>
 
                 {filteredProjects.length === 0 && (
-                    <p className="text-center text-gray-900/40 py-20 font-heading uppercase tracking-widest">No projects found in this category.</p>
+                    <p className="text-center text-gray-500 py-20 font-heading uppercase tracking-widest">No projects found in this category.</p>
                 )}
             </div>
         </section>
@@ -332,7 +332,7 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
         >
             <Parallax3DCard
                 maxTilt={20}
-                glowColor="rgba(14, 165, 233, 0.4)"
+                glowColor="rgba(249, 115, 22, 0.25)"
                 hoverScale={1.025}
                 className="h-full project-card-3d"
             >
@@ -345,35 +345,31 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
                     aria-label={project.liveUrl ? `View live project: ${project.title}` : `Project details: ${project.title}`}
                 >
 
-                    <article className="relative overflow-hidden rounded-[2rem] bg-white/5 backdrop-blur-xl border border-white/10 transition-all duration-500 group-hover:border-primary-500/50 flex flex-col h-full shadow-2xl">
+                    <article className="relative overflow-hidden rounded-[2rem] bg-white/95 backdrop-blur-xl border border-primary-500/15 transition-all duration-500 group-hover:border-primary-500/50 flex flex-col h-full shadow-lg hover:shadow-2xl">
 
                         {/* Project Image Area */}
                         <div className="relative w-full aspect-[16/10] p-2">
-                            <div className="relative w-full h-full rounded-[2rem] overflow-hidden border border-gray-100 shadow-inner">
+                            <div className="relative w-full h-full rounded-[2rem] overflow-hidden border border-gray-100 shadow-inner bg-orange-50/30">
                                 {project.imageUrl ? (
                                     /* eslint-disable-next-line @next/next/no-img-element */
                                     <img
                                         src={project.imageUrl}
                                         alt={`Screenshot of the ${project.title} project`}
                                         className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
-                                        style={{
-                                            // Subtle translateZ for depth — image lifts in 3D space
-                                            transform: undefined,
-                                        }}
                                     />
                                 ) : (
                                     <div className="w-full h-full bg-gradient-to-br from-primary-500/20 to-primary-600/10 flex items-center justify-center">
-                                        <RocketLaunchIcon className="w-12 h-12 text-primary-500/20" />
+                                        <RocketLaunchIcon className="w-12 h-12 text-primary-500/30" />
                                     </div>
                                 )}
 
                                 {/* Overlay Badges */}
                                 <div className="absolute top-4 left-4 flex flex-col items-start gap-4">
-                                    <span className="px-6 py-2.5 bg-black/40 backdrop-blur-xl border border-white/20 text-white font-heading text-sm font-black uppercase tracking-widest rounded-full shadow-lg">
+                                    <span className="px-6 py-2.5 bg-white/90 backdrop-blur-xl border border-primary-500/25 text-gray-900 font-heading text-sm font-black uppercase tracking-widest rounded-full shadow-md">
                                         {project.category}
                                     </span>
                                     {project.featured === true && (
-                                        <span className="px-4 py-1.5 border-2 border-primary-500/40 text-primary-500 font-heading text-xs font-black uppercase tracking-tighter rounded-md backdrop-blur-md bg-white/5">
+                                        <span className="px-4 py-1.5 border-2 border-primary-500 text-primary-600 font-heading text-xs font-black uppercase tracking-tighter rounded-md backdrop-blur-md bg-white/90 shadow-sm">
                                             FEATURED
                                         </span>
                                     )}
@@ -381,7 +377,7 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
 
                                 {/* External link icon */}
                                 {project.liveUrl && (
-                                    <div className="absolute top-4 right-4 w-10 h-10 rounded-2xl bg-white/80 backdrop-blur-md border border-primary-500/10 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-300 scale-90 group-hover:scale-100 shadow-xl">
+                                    <div className="absolute top-4 right-4 w-10 h-10 rounded-2xl bg-white/95 backdrop-blur-md border border-primary-500/20 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-300 scale-90 group-hover:scale-100 shadow-lg">
                                         <ArrowTopRightOnSquareIcon className="w-6 h-6 text-primary-600" />
                                     </div>
                                 )}
@@ -390,18 +386,18 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
 
                         {/* Content Section */}
                         <div className="p-6 pt-4 flex-1 flex flex-col">
-                            <h3 className="text-3xl font-black text-white font-heading tracking-tight drop-shadow-md">
+                            <h3 className="text-2xl sm:text-3xl font-black text-gray-900 font-heading tracking-tight">
                                 {project.title}
                             </h3>
 
-                            <div className="w-full h-px bg-white/10 mt-4 mb-4" />
+                            <div className="w-full h-px bg-primary-500/10 mt-4 mb-4" />
 
                             {techStack.length > 0 && (
-                                <div className="flex flex-wrap gap-3 mb-auto">
+                                <div className="flex flex-wrap gap-2.5 mb-auto">
                                     {techStack.map((tech, i) => (
                                         <span
                                             key={i}
-                                            className="text-xs font-black text-gray-300 uppercase tracking-widest px-5 py-2.5 rounded-2xl bg-white/5 border border-white/10"
+                                            className="text-xs font-black text-gray-700 uppercase tracking-widest px-4 py-2 rounded-xl bg-orange-50/80 border border-orange-200/70"
                                         >
                                             {tech}
                                         </span>
@@ -409,7 +405,7 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
                                 </div>
                             )}
 
-                            <div className="w-full h-px bg-white/10 mt-4 mb-4" />
+                            <div className="w-full h-px bg-primary-500/10 mt-4 mb-4" />
 
                             <div className="flex items-center justify-between min-h-[2.5rem]">
                                 {collaboratorsList.length > 0 ? (
@@ -417,14 +413,14 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
                                         {collaboratorsList.map((collab, i) => (
                                             <span
                                                 key={i}
-                                                className="text-[10px] font-black text-[#0ea5e9] uppercase tracking-widest px-3 py-1.5 rounded-xl bg-gray-50 border border-[#0ea5e9]/50"
+                                                className="text-[10px] font-black text-[#ea580c] uppercase tracking-widest px-3 py-1.5 rounded-xl bg-orange-50 border border-[#f97316]/30"
                                             >
                                                 {collab.name}
                                             </span>
                                         ))}
                                     </div>
                                 ) : (
-                                    <span className="text-[#0ea5e9] text-xs font-black uppercase tracking-widest px-4 py-1.5 rounded-xl border border-[#0ea5e9]/20 bg-[#0ea5e9]/5">
+                                    <span className="text-[#ea580c] text-xs font-black uppercase tracking-widest px-4 py-1.5 rounded-xl border border-[#f97316]/30 bg-orange-50">
                                         Self
                                     </span>
                                 )}
@@ -433,6 +429,7 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
                     </article>
                 </a>
             </Parallax3DCard>
+
         </motion.div>
     );
 }

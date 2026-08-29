@@ -24,7 +24,7 @@ export default function Header() {
     ];
 
     const ctaText = "Contact Me";
-    const ctaUrl = "mailto:webguy@hassansarfraz.online";
+    const ctaUrl = "mailto:digitalwork.990@gmail.com";
     const logoText = "Hassan";
 
     useEffect(() => {
@@ -70,8 +70,8 @@ export default function Header() {
 
 
                     {/* Logo */}
-                    <Link 
-                        href="/" 
+                    <Link
+                        href="/"
                         onClick={() => executeRecaptcha("header_logo_click")}
                         className="flex items-center gap-2 mr-4 md:mr-8 flex-shrink-0 relative z-20"
                     >

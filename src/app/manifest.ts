@@ -7,8 +7,9 @@ export default function manifest(): MetadataRoute.Manifest {
         description: "Portfolio of Hassan Sarfraz - Frontend Developer and AI Enthusiast specializing in React, Next.js, and high-performance digital experiences.",
         start_url: "/",
         display: "standalone",
-        background_color: "#030712",
-        theme_color: "#0ea5e9",
+        background_color: "#ffffff",
+        theme_color: "#f97316",
+
         icons: [
             {
                 src: "/logo.svg",

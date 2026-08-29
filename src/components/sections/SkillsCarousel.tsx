@@ -69,7 +69,8 @@ export default function SkillsCarousel() {
                             <div onClick={() => executeRecaptcha(`skill_interact_${skill.name.toLowerCase()}`)}>
                                 <Parallax3DCard
                                     maxTilt={16}
-                                    glowColor="rgba(14, 165, 233, 0.18)"
+                                    glowColor="rgba(249, 115, 22, 0.2)"
+
                                     hoverScale={1.08}
                                     className="flex flex-col items-center gap-4 py-2 cursor-pointer"
                                 >

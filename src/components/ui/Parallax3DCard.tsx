@@ -23,7 +23,8 @@ export default function Parallax3DCard({
     maxTilt = 12,
     withLift = true,
     hoverScale = 1.02,
-    glowColor = "rgba(14, 165, 233, 0.15)",
+    glowColor = "rgba(249, 115, 22, 0.18)",
+
 }: Parallax3DCardProps) {
     const ref = useRef<HTMLDivElement>(null);
 

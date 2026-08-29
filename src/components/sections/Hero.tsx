@@ -82,7 +82,7 @@ export default function Hero() {
                         initial={{ opacity: 0, y: 30 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ delay: 0.2, duration: 0.7 }}
-                        className="text-5xl text-white mb-6 drop-shadow-[0_0_15px_rgba(255,255,255,0.3)]"
+                        className="text-5xl text-gray-900 mb-6 drop-shadow-sm"
                     >
                         {personalInfo.fullName.split(" ").map((word: string, i: number) => (
                             <span key={i} className={clsx(i === personalInfo.fullName.split(" ").length - 1 ? "text-gradient-primary" : "")}>
@@ -96,7 +96,7 @@ export default function Hero() {
                         initial={{ opacity: 0, y: 24 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ delay: 0.3, duration: 0.6 }}
-                        className="text-3xl md:text-4xl text-gray-200 font-heading mb-8"
+                        className="text-3xl md:text-4xl text-gray-800 font-heading mb-8"
                     >
                         {personalInfo.title}
                     </motion.h2>
@@ -106,7 +106,7 @@ export default function Hero() {
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ delay: 0.4, duration: 0.6 }}
-                        className="body-lg text-gray-300 max-w-2xl mx-auto mb-12 leading-relaxed"
+                        className="body-lg text-gray-600 max-w-2xl mx-auto mb-12 leading-relaxed"
                     >
                         {personalInfo.bio}
                     </motion.p>
@@ -130,11 +130,12 @@ export default function Hero() {
                         <Link
                             href={ctaSecondaryLink}
                             onClick={() => executeRecaptcha("hero_contact_me")}
-                            className="px-8 py-4 rounded-xl border border-white/20 text-white font-bold hover:bg-white/10 hover:border-white/40 backdrop-blur-sm transition-all"
+                            className="px-8 py-4 rounded-xl border-2 border-primary-500/25 bg-white/90 text-gray-900 font-bold hover:bg-orange-50/60 hover:border-primary-500 shadow-sm transition-all"
                         >
                             {ctaSecondaryText}
                         </Link>
                     </motion.div>
+
 
                 </motion.div>
             </motion.div>

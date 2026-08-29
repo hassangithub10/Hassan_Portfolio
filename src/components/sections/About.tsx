@@ -45,11 +45,11 @@ export default function About() {
                         {badgeText}
                     </span>
 
-                    <h2 id="about-heading" className="heading-lg text-white">
+                    <h2 id="about-heading" className="heading-lg text-gray-900">
                         {title} <span className="text-gradient-primary">{subtitle}</span>
                     </h2>
 
-                    <p className="body-lg text-gray-300 max-w-3xl mx-auto leading-relaxed">
+                    <p className="body-lg text-gray-600 max-w-3xl mx-auto leading-relaxed">
                         {description}
                     </p>
                 </motion.div>
@@ -157,8 +157,8 @@ function StatCard({
         >
             <Parallax3DCard
                 maxTilt={20}
-                glowColor={`rgba(14, 165, 233, 0.4)`}
-                className="relative w-full p-8 bg-white/5 backdrop-blur-xl rounded-3xl border border-white/10 overflow-hidden group card-3d shadow-2xl"
+                glowColor={`rgba(249, 115, 22, 0.25)`}
+                className="relative w-full p-8 bg-white/90 backdrop-blur-xl rounded-3xl border border-primary-500/15 overflow-hidden group card-3d shadow-xl"
             >
 
                 {/* Neon Border on Hover */}
@@ -168,11 +168,11 @@ function StatCard({
 
                 <div className="relative z-10">
                     <Icon className="w-10 h-10 mb-4 transition-colors" style={{ color: `rgb(${color})` }} />
-                    <div className="text-4xl font-black font-heading mb-2" style={{ color: `rgb(${color})` }}>
+                    <div className="text-4xl font-black font-heading mb-2 text-primary-600">
                         {isInView ? count : 0}
                         {value.includes("+") ? "+" : ""}
                     </div>
-                    <div className="text-sm text-gray-300 uppercase tracking-wider font-heading">
+                    <div className="text-sm text-gray-700 font-bold uppercase tracking-wider font-heading">
                         {label}
                     </div>
                 </div>
@@ -180,3 +180,4 @@ function StatCard({
         </motion.div>
     );
 }
+

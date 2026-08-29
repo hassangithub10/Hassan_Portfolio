@@ -14,7 +14,7 @@ function randomInSphere(numPoints: number, radius: number) {
         const theta = 2 * Math.PI * u;
         const phi = Math.acos(2 * v - 1);
         const r = radius * Math.cbrt(Math.random());
-        
+
         points[i * 3] = r * Math.sin(phi) * Math.cos(theta);
         points[i * 3 + 1] = r * Math.sin(phi) * Math.sin(theta);
         points[i * 3 + 2] = r * Math.cos(phi);
@@ -24,13 +24,13 @@ function randomInSphere(numPoints: number, radius: number) {
 
 function Starfield() {
     const ref = useRef<THREE.Points>(null);
-    const sphere = useMemo(() => randomInSphere(5000, 15), []); // 5000 particles in a radius of 15
+    const sphere = useMemo(() => randomInSphere(4000, 15), []);
 
-    useFrame((state, delta) => {
+    useFrame((_state, delta) => {
         if (ref.current) {
             // Slow rotation for a cinematic drift
-            ref.current.rotation.x -= delta / 20;
-            ref.current.rotation.y -= delta / 30;
+            ref.current.rotation.x -= delta / 24;
+            ref.current.rotation.y -= delta / 32;
         }
     });
 
@@ -39,11 +39,11 @@ function Starfield() {
             <Points ref={ref} positions={sphere} stride={3} frustumCulled={false}>
                 <PointMaterial
                     transparent
-                    color="#0ea5e9" // primary-500
-                    size={0.03}
+                    color="#f97316" // primary orange-500
+                    size={0.032}
                     sizeAttenuation={true}
                     depthWrite={false}
-                    opacity={0.6}
+                    opacity={0.65}
                 />
             </Points>
         </group>
@@ -52,9 +52,9 @@ function Starfield() {
 
 export default function CinematicBackground() {
     return (
-        <div className="fixed inset-0 z-[-1] pointer-events-none bg-[#030712]"> {/* deep dark background */}
+        <div className="fixed inset-0 z-[-1] pointer-events-none bg-gradient-to-b from-white via-orange-50/20 to-white">
             <Canvas camera={{ position: [0, 0, 5], fov: 60 }}>
-                <ambientLight intensity={0.5} />
+                <ambientLight intensity={1.0} />
                 <Starfield />
             </Canvas>
         </div>

@@ -81,9 +81,10 @@ export default function Experience() {
 
                             <Parallax3DCard
                                 maxTilt={6}
-                                glowColor="rgba(14, 165, 233, 0.12)"
-                                className="relative p-8 md:p-12 ml-6 bg-white/60 backdrop-blur-xl rounded-3xl border border-primary-500/8 overflow-hidden card-3d"
+                                glowColor="rgba(249, 115, 22, 0.2)"
+                                className="relative p-8 md:p-12 ml-6 bg-white/90 backdrop-blur-xl rounded-3xl border border-primary-500/15 overflow-hidden card-3d shadow-md hover:shadow-xl"
                             >
+
                                 {/* Shimmer top border */}
                                 <div className="shimmer-line absolute top-0 left-0 w-full h-[2px]" />
 

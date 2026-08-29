@@ -70,9 +70,10 @@ export default function Education() {
                                 <div className={`w-full md:w-[45%] ${index % 2 === 0 ? "md:text-right" : "md:text-left"} pl-12 md:pl-0`}>
                                     <Parallax3DCard
                                         maxTilt={10}
-                                        glowColor="rgba(14, 165, 233, 0.15)"
-                                        className="relative p-6 md:p-8 bg-white/60 backdrop-blur-xl rounded-2xl border border-primary-500/10 group overflow-hidden card-3d"
+                                        glowColor="rgba(249, 115, 22, 0.2)"
+                                        className="relative p-6 md:p-8 bg-white/90 backdrop-blur-xl rounded-2xl border border-primary-500/20 group overflow-hidden card-3d shadow-md hover:shadow-xl"
                                     >
+
                                         {/* Shimmer top border */}
                                         <div className="shimmer-line absolute top-0 left-0 w-full h-[2px]" />
 

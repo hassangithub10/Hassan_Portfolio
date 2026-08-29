@@ -85,15 +85,16 @@ export default function Contact() {
                         >
                             <Parallax3DCard
                                 maxTilt={10}
-                                glowColor="rgba(14, 165, 233, 0.14)"
+                                glowColor="rgba(249, 115, 22, 0.2)"
                                 hoverScale={1.02}
                                 className="w-full"
                             >
                                 <a
                                     href={item.href}
                                     onClick={() => executeRecaptcha(`contact_${item.label.toLowerCase()}`)}
-                                    className="group flex items-center gap-6 p-6 sm:p-7 rounded-3xl bg-white/60 backdrop-blur-xl border border-primary-500/10 hover:border-primary-500/30 hover:bg-white/80 transition-all duration-300 card-3d"
+                                    className="group flex items-center gap-6 p-6 sm:p-7 rounded-3xl bg-white/90 backdrop-blur-xl border border-primary-500/15 hover:border-primary-500/40 hover:bg-white transition-all duration-300 card-3d shadow-md hover:shadow-xl"
                                 >
+
 
                                     {/* Shimmer top line */}
                                     <div className="shimmer-line absolute top-0 left-6 right-6 h-[1px] opacity-0 group-hover:opacity-100 transition-opacity" />

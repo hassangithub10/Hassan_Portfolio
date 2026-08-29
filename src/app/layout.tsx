@@ -120,11 +120,10 @@ export default function RootLayout({
                     strategy="afterInteractive"
                 />
 
-                <div className="scanlines" />
-
                 <CinematicBackground />
 
                 {/* Header */}
+
                 <Header />
 
                 {/* Main content */}

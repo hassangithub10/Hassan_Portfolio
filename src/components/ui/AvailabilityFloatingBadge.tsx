@@ -30,17 +30,18 @@ export default function AvailabilityFloatingBadge() {
             >
 
 
-                <div className="absolute inset-0 bg-[#0ea5e9] rounded-full blur-[20px] opacity-20 group-hover:opacity-40 transition-opacity duration-500" />
+                <div className="absolute inset-0 bg-[#f97316] rounded-full blur-[20px] opacity-20 group-hover:opacity-40 transition-opacity duration-500" />
 
-                <div className="relative flex items-center gap-3 px-5 py-3 rounded-full bg-primary-500/5 border border-primary-500/10 backdrop-blur-sm shadow-lg shadow-primary-500/10 group-hover:bg-white/90 transition-colors">
+                <div className="relative flex items-center gap-3 px-5 py-3 rounded-full bg-white/95 border border-primary-500/25 backdrop-blur-md shadow-lg shadow-primary-500/15 group-hover:bg-white transition-colors">
                     <span className="relative flex h-3 w-3">
-                        <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#0ea5e9] opacity-75"></span>
-                        <span className="relative inline-flex rounded-full h-3 w-3 bg-[#0ea5e9]"></span>
+                        <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#f97316] opacity-75"></span>
+                        <span className="relative inline-flex rounded-full h-3 w-3 bg-[#f97316]"></span>
                     </span>
-                    <span className="text-sm font-bold text-[#0ea5e9] tracking-wider uppercase font-heading whitespace-nowrap">
+                    <span className="text-sm font-bold text-[#ea580c] tracking-wider uppercase font-heading whitespace-nowrap">
                         {text}
                     </span>
                 </div>
+
             </motion.a>
         </AnimatePresence>
     );
