@@ -1,12 +1,10 @@
 import type { Metadata } from "next";
-import Link from "next/link";
+import Script from "next/script";
 import { Chakra_Petch, Mulish } from "next/font/google";
 import "./globals.css";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 import AvailabilityFloatingBadge from "@/components/ui/AvailabilityFloatingBadge";
-// Removed dynamic imports
-import SchemaGenerator from "@/components/seo/SchemaGenerator";
 import CinematicBackground from "@/components/ui/CinematicBackground";
 
 const chakraPetch = Chakra_Petch({
@@ -24,27 +22,31 @@ const mulish = Mulish({
 });
 
 export const metadata: Metadata = {
-    metadataBase: new URL(process.env.NEXT_PUBLIC_APP_URL || "https://hassansarfraz.online"),
-    title: "Hassan Sarfraz | Frontend Developer & AI Enthusiast",
+    metadataBase: new URL("https://hassansarfraz.online"),
+    title: "Hassan Sarfraz | Frontend Developer & AI Specialist",
     description:
-        "Passionate Frontend Developer crafting exceptional digital experiences with modern web technologies. Specializing in React, Next.js, and responsive web design.",
+        "Portfolio of Hassan Sarfraz, a passionate Frontend Developer and AI Enthusiast crafting high-performance, cinematic web experiences with React, Next.js, and modern technologies.",
     keywords: [
         "Frontend Developer",
-        "AI Enthusiast",
+        "AI Specialist",
         "React Developer",
         "Next.js Developer",
         "TypeScript",
         "Web Development",
         "Hassan Sarfraz",
         "Portfolio",
-        "UI/UX",
-        "Software Engineer"
+        "UI/UX Engineering",
+        "Software Engineer",
     ],
     authors: [{ name: "Hassan Sarfraz", url: "https://hassansarfraz.online" }],
     creator: "Hassan Sarfraz",
     publisher: "Hassan Sarfraz",
     alternates: {
-        canonical: "/",
+        canonical: "https://hassansarfraz.online",
+    },
+    icons: {
+        icon: "/logo.svg",
+        apple: "/logo.svg",
     },
     robots: {
         index: true,
@@ -58,29 +60,29 @@ export const metadata: Metadata = {
         },
     },
     openGraph: {
-        title: "Hassan Sarfraz | Frontend Developer & AI Enthusiast",
+        title: "Hassan Sarfraz | Frontend Developer & AI Specialist",
         description:
-            "Passionate Frontend Developer crafting exceptional digital experiences with modern web technologies.",
+            "Portfolio of Hassan Sarfraz, a passionate Frontend Developer and AI Enthusiast crafting high-performance, cinematic web experiences with React, Next.js, and modern technologies.",
         type: "website",
         locale: "en_US",
         url: "https://hassansarfraz.online",
         siteName: "Hassan Sarfraz Portfolio",
         images: [
             {
-                url: "/logo.svg", // Replace with a high-res OG image if you have one
+                url: "https://hassansarfraz.online/logo.svg",
                 width: 1200,
                 height: 630,
-                alt: "Hassan Sarfraz Portfolio",
+                alt: "Hassan Sarfraz - Frontend Developer & AI Specialist",
             },
         ],
     },
     twitter: {
         card: "summary_large_image",
-        title: "Hassan Sarfraz | Frontend Developer & AI Enthusiast",
+        title: "Hassan Sarfraz | Frontend Developer & AI Specialist",
         description:
-            "Passionate Frontend Developer crafting exceptional digital experiences with modern web technologies.",
+            "Portfolio of Hassan Sarfraz, a passionate Frontend Developer and AI Enthusiast crafting high-performance, cinematic web experiences with React, Next.js, and modern technologies.",
         creator: "@hassansarfraz",
-        images: ["/logo.svg"],
+        images: ["https://hassansarfraz.online/logo.svg"],
     },
 };
 
@@ -89,55 +91,52 @@ export default function RootLayout({
 }: Readonly<{
     children: React.ReactNode;
 }>) {
-    const siteFavicon = "/logo.svg";
+    const recaptchaSiteKey =
+        process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY || "6Ld_placeholder_recaptcha_v3_key";
 
     return (
-        <html lang="en" className="scroll-smooth">
-            <head>
-                {/* Google tag (gtag.js) */}
-                <script async src="https://www.googletagmanager.com/gtag/js?id=G-B6P9KW8X46"></script>
-                <script
-                    dangerouslySetInnerHTML={{
-                        __html: `
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
 
-  gtag('config', 'G-B6P9KW8X46');
-`
-                    }}
-                />
-                {siteFavicon && <link rel="icon" href={siteFavicon} />}
-            </head>
+        <html lang="en" className="scroll-smooth">
             <body
                 className={`${chakraPetch.variable} ${mulish.variable} antialiased`}
             >
+                {/* Google Analytics */}
+                <Script
+                    src="https://www.googletagmanager.com/gtag/js?id=G-B6P9KW8X46"
+                    strategy="afterInteractive"
+                />
+                <Script id="google-analytics" strategy="afterInteractive">
+                    {`
+                        window.dataLayer = window.dataLayer || [];
+                        function gtag(){dataLayer.push(arguments);}
+                        gtag('js', new Date());
+                        gtag('config', 'G-B6P9KW8X46');
+                    `}
+                </Script>
+
+                {/* Google reCAPTCHA v3 */}
+                <Script
+                    src={`https://www.google.com/recaptcha/api.js?render=${recaptchaSiteKey}`}
+                    strategy="afterInteractive"
+                />
 
                 <div className="scanlines" />
+
                 <CinematicBackground />
 
                 {/* Header */}
                 <Header />
 
                 {/* Main content */}
-                <main>{children}</main>
+                <main id="main-content">{children}</main>
 
                 {/* Footer */}
                 <Footer />
 
                 {/* Floating Availability Badge */}
                 <AvailabilityFloatingBadge />
-
-                {/* AEO: Global Schema */}
-                <SchemaGenerator
-                    type="Organization"
-                    data={{
-                        name: "Hassan Sarfraz Portfolio",
-                        url: "https://hassansarfraz.online",
-                        logo: "https://hassansarfraz.online/logo.svg"
-                    }}
-                />
             </body>
         </html>
     );
 }
+

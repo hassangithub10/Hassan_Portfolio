@@ -1,32 +1,35 @@
 "use client";
 
 import { motion, AnimatePresence } from "framer-motion";
-import { useEffect, useState } from "react";
-import { usePathname } from "next/navigation";
-// Removed Props
+import { executeRecaptcha } from "@/lib/recaptcha";
 
 export default function AvailabilityFloatingBadge() {
-    const pathname = usePathname();
-
     const isVisible = true;
     const text = "Available";
     const link = "https://api.whatsapp.com/send/?phone=%2B923117371750&text&type=phone_number&app_absent=0";
 
-    // Hide on admin DASHBOARD routes (anything starting with /letmein)
-    if (pathname?.startsWith("/letmein")) return null;
-
     if (!isVisible) return null;
+
+    const handleClick = () => {
+        executeRecaptcha("whatsapp_floating_badge");
+    };
 
     return (
         <AnimatePresence>
             <motion.a
                 href={link}
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={handleClick}
+                aria-label="Contact Hassan Sarfraz on WhatsApp (Available for work)"
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: 20 }}
                 transition={{ delay: 1, duration: 0.5 }}
                 className="fixed bottom-6 right-6 z-50 group cursor-pointer no-underline"
             >
+
+
                 <div className="absolute inset-0 bg-[#0ea5e9] rounded-full blur-[20px] opacity-20 group-hover:opacity-40 transition-opacity duration-500" />
 
                 <div className="relative flex items-center gap-3 px-5 py-3 rounded-full bg-primary-500/5 border border-primary-500/10 backdrop-blur-sm shadow-lg shadow-primary-500/10 group-hover:bg-white/90 transition-colors">

@@ -1,105 +1,80 @@
-A futuristic, responsive portfolio website for Hassan Sarfraz built with Next.js 16.1+, Tailwind CSS, Framer Motion, and MySQL.
+# Hassan Sarfraz - Developer Portfolio
+
+A modern, high-performance, cinematic developer portfolio website for Hassan Sarfraz built with Next.js App Router, Tailwind CSS, Framer Motion, and Three.js.
+
+Production Site: [https://hassansarfraz.online](https://hassansarfraz.online)
+
+---
+
+## 🔒 Security Notice & Git History Warning
+
+> [!WARNING]
+> **Secret Rotation & Git History Warning**:
+> If any API keys, database connection strings, passwords, or service credentials were previously hardcoded or committed in earlier commits of this repository, those values may still exist in the Git history.
+> **Action Required**: You MUST rotate and revoke any previously exposed secrets, credentials, or connection strings across all associated services, cloud providers, and databases immediately before production deployment.
+
+---
 
 ## Features
 
-- 🎨 **Dynamic Gradient Theme** - Toggle between charcoal and lime themes
-- ✨ **Glassmorphism UI** - Modern glass card effects
-- 🚀 **Framer Motion Animations** - Smooth scroll and hover animations
-- 📱 **Fully Responsive** - Mobile-first design
-- 🗄️ **MySQL Database** - Dynamic content from database
-- 🔧 **Drizzle ORM** - Type-safe database queries
+- ⚡ **Static Generation**: Purely static, ultra-fast pre-rendered Next.js site.
+- 🎬 **Cinematic Visuals**: 3D particle background using React Three Fiber, scanlines, and glassmorphism.
+- 🔍 **Comprehensive Technical SEO & AEO**: Full OpenGraph, Twitter Cards, native sitemap, and robots.txt.
+- 📐 **Linked Structured Data (JSON-LD)**: Connected `@graph` schema (`WebSite`, `Person`, `ProfilePage`).
+- 🛡️ **Hardened Security Headers**: Standard HSTS, X-Content-Type-Options, X-Frame-Options, Referrer-Policy, Permissions-Policy, and CSP.
+- ♿ **Accessibility & Semantics**: WCAG compliant semantic hierarchy and ARIA labels.
+
+---
 
 ## Tech Stack
 
-- **Framework**: Next.js 16.1+ with App Router & Turbopack
-- **Styling**: Tailwind CSS
-- **Animations**: Framer Motion
-- **Database**: MySQL 8.0+
-- **ORM**: Drizzle ORM
-- **Fonts**: Chakra Petch, Mulish (via next/font)
+- **Framework**: Next.js 16 (App Router, Static Prerendering)
+- **Language**: TypeScript
+- **Styling**: Tailwind CSS & Vanilla CSS
+- **Animations**: Framer Motion & Three.js / React Three Fiber
+- **Icons**: Heroicons & Devicons
+- **Fonts**: Chakra Petch & Mulish (`next/font/google`)
+
+---
 
 ## Getting Started
 
 ### Prerequisites
 
-- Node.js 24+
-- MySQL 8.0+
+- Node.js 20+
 - npm
 
-### Database Setup
+### Environment Setup
 
-1. Create the database and tables:
+1. Copy `.env.example` to `.env.local`:
+   ```bash
+   cp .env.example .env.local
+   ```
+2. Configure any necessary environment variables. (Ensure no sensitive secrets use the `NEXT_PUBLIC_` prefix).
 
-```bash
-mysql -u root -p < database/hassanport_db_schema.sql
-```
-
-2. Seed the database with sample data:
-
-```bash
-mysql -u root -p < database/seed_data.sql
-```
-
-### Environment Variables
-
-Create a `.env.local` file with:
-
-```env
-DATABASE_URL=mysql://root:password@localhost:3306/hassanport_db
-DB_HOST=localhost
-DB_PORT=3306
-DB_USER=root
-DB_PASSWORD=your_password
-DB_NAME=hassanport_db
-```
-
-### Installation
+### Installation & Development
 
 ```bash
 # Install dependencies
 npm install
 
-# Run development server
+# Run local development server
 npm run dev
+
+# Run type check
+npx tsc --noEmit
+
+# Run ESLint
+npx eslint src
+
+# Create production static build
+npm run build
+
+# Preview production build locally
+npm run start
 ```
 
-Open [http://localhost:3000](http://localhost:3000) to view the site.
-
-## Project Structure
-
-```
-├── database/
-│   ├── hassanport_db_schema.sql   # Database schema
-│   └── seed_data.sql              # Sample data
-├── src/
-│   ├── app/
-│   │   ├── api/contact/           # Contact form API
-│   │   ├── layout.tsx             # Root layout
-│   │   ├── page.tsx               # Home page
-│   │   └── globals.css            # Global styles
-│   ├── components/
-│   │   ├── layout/                # Header, Footer
-│   │   ├── sections/              # Page sections
-│   │   └── ui/                    # Reusable UI components
-│   ├── db/
-│   │   ├── index.ts               # Database connection
-│   │   └── schema.ts              # Drizzle schema
-│   └── lib/
-│       └── actions.ts             # Server actions
-└── tailwind.config.ts             # Tailwind configuration
-```
-
-## Available Scripts
-
-- `npm run dev` - Start development server with Turbopack
-- `npm run build` - Create production build
-- `npm run start` - Start production server
-- `npm run lint` - Run ESLint
-
-## Color Palette
-
-- **Charcoal**: `#181818`
-- **Lime**: `#B0FC51`
+---
 
 ## License
 

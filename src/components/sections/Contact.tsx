@@ -7,6 +7,8 @@ import {
     MapPinIcon,
 } from "@heroicons/react/24/outline";
 import Parallax3DCard from "@/components/ui/Parallax3DCard";
+import { executeRecaptcha } from "@/lib/recaptcha";
+
 
 
 const contactInfoItems = [
@@ -89,8 +91,10 @@ export default function Contact() {
                             >
                                 <a
                                     href={item.href}
+                                    onClick={() => executeRecaptcha(`contact_${item.label.toLowerCase()}`)}
                                     className="group flex items-center gap-6 p-6 sm:p-7 rounded-3xl bg-white/60 backdrop-blur-xl border border-primary-500/10 hover:border-primary-500/30 hover:bg-white/80 transition-all duration-300 card-3d"
                                 >
+
                                     {/* Shimmer top line */}
                                     <div className="shimmer-line absolute top-0 left-6 right-6 h-[1px] opacity-0 group-hover:opacity-100 transition-opacity" />
 

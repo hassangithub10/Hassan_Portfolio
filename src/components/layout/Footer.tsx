@@ -1,10 +1,12 @@
 "use client";
 
-import React from 'react';
+import React from "react";
 import { motion } from "framer-motion";
-import { usePathname } from "next/navigation";
-import { NavigationItem } from "@/lib/types";
 import Link from "next/link";
+import { executeRecaptcha } from "@/lib/recaptcha";
+
+
+
 
 // Removed FooterProps
 
@@ -48,15 +50,14 @@ const defaultSocialLinks = [
 ];
 
 export default function Footer() {
-    const pathname = usePathname();
     const currentYear = new Date().getFullYear();
 
     const logoText = "Hassan";
     const copyrightText = `© ${currentYear} ${logoText}. All Rights Reserved.`;
 
-    if (pathname && (pathname.startsWith("/letmein") || pathname.startsWith("/admin"))) return null;
 
     return (
+
         <footer className="relative py-8 border-t border-primary-500/10">
             {/* Background gradient */}
             <div
@@ -106,6 +107,7 @@ export default function Footer() {
                                 href={social.url}
                                 target="_blank"
                                 rel="noopener noreferrer"
+                                onClick={() => executeRecaptcha(`footer_social_${social.name.toLowerCase()}`)}
                                 className="w-10 h-10 rounded-xl bg-primary-500/5 flex items-center justify-center text-primary-500/50 hover:text-primary-500 hover:bg-primary-500/10 transition-all"
                                 whileHover={{ scale: 1.1, y: -2 }}
                                 whileTap={{ scale: 0.95 }}
@@ -120,6 +122,7 @@ export default function Footer() {
                 {/* Back to top */}
                 <motion.a
                     href="#"
+                    onClick={() => executeRecaptcha("back_to_top")}
                     className="fixed bottom-24 right-6 w-12 h-12 rounded-full bg-white/80 backdrop-blur-xl border border-primary-500/10 flex items-center justify-center text-primary-500 hover:border-primary-500/50 hover:shadow-lg hover:shadow-primary-500/10 transition-all"
                     whileHover={{ y: -3 }}
                     initial={{ opacity: 0, y: 20 }}
@@ -138,6 +141,7 @@ export default function Footer() {
                         <path d="M18 15l-6-6-6 6" />
                     </svg>
                 </motion.a>
+
             </div>
         </footer>
     );

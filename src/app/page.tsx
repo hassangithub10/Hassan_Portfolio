@@ -8,51 +8,86 @@ import SkillsCarousel from "@/components/sections/SkillsCarousel";
 import Contact from "@/components/sections/Contact";
 import { ScrollStack, ScrollStackItem } from "@/components/ui/ScrollStack";
 import { getDynamicSEO } from "@/lib/seo";
-import { Metadata } from "next";
+import type { Metadata } from "next";
 
-export async function generateMetadata(): Promise<Metadata> {
-    return await getDynamicSEO(
+export function generateMetadata(): Metadata {
+    return getDynamicSEO(
         "/",
-        "Home",
-        "Passionate Frontend Developer crafting exceptional digital experiences with modern web technologies.",
-        {
-            url: "/",
-        }
+        "Hassan Sarfraz | Frontend Developer & AI Specialist",
+        "Portfolio of Hassan Sarfraz, a passionate Frontend Developer and AI Enthusiast crafting high-performance, cinematic web experiences with React, Next.js, and modern technologies."
     );
 }
 
-export default async function Home() {
+export default function Home() {
     const jsonLd = {
         "@context": "https://schema.org",
         "@graph": [
             {
                 "@type": "WebSite",
                 "@id": "https://hassansarfraz.online/#website",
-                "url": "https://hassansarfraz.online/",
+                "url": "https://hassansarfraz.online",
                 "name": "Hassan Sarfraz Portfolio",
-                "description": "I craft high-performance, cinematic web experiences with a focus on modern aesthetics and technical excellence.",
+                "description": "Portfolio of Hassan Sarfraz - Frontend Developer & AI Specialist crafting high-performance, cinematic web experiences.",
                 "publisher": {
-                    "@id": "https://hassansarfraz.online/#person"
-                }
+                    "@id": "https://hassansarfraz.online/#person",
+                },
+                "inLanguage": "en-US",
             },
             {
                 "@type": "Person",
                 "@id": "https://hassansarfraz.online/#person",
                 "name": "Hassan Sarfraz",
                 "url": "https://hassansarfraz.online",
-                "jobTitle": "Frontend Developer & AI Enthusiast",
-                "description": "I craft high-performance, cinematic web experiences with a focus on modern aesthetics and technical excellence.",
+                "jobTitle": "Frontend Developer & AI Specialist",
+                "description": "Frontend Developer with over 4 years of experience specializing in React, Next.js, TypeScript, and AI-driven development workflows.",
                 "image": "https://hassansarfraz.online/logo.svg",
                 "sameAs": [
                     "https://www.linkedin.com/in/hassan-s-101a8978",
-                    "https://github.com/hassangithub10"
+                    "https://github.com/hassangithub10",
                 ],
-                "knowsAbout": ["React", "Next.js", "Web Development", "TypeScript", "Frontend Engineering"]
-            }
-        ]
+                "address": {
+                    "@type": "PostalAddress",
+                    "addressLocality": "Faisalabad",
+                    "addressCountry": "PK",
+                },
+                "alumniOf": {
+                    "@type": "EducationalOrganization",
+                    "name": "Government College University Faisalabad",
+                },
+                "knowsAbout": [
+                    "React",
+                    "Next.js",
+                    "TypeScript",
+                    "JavaScript",
+                    "Tailwind CSS",
+                    "Node.js",
+                    "Frontend Web Development",
+                    "UI/UX Implementation",
+                    "Performance Optimization",
+                    "Search Engine Optimization (SEO)",
+                ],
+            },
+            {
+                "@type": "ProfilePage",
+                "@id": "https://hassansarfraz.online/#profilepage",
+                "url": "https://hassansarfraz.online",
+                "name": "Hassan Sarfraz | Frontend Developer & AI Specialist",
+                "isPartOf": {
+                    "@id": "https://hassansarfraz.online/#website",
+                },
+                "about": {
+                    "@id": "https://hassansarfraz.online/#person",
+                },
+                "mainEntity": {
+                    "@id": "https://hassansarfraz.online/#person",
+                },
+                "inLanguage": "en-US",
+            },
+        ],
     };
 
     const TOTAL = 7;
+
 
     return (
         <>

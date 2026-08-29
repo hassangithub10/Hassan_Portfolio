@@ -1,52 +1,74 @@
 
-import { Person, WithContext, BlogPosting, Organization } from "schema-dts";
+import type { Person, WithContext, BlogPosting, Organization } from "schema-dts";
 
-interface SchemaGeneratorProps {
-    type: "Person" | "BlogPosting" | "Organization";
-    data: any;
+interface PersonData {
+    name?: string;
+    url?: string;
+    socialLinks?: string[];
+    jobTitle?: string;
+    company?: string;
 }
 
-export default function SchemaGenerator({ type, data }: SchemaGeneratorProps) {
-    if (type === "Person") {
+interface BlogPostingData {
+    title: string;
+    description?: string;
+    image?: string;
+    publishedAt?: string;
+    authorName?: string;
+}
+
+interface OrganizationData {
+    name?: string;
+    url?: string;
+    logo?: string;
+}
+
+type SchemaGeneratorProps =
+    | { type: "Person"; data: PersonData }
+    | { type: "BlogPosting"; data: BlogPostingData }
+    | { type: "Organization"; data: OrganizationData };
+
+export default function SchemaGenerator(props: SchemaGeneratorProps) {
+    if (props.type === "Person") {
         const personSchema: WithContext<Person> = {
             "@context": "https://schema.org",
             "@type": "Person",
-            name: data.name || "Hassan Sarfraz",
-            url: data.url || "https://hassansarfraz.online",
-            sameAs: data.socialLinks || [],
-            jobTitle: data.jobTitle || "Full Stack Developer",
+            name: props.data.name || "Hassan Sarfraz",
+            url: props.data.url || "https://hassansarfraz.online",
+            sameAs: props.data.socialLinks || [],
+            jobTitle: props.data.jobTitle || "Frontend Developer & AI Enthusiast",
             worksFor: {
                 "@type": "Organization",
-                name: data.company || "Freelance",
+                name: props.data.company || "Digital Konnector Systems (DKS)",
             },
         };
         return <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(personSchema) }} />;
     }
 
-    if (type === "BlogPosting") {
+    if (props.type === "BlogPosting") {
         const blogSchema: WithContext<BlogPosting> = {
             "@context": "https://schema.org",
             "@type": "BlogPosting",
-            headline: data.title,
-            description: data.description,
-            image: data.image ? [data.image] : [],
-            datePublished: data.publishedAt,
+            headline: props.data.title,
+            description: props.data.description,
+            image: props.data.image ? [props.data.image] : [],
+            datePublished: props.data.publishedAt,
             author: {
                 "@type": "Person",
-                name: "Hassan Sarfraz", // Could be dynamic
+                name: props.data.authorName || "Hassan Sarfraz",
             },
         };
         return <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(blogSchema) }} />;
     }
 
-    // Default or Organization
     const orgSchema: WithContext<Organization> = {
         "@context": "https://schema.org",
         "@type": "Organization",
-        name: data.name || "Hassan",
-        url: data.url || "https://hassansarfraz.online",
-        logo: data.logo,
+        name: props.data.name || "Hassan Sarfraz Portfolio",
+        url: props.data.url || "https://hassansarfraz.online",
+        logo: props.data.logo,
     };
 
     return <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(orgSchema) }} />;
 }
+

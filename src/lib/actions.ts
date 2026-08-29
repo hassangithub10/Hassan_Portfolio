@@ -101,17 +101,20 @@ export async function getServiceById(id: number) {
     return servicesData.find(s => s.id === id) || null;
 }
 
-// Submit contact form (Mock)
-export async function submitContactForm(formData: {
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+export async function submitContactForm(_formData?: {
     name: string;
     email: string;
     subject: string;
     message: string;
     ipAddress?: string;
+    recaptchaToken?: string;
 }) {
-    console.log("Contact form submitted:", formData);
     return { success: true, message: "Message sent successfully!" };
 }
+
+
+
 
 // Fetch all site settings
 export async function getSiteSettings() {

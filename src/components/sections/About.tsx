@@ -2,9 +2,11 @@
 
 import { motion, useInView } from "framer-motion";
 import { useRef, useState, useEffect } from "react";
-import LogoTicker, { TickerItem } from "@/components/ui/LogoTicker";
 import { SparklesIcon, CodeBracketSquareIcon, RocketLaunchIcon, UserGroupIcon } from "@heroicons/react/24/outline";
 import Parallax3DCard from "@/components/ui/Parallax3DCard";
+import { executeRecaptcha } from "@/lib/recaptcha";
+
+
 
 
 export default function About() {
@@ -150,12 +152,15 @@ function StatCard({
             viewport={{ once: true }}
             transition={{ duration: 0.6, delay, ease: [0.23, 1, 0.32, 1] }}
             style={{ perspective: "1200px" }}
+            onClick={() => executeRecaptcha(`about_stat_${label.toLowerCase().replace(/\s+/g, "_")}`)}
+            className="cursor-pointer"
         >
             <Parallax3DCard
                 maxTilt={20}
                 glowColor={`rgba(14, 165, 233, 0.4)`}
                 className="relative w-full p-8 bg-white/5 backdrop-blur-xl rounded-3xl border border-white/10 overflow-hidden group card-3d shadow-2xl"
             >
+
                 {/* Neon Border on Hover */}
                 <div
                     className="absolute -inset-[1px] rounded-3xl duration-500 pointer-events-none"

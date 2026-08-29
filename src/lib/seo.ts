@@ -1,11 +1,15 @@
-import { Metadata } from "next";
+import type { Metadata } from "next";
 
-// This function acts as a helper to generate metadata dynamically
-// It can be used inside generateMetadata export of pages or directly
-export async function getDynamicSEO(
-    route: string, // e.g., "/" or "/about"
-    fallbackTitle: string,
-    fallbackDesc: string,
+export const SITE_URL = "https://hassansarfraz.online";
+export const SITE_NAME = "Hassan Sarfraz Portfolio";
+export const DEFAULT_TITLE = "Hassan Sarfraz | Frontend Developer & AI Specialist";
+export const DEFAULT_DESCRIPTION =
+    "Portfolio of Hassan Sarfraz, a passionate Frontend Developer and AI Enthusiast crafting high-performance, cinematic web experiences with React, Next.js, and modern technologies.";
+
+export function getDynamicSEO(
+    route: string = "/",
+    fallbackTitle: string = DEFAULT_TITLE,
+    fallbackDesc: string = DEFAULT_DESCRIPTION,
     dynamicData?: {
         title?: string | null;
         description?: string | null;
@@ -13,27 +17,35 @@ export async function getDynamicSEO(
         image?: string | null;
         url?: string | null;
     }
-): Promise<Metadata> {
-    const baseUrl = process.env.NEXT_PUBLIC_APP_URL || "https://hassansarfraz.online";
-    const canonicalUrl = dynamicData?.url ? `${baseUrl}${dynamicData.url}` : baseUrl;
+): Metadata {
+    const canonicalPath = dynamicData?.url ?? route;
+    const canonicalUrl = canonicalPath === "/" ? SITE_URL : `${SITE_URL}${canonicalPath}`;
+    const title = dynamicData?.title || fallbackTitle;
 
-    const baseMetadata: Metadata = {
-        title: dynamicData?.title
-            ? `${dynamicData.title} | Hassan Sarfraz`
-            : `${fallbackTitle} | Hassan Sarfraz`,
-        description: dynamicData?.description || fallbackDesc,
-        keywords: dynamicData?.keywords
-            ? dynamicData.keywords.split(',').map(k => k.trim())
-            : [
-                "Frontend Developer",
-                "React Developer",
-                "Next.js Developer",
-                "Hassan Sarfraz",
-                "Portfolio",
-                "Web Development",
-                "Software Engineer"
-            ],
-        authors: [{ name: "Hassan Sarfraz", url: baseUrl }],
+    const description = dynamicData?.description || fallbackDesc;
+    const ogImage = dynamicData?.image || `${SITE_URL}/logo.svg`;
+
+    const keywords = dynamicData?.keywords
+        ? dynamicData.keywords.split(",").map((k) => k.trim())
+        : [
+            "Frontend Developer",
+            "AI Specialist",
+            "React Developer",
+            "Next.js Developer",
+            "TypeScript",
+            "Web Development",
+            "Hassan Sarfraz",
+            "Portfolio",
+            "UI/UX Engineering",
+            "Software Engineer",
+        ];
+
+    return {
+        metadataBase: new URL(SITE_URL),
+        title,
+        description,
+        keywords,
+        authors: [{ name: "Hassan Sarfraz", url: SITE_URL }],
         creator: "Hassan Sarfraz",
         publisher: "Hassan Sarfraz",
         alternates: {
@@ -51,16 +63,16 @@ export async function getDynamicSEO(
             },
         },
         openGraph: {
-            title: dynamicData?.title || fallbackTitle,
-            description: dynamicData?.description || fallbackDesc,
+            title,
+            description,
             url: canonicalUrl,
-            siteName: "Hassan Sarfraz Portfolio",
+            siteName: SITE_NAME,
             images: [
                 {
-                    url: dynamicData?.image || `${baseUrl}/logo.svg`,
+                    url: ogImage,
                     width: 1200,
                     height: 630,
-                    alt: "Hassan Sarfraz Portfolio",
+                    alt: "Hassan Sarfraz - Frontend Developer & AI Specialist",
                 },
             ],
             locale: "en_US",
@@ -68,12 +80,11 @@ export async function getDynamicSEO(
         },
         twitter: {
             card: "summary_large_image",
-            title: dynamicData?.title || fallbackTitle,
-            description: dynamicData?.description || fallbackDesc,
-            creator: "@hassansarfraz", // Optional, change if applicable
-            images: [dynamicData?.image || `${baseUrl}/logo.svg`],
+            title,
+            description,
+            creator: "@hassansarfraz",
+            images: [ogImage],
         },
     };
-
-    return baseMetadata;
 }
+

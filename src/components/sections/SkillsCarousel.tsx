@@ -4,6 +4,8 @@ import { motion } from "framer-motion";
 import LogoTicker, { TickerItem } from "@/components/ui/LogoTicker";
 import { StarIcon } from "@heroicons/react/24/solid";
 import Parallax3DCard from "@/components/ui/Parallax3DCard";
+import { executeRecaptcha } from "@/lib/recaptcha";
+
 
 
 export default function SkillsCarousel() {
@@ -64,21 +66,28 @@ export default function SkillsCarousel() {
                 <LogoTicker speed={30} pauseOnHover={true}>
                     {skills.map((skill) => (
                         <TickerItem key={skill.id} className="min-w-[120px] md:min-w-[180px]">
-                            <Parallax3DCard
-                                maxTilt={16}
-                                glowColor="rgba(14, 165, 233, 0.18)"
-                                hoverScale={1.08}
-                                className="flex flex-col items-center gap-4 py-2"
-                            >
+                            <div onClick={() => executeRecaptcha(`skill_interact_${skill.name.toLowerCase()}`)}>
+                                <Parallax3DCard
+                                    maxTilt={16}
+                                    glowColor="rgba(14, 165, 233, 0.18)"
+                                    hoverScale={1.08}
+                                    className="flex flex-col items-center gap-4 py-2 cursor-pointer"
+                                >
+
                                 {skill.logoSvgOrUrl ? (
                                     <div className="w-16 h-16 md:w-20 md:h-20 rounded-2xl bg-primary-500/10 flex items-center justify-center border border-primary-500/20 p-4 transition-all duration-300 hover:border-primary-500 hover:bg-primary-500/20 card-3d">
+                                        {/* eslint-disable-next-line @next/next/no-img-element */}
                                         <img
                                             src={skill.logoSvgOrUrl}
-                                            alt={skill.name}
+                                            alt={`${skill.name} icon`}
+                                            width={64}
+                                            height={64}
+                                            loading="lazy"
                                             className="w-full h-full object-contain filter brightness-90 hover:brightness-110 transition-all"
                                         />
                                     </div>
                                 ) : (
+
                                     <div className="w-16 h-16 md:w-20 md:h-20 rounded-2xl bg-primary-500/10 flex items-center justify-center border border-primary-500/20 transition-all duration-300 hover:border-primary-500 hover:bg-primary-500/20 card-3d">
                                         <span className="text-primary-500 font-bold text-2xl">
                                             {skill.name.charAt(0)}
@@ -103,7 +112,9 @@ export default function SkillsCarousel() {
                                     </div>
                                 </div>
                             </Parallax3DCard>
-                        </TickerItem>
+                        </div>
+                    </TickerItem>
+
                     ))}
                 </LogoTicker>
             </div>

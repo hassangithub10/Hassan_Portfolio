@@ -39,11 +39,14 @@ export default function GlassCard({
             }
             className={clsx(
                 "relative overflow-hidden rounded-2xl",
-                "bg-white/40 border border-primary-500/10 backdrop-blur-md",
+                gradient
+                    ? "bg-gradient-to-br from-white/60 to-white/30 border border-primary-500/20 backdrop-blur-md"
+                    : "bg-white/40 border border-primary-500/10 backdrop-blur-md",
                 hover && "cursor-pointer hover:border-primary-500/30",
                 className
             )}
         >
+
             {/* Inner glow effect */}
             <div className="absolute inset-0 opacity-0 hover:opacity-100 transition-opacity duration-500 pointer-events-none">
                 <div

@@ -5,6 +5,8 @@ import Link from "next/link";
 import { ArrowRightIcon } from "@heroicons/react/24/outline";
 import { useRef } from "react";
 import { clsx } from "clsx";
+import { executeRecaptcha } from "@/lib/recaptcha";
+
 
 
 export default function Hero() {
@@ -15,12 +17,11 @@ export default function Hero() {
         offset: ["start start", "end start"],
     });
 
-    // Parallax layers at different depths
-    const y1 = useTransform(scrollYProgress, [0, 1], [0, -120]); // slowest — farthest
-    const y2 = useTransform(scrollYProgress, [0, 1], [0, -200]); // medium
+    // Parallax layers
     const y3 = useTransform(scrollYProgress, [0, 1], [0, -320]); // fastest — closest
     const textY = useTransform(scrollYProgress, [0, 1], [0, -140]);
     const heroOpacity = useTransform(scrollYProgress, [0, 0.6], [1, 0]);
+
 
     // Static Content
     const personalInfo = {
@@ -117,18 +118,24 @@ export default function Hero() {
                         transition={{ delay: 0.55, duration: 0.6 }}
                         className="flex flex-col sm:flex-row items-center justify-center gap-6"
                     >
-                        <Link href={ctaPrimaryLink} className="btn-premium group">
+                        <Link
+                            href={ctaPrimaryLink}
+                            onClick={() => executeRecaptcha("hero_view_work")}
+                            className="btn-premium group"
+                        >
                             {ctaPrimaryText}
                             <ArrowRightIcon className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
                         </Link>
 
                         <Link
                             href={ctaSecondaryLink}
+                            onClick={() => executeRecaptcha("hero_contact_me")}
                             className="px-8 py-4 rounded-xl border border-white/20 text-white font-bold hover:bg-white/10 hover:border-white/40 backdrop-blur-sm transition-all"
                         >
                             {ctaSecondaryText}
                         </Link>
                     </motion.div>
+
                 </motion.div>
             </motion.div>
 

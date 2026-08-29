@@ -3,20 +3,17 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { clsx } from "clsx";
-import { usePathname } from "next/navigation";
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
-import { NavigationItem } from "@/lib/types";
 import Link from "next/link";
-
-// Removed HeaderProps
+import { executeRecaptcha } from "@/lib/recaptcha";
 
 export default function Header() {
-    const pathname = usePathname();
     const [isScrolled, setIsScrolled] = useState(false);
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-    const [isHovered, setIsHovered] = useState(false);
+
 
     // Static Navigation
+
     const displayItems = [
         { label: "About", path: "#about" },
         { label: "Education", path: "#education" },
@@ -39,9 +36,16 @@ export default function Header() {
         return () => window.removeEventListener("scroll", handleScroll);
     }, []);
 
-    if (pathname && (pathname.startsWith("/letmein") || pathname.startsWith("/admin"))) return null;
+    const handleCtaClick = () => {
+        executeRecaptcha("header_cta_click");
+    };
+
+    const handleNavClick = (sectionName: string) => {
+        executeRecaptcha(`nav_${sectionName.toLowerCase()}`);
+    };
 
     return (
+
         <>
             <motion.header
                 initial={{ y: -100, opacity: 0 }}
@@ -62,12 +66,15 @@ export default function Header() {
                         marginTop: isScrolled ? "0" : "1rem"
                     }}
                     transition={{ type: "spring", stiffness: 300, damping: 30 }}
-                    onHoverStart={() => setIsHovered(true)}
-                    onHoverEnd={() => setIsHovered(false)}
                 >
 
+
                     {/* Logo */}
-                    <Link href="/" className="flex items-center gap-2 mr-4 md:mr-8 flex-shrink-0 relative z-20">
+                    <Link 
+                        href="/" 
+                        onClick={() => executeRecaptcha("header_logo_click")}
+                        className="flex items-center gap-2 mr-4 md:mr-8 flex-shrink-0 relative z-20"
+                    >
                         {/* eslint-disable-next-line @next/next/no-img-element */}
                         <img
                             src={"/logo.svg"}
@@ -87,6 +94,7 @@ export default function Header() {
                                 <Link
                                     key={item.path}
                                     href={item.path}
+                                    onClick={() => handleNavClick(item.label)}
                                     className="px-4 py-1.5 rounded-full text-sm font-medium text-gray-900/60 hover:text-primary-500 hover:bg-primary-500/5 transition-all font-heading uppercase tracking-wider"
                                 >
                                     {item.label}
@@ -94,6 +102,7 @@ export default function Header() {
                             ))}
                             <motion.a
                                 href={ctaUrl}
+                                onClick={handleCtaClick}
                                 className="ml-2 px-6 py-2.5 rounded-full bg-primary-500 text-white text-sm font-bold shadow-lg shadow-primary-500/20 hover:shadow-primary-500/40 transition-all uppercase font-heading tracking-widest border border-primary-400/20"
                                 whileHover={{ scale: 1.05, y: -2 }}
                                 whileTap={{ scale: 0.95 }}
@@ -136,7 +145,10 @@ export default function Header() {
                                     >
                                         <Link
                                             href={item.path}
-                                            onClick={() => setIsMobileMenuOpen(false)}
+                                            onClick={() => {
+                                                setIsMobileMenuOpen(false);
+                                                handleNavClick(item.label);
+                                            }}
                                             className="block text-lg font-medium text-gray-900/80 hover:text-primary-500 py-2 font-heading uppercase"
                                         >
                                             {item.label}
@@ -148,7 +160,10 @@ export default function Header() {
                                     initial={{ opacity: 0, y: 10 }}
                                     animate={{ opacity: 1, y: 0 }}
                                     transition={{ delay: 0.3 }}
-                                    onClick={() => setIsMobileMenuOpen(false)}
+                                    onClick={() => {
+                                        setIsMobileMenuOpen(false);
+                                        handleCtaClick();
+                                    }}
                                     className="mt-4 w-full py-3 bg-primary-500 text-white font-bold rounded-xl text-center shadow-lg shadow-primary-500/20 font-heading uppercase"
                                 >
                                     {ctaText}

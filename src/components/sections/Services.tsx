@@ -5,6 +5,8 @@ import Link from "next/link";
 import type { Service } from "@/lib/types";
 import { CheckIcon, SparklesIcon } from "@heroicons/react/24/outline";
 import { useState } from "react";
+import { executeRecaptcha } from "@/lib/recaptcha";
+
 
 export default function Services() {
     // Static Content
@@ -145,6 +147,7 @@ function ServiceCard({ service, index }: { service: Service; index: number }) {
                     {/* CTA */}
                     <Link
                         href="#contact"
+                        onClick={() => executeRecaptcha(`service_inquiry_${service.id}`)}
                         className={`block w-full py-4 text-center rounded-2xl font-heading font-bold uppercase tracking-widest text-sm transition-all ${service.isRecommended
                             ? "bg-primary-500 text-white shadow-lg shadow-primary-500/20 hover:scale-[1.02]"
                             : "bg-primary-500/5 text-primary-500 border border-primary-500/10 hover:bg-primary-500/10"
@@ -152,6 +155,7 @@ function ServiceCard({ service, index }: { service: Service; index: number }) {
                     >
                         Get Started
                     </Link>
+
                 </div>
             </motion.article>
         </motion.div>
