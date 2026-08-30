@@ -4,6 +4,8 @@ import React from "react";
 import { motion } from "framer-motion";
 import Link from "next/link";
 import { executeRecaptcha } from "@/lib/recaptcha";
+import ScrollToTopWave from "@/components/ui/ScrollToTopWave";
+
 
 
 
@@ -119,30 +121,11 @@ export default function Footer() {
                     </nav>
                 </div>
 
-                {/* Back to top */}
-                <motion.a
-                    href="#"
-                    onClick={() => executeRecaptcha("back_to_top")}
-                    className="fixed bottom-24 right-6 w-12 h-12 rounded-full bg-white/80 backdrop-blur-xl border border-primary-500/10 flex items-center justify-center text-primary-500 hover:border-primary-500/50 hover:shadow-lg hover:shadow-primary-500/10 transition-all"
-                    whileHover={{ y: -3 }}
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 1.5 }}
-                    aria-label="Back to top"
-                >
-                    <svg
-                        width="20"
-                        height="20"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        strokeWidth="2"
-                    >
-                        <path d="M18 15l-6-6-6 6" />
-                    </svg>
-                </motion.a>
+                {/* Fluid Water-Wave Back to top */}
+                <ScrollToTopWave />
 
             </div>
         </footer>
     );
 }
+

@@ -5,8 +5,8 @@ import { motion, AnimatePresence } from "framer-motion";
 import { clsx } from "clsx";
 import type { Project } from "@/lib/types";
 import { RocketLaunchIcon, ArrowTopRightOnSquareIcon } from "@heroicons/react/24/outline";
-import Parallax3DCard from "@/components/ui/Parallax3DCard";
 import { executeRecaptcha } from "@/lib/recaptcha";
+
 
 
 // Static Projects Data
@@ -306,9 +306,7 @@ export default function Projects() {
             </div>
         </section>
     );
-}
-
-function ProjectCard({ project, index }: { project: Project; index: number }) {
+}function ProjectCard({ project, index }: { project: Project; index: number }) {
     const techStack = (project.techStack as string[] | null) ?? [];
 
     const collaboratorsList = useMemo(() => {
@@ -323,113 +321,104 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
 
     return (
         <motion.div
-            initial={{ opacity: 0, y: 40, rotateX: -10 }}
-            whileInView={{ opacity: 1, y: 0, rotateX: 0 }}
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.65, delay: index * 0.08, ease: [0.23, 1, 0.32, 1] }}
-            style={{ perspective: "1200px" }}
-            className="group relative h-full"
+            transition={{ duration: 0.5, delay: index * 0.05 }}
+            className="relative h-full"
         >
-            <Parallax3DCard
-                maxTilt={20}
-                glowColor="rgba(249, 115, 22, 0.25)"
-                hoverScale={1.025}
-                className="h-full project-card-3d"
+            <a
+                href={project.liveUrl || "#"}
+                target={project.liveUrl ? "_blank" : "_self"}
+                rel="noopener noreferrer"
+                className={clsx("block h-full no-underline", !project.liveUrl && "cursor-default")}
+                onClick={project.liveUrl ? () => executeRecaptcha(`project_view_${project.id}`) : undefined}
+                aria-label={project.liveUrl ? `View live project: ${project.title}` : `Project details: ${project.title}`}
             >
-                <a
-                    href={project.liveUrl || "#"}
-                    target={project.liveUrl ? "_blank" : "_self"}
-                    rel="noopener noreferrer"
-                    className={clsx("block h-full", !project.liveUrl && "cursor-default pointer-events-none")}
-                    onClick={project.liveUrl ? () => executeRecaptcha(`project_view_${project.id}`) : (e) => e.preventDefault()}
-                    aria-label={project.liveUrl ? `View live project: ${project.title}` : `Project details: ${project.title}`}
-                >
+                <article className="relative overflow-hidden rounded-[2rem] bg-white border border-primary-500/15 flex flex-col h-full shadow-md">
 
-                    <article className="relative overflow-hidden rounded-[2rem] bg-white/95 backdrop-blur-xl border border-primary-500/15 transition-all duration-500 group-hover:border-primary-500/50 flex flex-col h-full shadow-lg hover:shadow-2xl">
-
-                        {/* Project Image Area */}
-                        <div className="relative w-full aspect-[16/10] p-2">
-                            <div className="relative w-full h-full rounded-[2rem] overflow-hidden border border-gray-100 shadow-inner bg-orange-50/30">
-                                {project.imageUrl ? (
-                                    /* eslint-disable-next-line @next/next/no-img-element */
-                                    <img
-                                        src={project.imageUrl}
-                                        alt={`Screenshot of the ${project.title} project`}
-                                        className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
-                                    />
-                                ) : (
-                                    <div className="w-full h-full bg-gradient-to-br from-primary-500/20 to-primary-600/10 flex items-center justify-center">
-                                        <RocketLaunchIcon className="w-12 h-12 text-primary-500/30" />
-                                    </div>
-                                )}
-
-                                {/* Overlay Badges */}
-                                <div className="absolute top-4 left-4 flex flex-col items-start gap-4">
-                                    <span className="px-6 py-2.5 bg-white/90 backdrop-blur-xl border border-primary-500/25 text-gray-900 font-heading text-sm font-black uppercase tracking-widest rounded-full shadow-md">
-                                        {project.category}
-                                    </span>
-                                    {project.featured === true && (
-                                        <span className="px-4 py-1.5 border-2 border-primary-500 text-primary-600 font-heading text-xs font-black uppercase tracking-tighter rounded-md backdrop-blur-md bg-white/90 shadow-sm">
-                                            FEATURED
-                                        </span>
-                                    )}
-                                </div>
-
-                                {/* External link icon */}
-                                {project.liveUrl && (
-                                    <div className="absolute top-4 right-4 w-10 h-10 rounded-2xl bg-white/95 backdrop-blur-md border border-primary-500/20 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-300 scale-90 group-hover:scale-100 shadow-lg">
-                                        <ArrowTopRightOnSquareIcon className="w-6 h-6 text-primary-600" />
-                                    </div>
-                                )}
-                            </div>
-                        </div>
-
-                        {/* Content Section */}
-                        <div className="p-6 pt-4 flex-1 flex flex-col">
-                            <h3 className="text-2xl sm:text-3xl font-black text-gray-900 font-heading tracking-tight">
-                                {project.title}
-                            </h3>
-
-                            <div className="w-full h-px bg-primary-500/10 mt-4 mb-4" />
-
-                            {techStack.length > 0 && (
-                                <div className="flex flex-wrap gap-2.5 mb-auto">
-                                    {techStack.map((tech, i) => (
-                                        <span
-                                            key={i}
-                                            className="text-xs font-black text-gray-700 uppercase tracking-widest px-4 py-2 rounded-xl bg-orange-50/80 border border-orange-200/70"
-                                        >
-                                            {tech}
-                                        </span>
-                                    ))}
+                    {/* Project Image Area */}
+                    <div className="relative w-full aspect-[16/10] p-2">
+                        <div className="relative w-full h-full rounded-[2rem] overflow-hidden border border-gray-100 bg-orange-50/30">
+                            {project.imageUrl ? (
+                                /* eslint-disable-next-line @next/next/no-img-element */
+                                <img
+                                    src={project.imageUrl}
+                                    alt={`Screenshot of the ${project.title} project`}
+                                    className="w-full h-full object-cover"
+                                />
+                            ) : (
+                                <div className="w-full h-full bg-gradient-to-br from-primary-500/20 to-primary-600/10 flex items-center justify-center">
+                                    <RocketLaunchIcon className="w-12 h-12 text-primary-500/30" />
                                 </div>
                             )}
 
-                            <div className="w-full h-px bg-primary-500/10 mt-4 mb-4" />
-
-                            <div className="flex items-center justify-between min-h-[2.5rem]">
-                                {collaboratorsList.length > 0 ? (
-                                    <div className="flex items-center gap-2 flex-wrap">
-                                        {collaboratorsList.map((collab, i) => (
-                                            <span
-                                                key={i}
-                                                className="text-[10px] font-black text-[#ea580c] uppercase tracking-widest px-3 py-1.5 rounded-xl bg-orange-50 border border-[#f97316]/30"
-                                            >
-                                                {collab.name}
-                                            </span>
-                                        ))}
-                                    </div>
-                                ) : (
-                                    <span className="text-[#ea580c] text-xs font-black uppercase tracking-widest px-4 py-1.5 rounded-xl border border-[#f97316]/30 bg-orange-50">
-                                        Self
+                            {/* Overlay Badges */}
+                            <div className="absolute top-4 left-4 flex flex-col items-start gap-4">
+                                <span className="px-6 py-2.5 bg-white/95 border border-primary-500/25 text-gray-900 font-heading text-sm font-black uppercase tracking-widest rounded-full shadow-sm">
+                                    {project.category}
+                                </span>
+                                {project.featured === true && (
+                                    <span className="px-4 py-1.5 border-2 border-primary-500 text-primary-600 font-heading text-xs font-black uppercase tracking-tighter rounded-md bg-white/95 shadow-sm">
+                                        FEATURED
                                     </span>
                                 )}
                             </div>
-                        </div>
-                    </article>
-                </a>
-            </Parallax3DCard>
 
+                            {/* External link icon */}
+                            {project.liveUrl && (
+                                <div className="absolute top-4 right-4 w-10 h-10 rounded-2xl bg-white border border-primary-500/20 flex items-center justify-center shadow-md">
+                                    <ArrowTopRightOnSquareIcon className="w-5 h-5 text-primary-600" />
+                                </div>
+                            )}
+                        </div>
+                    </div>
+
+                    {/* Content Section */}
+                    <div className="p-6 pt-4 flex-1 flex flex-col">
+                        <h3 className="text-2xl sm:text-3xl font-black text-gray-900 font-heading tracking-tight">
+                            {project.title}
+                        </h3>
+
+                        <div className="w-full h-px bg-primary-500/10 mt-4 mb-4" />
+
+                        {techStack.length > 0 && (
+                            <div className="flex flex-wrap gap-2.5 mb-auto">
+                                {techStack.map((tech, i) => (
+                                    <span
+                                        key={i}
+                                        className="text-xs font-black text-gray-700 uppercase tracking-widest px-4 py-2 rounded-xl bg-orange-50/80 border border-orange-200/70"
+                                    >
+                                        {tech}
+                                    </span>
+                                ))}
+                            </div>
+                        )}
+
+                        <div className="w-full h-px bg-primary-500/10 mt-4 mb-4" />
+
+                        <div className="flex items-center justify-between min-h-[2.5rem]">
+                            {collaboratorsList.length > 0 ? (
+                                <div className="flex items-center gap-2 flex-wrap">
+                                    {collaboratorsList.map((collab, i) => (
+                                        <span
+                                            key={i}
+                                            className="text-[10px] font-black text-[#ea580c] uppercase tracking-widest px-3 py-1.5 rounded-xl bg-orange-50 border border-[#f97316]/30"
+                                        >
+                                            {collab.name}
+                                        </span>
+                                    ))}
+                                </div>
+                            ) : (
+                                <span className="text-[#ea580c] text-xs font-black uppercase tracking-widest px-4 py-1.5 rounded-xl border border-[#f97316]/30 bg-orange-50">
+                                    Self
+                                </span>
+                            )}
+                        </div>
+                    </div>
+                </article>
+            </a>
         </motion.div>
     );
 }
+

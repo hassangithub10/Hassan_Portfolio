@@ -40,9 +40,11 @@ export default function Hero() {
         <section
             ref={ref}
             id="hero"
+            style={{ position: "relative" }}
             className="relative min-h-screen w-full flex items-center justify-center overflow-hidden pt-20 stack-bg-0"
             aria-labelledby="hero-heading"
         >
+
             {/* ── Depth Layer 1: removed in favor of global 3D background ── */}
             {/* ── Depth Layer 2: removed in favor of global 3D background ── */}
 

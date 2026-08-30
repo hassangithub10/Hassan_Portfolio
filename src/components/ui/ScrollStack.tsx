@@ -28,6 +28,7 @@ export function ScrollStack({
 }) {
     return (
         <div
+            style={{ position: "relative" }}
             className={clsx("relative w-full", className)}
         >
             {children}
@@ -54,18 +55,19 @@ export function ScrollStackItem({
     useEffect(() => {
         const updateTop = () => {
             if (!contentRef.current) return;
-            const h = contentRef.current.offsetHeight;
-            const vh = window.innerHeight;
-            
-            // If section is taller than viewport, pin it so the BOTTOM is visible
-            if (h > vh) {
-                setStickyTop(`-${h - vh}px`);
+            const contentHeight = contentRef.current.offsetHeight;
+            const viewportHeight = window.innerHeight;
+
+            if (contentHeight > viewportHeight) {
+                // If content is taller than viewport, pin the bottom edge
+                setStickyTop(`${viewportHeight - contentHeight}px`);
             } else {
+                // Normal top pinning
                 setStickyTop("0px");
             }
         };
 
-        // Use ResizeObserver to track dynamic height changes (e.g. images loading, accordion opening)
+        // Observe resize changes of content and window
         const observer = new ResizeObserver(updateTop);
         if (contentRef.current) {
             observer.observe(contentRef.current);
@@ -105,8 +107,8 @@ export function ScrollStackItem({
     return (
         <div 
             ref={containerRef} 
+            style={{ position: "relative", zIndex: index + 1 }}
             className="relative w-full" 
-            style={{ zIndex: index + 1 }}
         >
             <motion.div
                 ref={contentRef}

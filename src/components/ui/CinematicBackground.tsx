@@ -5,7 +5,19 @@ import { Canvas, useFrame } from "@react-three/fiber";
 import { Points, PointMaterial } from "@react-three/drei";
 import * as THREE from "three";
 
+// Suppress Three.js r185+ internal Clock deprecation warning triggered by @react-three/fiber
+if (typeof window !== "undefined") {
+    const originalWarn = console.warn;
+    console.warn = (...args: unknown[]) => {
+        if (typeof args[0] === "string" && args[0].includes("THREE.Clock")) {
+            return;
+        }
+        originalWarn(...args);
+    };
+}
+
 // Math helper for random points in a sphere
+
 function randomInSphere(numPoints: number, radius: number) {
     const points = new Float32Array(numPoints * 3);
     for (let i = 0; i < numPoints; i++) {
