@@ -2,9 +2,20 @@ import type { Metadata } from "next";
 
 export const SITE_URL = "https://hassansarfraz.online";
 export const SITE_NAME = "Hassan Sarfraz Portfolio";
-export const DEFAULT_TITLE = "Hassan Sarfraz | Frontend Developer & AI Specialist";
+export const DEFAULT_TITLE = "Hassan Sarfraz | Web Designer & Developer for Business Websites";
 export const DEFAULT_DESCRIPTION =
-    "Portfolio of Hassan Sarfraz, a passionate Frontend Developer and AI Enthusiast crafting high-performance, cinematic web experiences with React, Next.js, and modern technologies.";
+    "I build fast, good-looking websites that bring in customers. WordPress and Next.js sites, web apps and SEO for clinics, shops, charities and growing companies. Get a fixed quote.";
+export const OG_IMAGE = `${SITE_URL}/og.png`;
+export const DEFAULT_KEYWORDS = [
+    "web designer for hire",
+    "website developer Pakistan",
+    "business website design",
+    "Next.js developer",
+    "WordPress developer",
+    "website redesign",
+    "SEO setup",
+    "Hassan Sarfraz",
+];
 
 export function getDynamicSEO(
     route: string = "/",
@@ -23,22 +34,11 @@ export function getDynamicSEO(
     const title = dynamicData?.title || fallbackTitle;
 
     const description = dynamicData?.description || fallbackDesc;
-    const ogImage = dynamicData?.image || `${SITE_URL}/logo.svg`;
+    const ogImage = dynamicData?.image || OG_IMAGE;
 
     const keywords = dynamicData?.keywords
         ? dynamicData.keywords.split(",").map((k) => k.trim())
-        : [
-            "Frontend Developer",
-            "AI Specialist",
-            "React Developer",
-            "Next.js Developer",
-            "TypeScript",
-            "Web Development",
-            "Hassan Sarfraz",
-            "Portfolio",
-            "UI/UX Engineering",
-            "Software Engineer",
-        ];
+        : DEFAULT_KEYWORDS;
 
     return {
         metadataBase: new URL(SITE_URL),
@@ -72,7 +72,7 @@ export function getDynamicSEO(
                     url: ogImage,
                     width: 1200,
                     height: 630,
-                    alt: "Hassan Sarfraz - Frontend Developer & AI Specialist",
+                    alt: "Hassan Sarfraz: websites that bring you customers",
                 },
             ],
             locale: "en_US",

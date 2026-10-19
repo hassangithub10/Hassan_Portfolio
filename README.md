@@ -1,81 +1,46 @@
-# Hassan Sarfraz - Developer Portfolio
+# Hassan Sarfraz: cinematic client-hunting portfolio
 
-A modern, high-performance, cinematic developer portfolio website for Hassan Sarfraz built with Next.js App Router, Tailwind CSS, Framer Motion, and Three.js.
+Next.js 16 + Tailwind 3. Motion stack: **GSAP + ScrollTrigger** (pinned horizontal reel, scrubbed text, marquee),
+**Three.js** (scroll-reactive 3D sculpture + dust), **anime.js** (preloader counter, service cards, icon drawing, stat counters),
+**Lenis** (smooth scroll).
 
-Production Site: [https://hassansarfraz.online](https://hassansarfraz.online)
-
----
-
-## 🔒 Security Notice & Git History Warning
-
-> [!WARNING]
-> **Secret Rotation & Git History Warning**:
-> If any API keys, database connection strings, passwords, or service credentials were previously hardcoded or committed in earlier commits of this repository, those values may still exist in the Git history.
-> **Action Required**: You MUST rotate and revoke any previously exposed secrets, credentials, or connection strings across all associated services, cloud providers, and databases immediately before production deployment.
-
----
-
-## Features
-
-- ⚡ **Static Generation**: Purely static, ultra-fast pre-rendered Next.js site.
-- 🎬 **Cinematic Visuals**: 3D particle background using React Three Fiber, scanlines, and glassmorphism.
-- 🔍 **Comprehensive Technical SEO & AEO**: Full OpenGraph, Twitter Cards, native sitemap, and robots.txt.
-- 📐 **Linked Structured Data (JSON-LD)**: Connected `@graph` schema (`WebSite`, `Person`, `ProfilePage`).
-- 🛡️ **Hardened Security Headers**: Standard HSTS, X-Content-Type-Options, X-Frame-Options, Referrer-Policy, Permissions-Policy, and CSP.
-- ♿ **Accessibility & Semantics**: WCAG compliant semantic hierarchy and ARIA labels.
-
----
-
-## Tech Stack
-
-- **Framework**: Next.js 16 (App Router, Static Prerendering)
-- **Language**: TypeScript
-- **Styling**: Tailwind CSS & Vanilla CSS
-- **Animations**: Framer Motion & Three.js / React Three Fiber
-- **Icons**: Heroicons & Devicons
-- **Fonts**: Chakra Petch & Mulish (`next/font/google`)
-
----
-
-## Getting Started
-
-### Prerequisites
-
-- Node.js 20+
-- npm
-
-### Environment Setup
-
-1. Copy `.env.example` to `.env.local`:
-   ```bash
-   cp .env.example .env.local
-   ```
-2. Configure any necessary environment variables. (Ensure no sensitive secrets use the `NEXT_PUBLIC_` prefix).
-
-### Installation & Development
+## Run it
 
 ```bash
-# Install dependencies
 npm install
-
-# Run local development server
-npm run dev
-
-# Run type check
-npx tsc --noEmit
-
-# Run ESLint
-npx eslint src
-
-# Create production static build
-npm run build
-
-# Preview production build locally
-npm run start
+npm run dev      # http://localhost:3000
+npm run build && npm start
 ```
 
----
+## Edit your content (one file)
 
-## License
+Everything a client reads lives in `src/lib/site.ts`: contact details, services, process, FAQ, stats, and the client work list.
+The FAQ there also feeds the FAQ structured data for Google.
 
-MIT License
+## Turn on lead capture (important)
+
+The enquiry form works out of the box by opening the visitor's email app with the details pre-filled. For a smoother experience:
+
+1. Create a free form at https://formspree.io and copy its endpoint URL.
+2. Copy `.env.example` to `.env.local` and set `NEXT_PUBLIC_FORM_ENDPOINT`.
+3. Redeploy. Enquiries now land straight in your inbox. (`formspree.io` is already allowed in the CSP in `next.config.ts`.)
+
+Add your WhatsApp number in `site.ts` (`whatsapp: "923001234567"`) to show a WhatsApp button in the contact section.
+
+## Project structure
+
+- `src/components/cinema/`: all new sections and effects (`CinemaApp.tsx` composes them)
+- `src/components/cinema/WebGLScene.tsx`: the Three.js scene; `KEYS` controls where the sculpture sits per section
+- `src/lib/site.ts`: content and config
+- `src/lib/motion.ts`: shared scroll-velocity / pointer state
+
+Accessibility and performance: honours `prefers-reduced-motion` (no smooth scroll, no pin, static 3D frame), falls back
+to a stacked layout on screens under 900px, caps pixel ratio and lowers it automatically on slow GPUs, pauses rendering
+when the tab is hidden.
+
+## Legacy code
+
+`src/components/sections`, `src/components/layout` and `src/components/ui` are from the previous design and are no longer used.
+They are left in place so nothing breaks; you can delete them once you're happy with the new site.
+The old Mux video player (`hls.js`) and `@react-three/*` packages were removed because the new site uses plain Three.js.
+The old Mux video player (`hls.js`) and `@react-three/*` packages were removed: the new site uses plain Three.js, and `@react-three/fiber` blocked upgrading React past 19.2.

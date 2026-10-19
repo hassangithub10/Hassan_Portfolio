@@ -1,20 +1,11 @@
-import Hero from "@/components/sections/Hero";
+import VaneApp from "@/components/vane/VaneApp";
 import StructuredData from "@/components/seo/StructuredData";
-import About from "@/components/sections/About";
-import Education from "@/components/sections/Education";
-import Experience from "@/components/sections/Experience";
-import Projects from "@/components/sections/Projects";
-import SkillsCarousel from "@/components/sections/SkillsCarousel";
-import Contact from "@/components/sections/Contact";
 import { getDynamicSEO } from "@/lib/seo";
+import { FAQS, SERVICES, SITE } from "@/lib/site";
 import type { Metadata } from "next";
 
 export function generateMetadata(): Metadata {
-    return getDynamicSEO(
-        "/",
-        "Hassan Sarfraz | Frontend Developer & AI Specialist",
-        "Portfolio of Hassan Sarfraz, a passionate Frontend Developer and AI Enthusiast crafting high-performance, cinematic web experiences with React, Next.js, and modern technologies."
-    );
+    return getDynamicSEO("/");
 }
 
 export default function Home() {
@@ -23,55 +14,51 @@ export default function Home() {
         "@graph": [
             {
                 "@type": "WebSite",
-                "@id": "https://hassansarfraz.online/#website",
-                "url": "https://hassansarfraz.online",
-                "name": "Hassan Sarfraz - Portfolio",
-                "description": "Portfolio of Hassan Sarfraz - Frontend Developer & AI Enthusiast",
-                "inLanguage": "en-US",
+                "@id": `${SITE.url}/#website`,
+                url: SITE.url,
+                name: "Hassan Sarfraz",
+                description: "Web designer and developer building business websites that bring in customers.",
+                inLanguage: "en-US",
             },
             {
                 "@type": "Person",
-                "@id": "https://hassansarfraz.online/#person",
-                "name": "Hassan Sarfraz",
-                "url": "https://hassansarfraz.online",
-                "jobTitle": "Frontend Developer & AI Enthusiast",
-                "description": "Frontend Developer and AI Enthusiast specializing in React, Next.js, and high-performance digital experiences.",
-                "sameAs": [
-                    "https://github.com/hassangithub10",
-                    "https://linkedin.com/in/hassan-sarfraz-6047ba269",
-                ],
-                "knowsAbout": [
-                    "Frontend Development",
-                    "Next.js",
-                    "React",
-                    "TypeScript",
-                    "Tailwind CSS",
-                    "Artificial Intelligence",
-                    "Web Performance",
-                    "SEO Optimization",
-                ],
-                "alumniOf": {
-                    "@type": "CollegeOrUniversity",
-                    "name": "Government College University Faisalabad",
-                },
-                "email": "mailto:digitalwork.990@gmail.com",
+                "@id": `${SITE.url}/#person`,
+                name: SITE.name,
+                url: SITE.url,
+                jobTitle: "Web Designer & Developer",
+                email: `mailto:${SITE.email}`,
+                address: { "@type": "PostalAddress", addressLocality: "Lahore", addressCountry: "PK" },
+                sameAs: [SITE.github, SITE.linkedin],
+                knowsAbout: ["Web design", "Web development", "Next.js", "React", "WordPress", "Technical SEO", "Website performance"],
+                alumniOf: { "@type": "CollegeOrUniversity", name: "Government College University Faisalabad" },
             },
             {
-                "@type": "ProfilePage",
-                "@id": "https://hassansarfraz.online/#webpage",
-                "url": "https://hassansarfraz.online",
-                "name": "Hassan Sarfraz | Frontend Developer & AI Specialist",
-                "description": "Portfolio of Hassan Sarfraz - Frontend Developer & AI Enthusiast",
-                "isPartOf": {
-                    "@id": "https://hassansarfraz.online/#website",
+                "@type": "ProfessionalService",
+                "@id": `${SITE.url}/#service`,
+                name: "Hassan Sarfraz Web Design & Development",
+                url: SITE.url,
+                image: `${SITE.url}/og.png`,
+                email: SITE.email,
+                founder: { "@id": `${SITE.url}/#person` },
+                address: { "@type": "PostalAddress", addressLocality: "Lahore", addressCountry: "PK" },
+                areaServed: ["US", "PK", "Worldwide"],
+                hasOfferCatalog: {
+                    "@type": "OfferCatalog",
+                    name: "Web services",
+                    itemListElement: SERVICES.map((s) => ({
+                        "@type": "Offer",
+                        itemOffered: { "@type": "Service", name: s.title, description: s.text },
+                    })),
                 },
-                "about": {
-                    "@id": "https://hassansarfraz.online/#person",
-                },
-                "mainEntity": {
-                    "@id": "https://hassansarfraz.online/#person",
-                },
-                "inLanguage": "en-US",
+            },
+            {
+                "@type": "FAQPage",
+                "@id": `${SITE.url}/#faq`,
+                mainEntity: FAQS.map((f) => ({
+                    "@type": "Question",
+                    name: f.q,
+                    acceptedAnswer: { "@type": "Answer", text: f.a },
+                })),
             },
         ],
     };
@@ -79,28 +66,7 @@ export default function Home() {
     return (
         <>
             <StructuredData data={jsonLd} />
-            <div className="relative w-full flex flex-col gap-0">
-                {/* ── 0: HERO ── */}
-                <Hero />
-
-                {/* ── 1: ABOUT ── */}
-                <About />
-
-                {/* ── 2: EDUCATION ── */}
-                <Education />
-
-                {/* ── 3: EXPERIENCE ── */}
-                <Experience />
-
-                {/* ── 4: PROJECTS ── */}
-                <Projects />
-
-                {/* ── 5: SKILLS ── */}
-                <SkillsCarousel />
-
-                {/* ── 6: CONTACT ── */}
-                <Contact />
-            </div>
+            <VaneApp />
         </>
     );
 }
